@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#c4784a"/>
+      <stop offset="100%" stop-color="#1a5f6e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#g)"/>
+  <circle cx="900" cy="180" r="90" fill="#f3efe6" opacity="0.5"/>
+  <text x="80" y="820" fill="#f3efe6" font-family="Georgia, serif" font-size="36">Explore Golden Bay</text>
+</svg>

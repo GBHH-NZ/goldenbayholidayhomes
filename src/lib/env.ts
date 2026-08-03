@@ -1,0 +1,53 @@
+import { z } from "zod";
+
+const envSchema = z.object({
+  NEXT_PUBLIC_SITE_URL: z
+    .string()
+    .url()
+    .default("https://www.goldenbayholidayhomes.nz"),
+  GUESTY_CLIENT_ID: z.string().optional(),
+  GUESTY_CLIENT_SECRET: z.string().optional(),
+  GUESTY_API_BASE: z.string().url().default("https://booking-api.guesty.com"),
+});
+
+export type Env = z.infer<typeof envSchema>;
+
+function loadEnv(): Env {
+  const parsed = envSchema.safeParse({
+    NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+    GUESTY_CLIENT_ID: process.env.GUESTY_CLIENT_ID,
+    GUESTY_CLIENT_SECRET: process.env.GUESTY_CLIENT_SECRET,
+    GUESTY_API_BASE: process.env.GUESTY_API_BASE,
+  });
+
+  if (!parsed.success) {
+    return {
+      NEXT_PUBLIC_SITE_URL: "https://www.goldenbayholidayhomes.nz",
+      GUESTY_API_BASE: "https://booking-api.guesty.com",
+    };
+  }
+
+  return parsed.data;
+}
+
+export const env = loadEnv();
+
+export function hasGuestyCredentials(): boolean {
+  return Boolean(env.GUESTY_CLIENT_ID && env.GUESTY_CLIENT_SECRET);
+}
+
+export const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
+
+/** Optional base path for GitHub project Pages (e.g. /repo-name). */
+export const BASE_PATH =
+  process.env.NEXT_PUBLIC_BASE_PATH?.replace(/\/$/, "") || "";
+
+
+export const CONTACT = {
+  phoneMobile: "+64 20 4141 7230",
+  phoneFree: "0800 150 810",
+  email: "admin@gbholidayhomes.co.nz",
+  facebook: "https://www.facebook.com/goldenbayholidayhomeslimited/",
+  guestyOwners: "https://goldenbayholidayhomes.guestyowners.com/login",
+  guestyBookings: "https://goldenbayholidayhomes.guestybookings.com/en",
+} as const;

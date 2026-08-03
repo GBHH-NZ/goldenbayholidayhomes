@@ -1,0 +1,20 @@
+{
+  "title": "Cancellation Policy",
+  "seoTitle": "Cancellation Policy",
+  "seoDescription": "Cancellation terms for direct bookings with Golden Bay Holiday Homes.",
+  "intro": "These terms apply to direct bookings made through Golden Bay Holiday Homes. OTA bookings follow the cancellation policy shown on that platform.",
+  "rules": [
+    {
+      "heading": "14 days or more before check-in",
+      "body": "Full refund of the accommodation total (excluding non-refundable fees if stated on your confirmation)."
+    },
+    {
+      "heading": "Within 14 days of check-in",
+      "body": "50% of the accommodation total is retained."
+    },
+    {
+      "heading": "How to cancel",
+      "body": "Email admin@gbholidayhomes.co.nz or call us with your booking reference as soon as you know you need to change plans."
+    }
+  ]
+}

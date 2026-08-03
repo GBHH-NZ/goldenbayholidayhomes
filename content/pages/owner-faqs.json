@@ -1,0 +1,27 @@
+{
+  "title": "Owner FAQs",
+  "seoTitle": "Owner FAQs",
+  "seoDescription": "Commission, GST, operations, and how Golden Bay Holiday Homes manages your property.",
+  "faqs": [
+    {
+      "q": "What is your commission?",
+      "a": "Our management commission is 20% + GST on booking revenue. This covers guest communication, booking management, cleaning coordination, linen, and local support."
+    },
+    {
+      "q": "How does GST work?",
+      "a": "As a marketplace operator we handle GST on taxable supplies according to NZ marketplace rules. We'll explain how this applies to your property during onboarding."
+    },
+    {
+      "q": "Do you list on Airbnb and Booking.com?",
+      "a": "Yes. We distribute to major OTAs while also driving direct bookings through our website — often with better net returns for owners."
+    },
+    {
+      "q": "Who handles cleaning and linen?",
+      "a": "We coordinate professional cleans between stays and supply hotel-quality linen so standards stay consistent."
+    },
+    {
+      "q": "Can I still use my home myself?",
+      "a": "Absolutely. Block owner stays in the calendar and we'll keep those dates clear of guest bookings."
+    }
+  ]
+}

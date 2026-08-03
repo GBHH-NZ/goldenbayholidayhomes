@@ -1,0 +1,61 @@
+name: Sync Guesty catalogue
+
+# Pulls listing details into content/homes.json using repository secrets.
+# Does not embed API keys in the site — only the synced JSON is committed via PR.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Weekly Monday 10:00 UTC — no-op until secrets are configured
+    - cron: "0 10 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
+      GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
+      GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
+      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.goldenbayholidayhomes.nz' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Require Guesty secrets
+        run: |
+          if [ -z "$GUESTY_CLIENT_ID" ] || [ -z "$GUESTY_CLIENT_SECRET" ]; then
+            echo "::error::Add repository secrets GUESTY_CLIENT_ID and GUESTY_CLIENT_SECRET (see .github/SECRETS.md)."
+            exit 1
+          fi
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Sync catalogue
+        run: npm run sync:guesty
+
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore: sync Guesty catalogue into content/homes.json"
+          title: "Sync Guesty catalogue"
+          body: |
+            Automated catalogue sync from Guesty Booking Engine API.
+
+            Secrets used: `GUESTY_CLIENT_ID`, `GUESTY_CLIENT_SECRET` (repository secrets).
+            See [.github/SECRETS.md](.github/SECRETS.md).
+          branch: chore/guesty-sync
+          delete-branch: true
+          add-paths: |
+            content/homes.json

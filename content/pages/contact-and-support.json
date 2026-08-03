@@ -1,0 +1,25 @@
+{
+  "title": "Contact & Support",
+  "seoTitle": "Contact and Support",
+  "seoDescription": "Get in touch with Golden Bay Holiday Homes for guest support, lockbox help, Wi‑Fi, linen, and booking questions.",
+  "intro": "We're locals — and we're here to help. Reach us by phone or email for anything from lockbox codes to local recommendations.",
+  "hours": "We aim to respond within a few hours during the day. For urgent check-in issues, call us.",
+  "faqs": [
+    {
+      "q": "Where do I find the lockbox code?",
+      "a": "Lockbox or access instructions are sent in your booking confirmation and pre-arrival message. If you can't find them, call or text us."
+    },
+    {
+      "q": "Wi‑Fi isn't working",
+      "a": "Try restarting the modem if accessible. Network names and passwords are in the property guide. Contact us if you're still stuck — we'll help remotely or send someone."
+    },
+    {
+      "q": "What about linen and towels?",
+      "a": "Hotel-quality linen and towels are provided. Extra sets may be available on request for longer stays."
+    },
+    {
+      "q": "How do I change or cancel my booking?",
+      "a": "See our Cancellation Policy. Contact us as soon as possible and we'll guide you through the next steps for direct bookings."
+    }
+  ]
+}

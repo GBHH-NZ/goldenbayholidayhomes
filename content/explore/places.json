@@ -1,0 +1,98 @@
+[
+  {
+    "slug": "te-waikoropupu-springs",
+    "name": "Te Waikoropupu Springs",
+    "category": "Outdoor Adventures",
+    "location": "Takaka",
+    "summary": "Some of the clearest water on earth — a short walk and a must-see Golden Bay stop.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "wharariki-beach",
+    "name": "Wharariki Beach",
+    "category": "Outdoor Adventures",
+    "location": "Cape Farewell",
+    "summary": "Iconic arches, seals, and wild West Coast drama at the top of the South Island.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "farewell-spit",
+    "name": "Farewell Spit",
+    "category": "Outdoor Adventures",
+    "location": "Collingwood",
+    "summary": "Guided tours along one of the world's longest sandspits — birdlife and endless horizon.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "rawhiti-cave",
+    "name": "Rāwhiti Cave",
+    "category": "Outdoor Adventures",
+    "location": "Takaka",
+    "summary": "A dramatic cave mouth with famous stalactites — bring a torch and good shoes.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "wainui-falls",
+    "name": "Wainui Falls",
+    "category": "Family-Friendly",
+    "location": "Wainui Bay",
+    "summary": "A rewarding short walk to a beautiful waterfall in Abel Tasman country.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "pohara-beach",
+    "name": "Pohara Beach",
+    "category": "Family-Friendly",
+    "location": "Pohara",
+    "summary": "Swimming, sunsets, and cafés — the heart of many of our beachfront stays.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "tata-beach",
+    "name": "Tata Beach",
+    "category": "Family-Friendly",
+    "location": "Tata Beach",
+    "summary": "Sheltered swimming and golden sand close to Abel Tasman National Park.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "collingwood-cafes",
+    "name": "Collingwood cafés",
+    "category": "Cafes & Restaurants",
+    "location": "Collingwood",
+    "summary": "Fuel up before Farewell Spit — small-town coffee and local produce.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "takaka-town",
+    "name": "Tākaka township",
+    "category": "Cafes & Restaurants",
+    "location": "Takaka",
+    "summary": "The hub of Golden Bay — groceries, galleries, and great brunch spots.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "museum-of-childhood",
+    "name": "Golden Bay Museum",
+    "category": "Rainy Day Activities",
+    "location": "Takaka",
+    "summary": "Local history and indoor browsing when the weather turns.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "labyrinth",
+    "name": "The Labyrinth",
+    "category": "Rainy Day Activities",
+    "location": "Takaka",
+    "summary": "A quirky indoor maze — fun for kids and adults on wet days.",
+    "image": "/images/explore-placeholder.svg"
+  },
+  {
+    "slug": "anatoki-salmon",
+    "name": "Anatoki Salmon",
+    "category": "Family-Friendly",
+    "location": "Takaka",
+    "summary": "Catch your own salmon then have it cooked — a Golden Bay classic.",
+    "image": "/images/explore-placeholder.svg"
+  }
+]

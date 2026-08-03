@@ -1,0 +1,22 @@
+{
+  "title": "What Our Homeowners Say",
+  "seoTitle": "Homeowner Testimonials",
+  "seoDescription": "Hear from Golden Bay homeowners who trust us with their holiday homes.",
+  "testimonials": [
+    {
+      "quote": "Michael and Katja treat our place like their own. Communication is clear and guests leave glowing reviews.",
+      "name": "Homeowner",
+      "location": "Pohara"
+    },
+    {
+      "quote": "We finally aren't fielding late-night guest messages. The team handles everything professionally.",
+      "name": "Homeowner",
+      "location": "Collingwood"
+    },
+    {
+      "quote": "Direct bookings and OTA distribution — our occupancy improved without us lifting a finger.",
+      "name": "Homeowner",
+      "location": "Tata Beach"
+    }
+  ]
+}

@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Golden Bay Holiday Homes
 
-## Getting Started
+Marketing-site rebuild of [goldenbayholidayhomes.nz](https://www.goldenbayholidayhomes.nz/) in Next.js.
 
-First, run the development server:
+Book CTAs deep-link to the Guesty booking engine. Listing photos, descriptions, amenities, and Guesty IDs are **placeholders** until you run catalogue sync with API keys.
+
+Static export is enabled for **GitHub Pages** hosting (`out/`).
+
+## Quick start
 
 ```bash
+cp .env.example .env.local
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## GitHub secrets and variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+API credentials must live in GitHub Actions secrets — never in the repo.
 
-## Learn More
+Full checklist: **[.github/SECRETS.md](.github/SECRETS.md)**
 
-To learn more about Next.js, take a look at the following resources:
+| Kind | Name | Purpose |
+|------|------|---------|
+| Secret | `GUESTY_CLIENT_ID` | Guesty OAuth (sync workflow) |
+| Secret | `GUESTY_CLIENT_SECRET` | Guesty OAuth (sync workflow) |
+| Variable | `NEXT_PUBLIC_SITE_URL` | Canonical URL / SEO |
+| Variable | `GUESTY_API_BASE` | Optional API host override |
+| Variable | `BASE_PATH` | Only if using `username.github.io/repo` |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Workflows already wired:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- [`.github/workflows/ci.yml`](.github/workflows/ci.yml) — lint + build (injects secrets/vars as env)
+- [`.github/workflows/sync-guesty.yml`](.github/workflows/sync-guesty.yml) — sync catalogue → PR
+- [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) — build `out/` → GitHub Pages
 
-## Deploy on Vercel
+After pushing the repo: **Settings → Pages → Source = GitHub Actions**.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Guesty catalogue sync (when keys arrive)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Add `GUESTY_CLIENT_ID` and `GUESTY_CLIENT_SECRET` as repository secrets
+2. Either locally:
+
+```bash
+# .env.local with the same keys
+npm run sync:guesty
+```
+
+   Or on GitHub: **Actions → Sync Guesty catalogue → Run workflow**
+
+3. Merge the PR that updates `content/homes.json`
+
+Until then, homes use Wix-scraped title/location/guests/pets with empty placeholders for API fields (`syncStatus: "seed"`).
+
+## Content
+
+| Path | Role |
+|------|------|
+| `content/homes.json` | Catalogue (seed + Guesty sync) |
+| `content/pages/` | Marketing page JSON |
+| `content/blog/` | MDX posts |
+| `content/explore/` | Attractions |
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Dev server |
+| `npm run build` | Static export to `out/` |
+| `npm run seed:homes` | Regenerate Wix seed into `homes.json` |
+| `npm run sync:guesty` | Pull listings from Guesty (needs keys) |
+
+## Contacts
+
+- +64 20 4141 7230 · 0800 150 810
+- admin@gbholidayhomes.co.nz
+- Booking engine: https://goldenbayholidayhomes.guestybookings.com/en
+- Owner login: https://goldenbayholidayhomes.guestyowners.com/login

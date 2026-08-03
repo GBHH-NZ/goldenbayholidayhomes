@@ -1,0 +1,27 @@
+{
+  "title": "Privacy Policy",
+  "seoTitle": "Privacy Policy",
+  "seoDescription": "How Golden Bay Holiday Homes collects, uses, and protects your personal information.",
+  "sections": [
+    {
+      "heading": "Who we are",
+      "body": "Golden Bay Holiday Homes operates holiday home bookings and property management in Golden Bay, New Zealand. Contact: admin@gbholidayhomes.co.nz."
+    },
+    {
+      "heading": "Information we collect",
+      "body": "We collect contact details, booking dates, payment references, and communications needed to fulfil stays and manage properties. Analytics tools may collect anonymised usage data."
+    },
+    {
+      "heading": "How we use information",
+      "body": "To process bookings, provide guest support, communicate with homeowners, improve our website, and meet legal obligations including GST marketplace rules."
+    },
+    {
+      "heading": "Sharing",
+      "body": "We share data with payment processors, our property management / booking systems, and service partners (e.g. cleaners) only as needed to deliver the stay."
+    },
+    {
+      "heading": "Your rights",
+      "body": "You may request access to or correction of your personal information by emailing admin@gbholidayhomes.co.nz."
+    }
+  ]
+}
