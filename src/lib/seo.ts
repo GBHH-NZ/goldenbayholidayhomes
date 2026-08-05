@@ -33,7 +33,7 @@ export function organizationJsonLd() {
         url: SITE_URL,
         email: CONTACT.email,
         telephone: [CONTACT.phoneMobile, CONTACT.phoneFree],
-        logo: `${SITE_URL}/images/logo.svg`,
+        logo: getSiteMedia().logo,
         sameAs: [CONTACT.facebook],
         address: {
           "@type": "PostalAddress",

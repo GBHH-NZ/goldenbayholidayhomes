@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Header } from "@/components/Header";
+import { BrandMark, Header } from "@/components/Header";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
 import { getSiteMedia } from "@/lib/content";
 import { assetPath } from "@/lib/env";
@@ -14,26 +14,26 @@ export default function HomePage() {
 
   return (
     <main>
-      <section className="relative min-h-[100svh] overflow-hidden">
+      <section className="relative isolate min-h-[32rem] overflow-hidden h-[72svh] md:h-[82svh] lg:h-[min(92svh,56rem)]">
         <Image
           src={assetPath(site.heroImage)}
           alt={site.heroAlt}
           fill
           priority
-          className="object-cover object-[50%_68%]"
+          className="object-cover object-[50%_55%] sm:object-[50%_60%] md:object-[50%_68%]"
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-sea-deep/85 via-sea-deep/45 to-sea-deep/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-sea-deep/80 via-sea-deep/35 to-sea-deep/20" />
         <Header />
-        <div className="relative z-10 flex min-h-[100svh] flex-col justify-end px-4 pb-20 pt-32 md:px-6 md:pb-28">
-          <div className="mx-auto w-full max-w-6xl">
-            <p className="animate-fade-up font-[family-name:var(--font-display)] text-4xl font-semibold tracking-tight text-white drop-shadow md:text-6xl lg:text-7xl">
-              Golden Bay Holiday Homes
-            </p>
-            <p className="animate-fade-up-delay mt-4 max-w-xl text-lg text-foam/95 md:text-xl">
+        <div className="relative z-10 flex h-full flex-col justify-end px-4 pb-14 pt-28 md:px-6 md:pb-20 md:pt-32">
+          <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-5 md:gap-6">
+            <div className="animate-fade-up">
+              <BrandMark size="hero" variant="light" />
+            </div>
+            <p className="animate-fade-up-delay max-w-xl text-lg text-foam/95 md:text-xl">
               Handpicked homes. Hotel comfort. Heartfelt hospitality.
             </p>
-            <div className="animate-fade-up-delay mt-8 flex flex-wrap gap-3">
+            <div className="animate-fade-up-delay flex flex-wrap gap-3">
               <Link
                 href="#homes"
                 className="bg-white px-5 py-3 text-sm font-semibold text-sea-deep transition hover:bg-foam"

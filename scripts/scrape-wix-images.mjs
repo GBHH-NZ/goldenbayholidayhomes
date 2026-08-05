@@ -232,6 +232,14 @@ async function main() {
     site.ogImage = decodeEntities(og);
     console.log("OG:", site.ogImage);
   }
+  const logoMatch = html.match(
+    /"uri":"(?<uri>9ef45b_568ffc780cbe499eb93bd3833dc4e25d~mv2\.png)"[\s\S]{0,180}?"name":"(?<name>logo_no_background\.png)"/i,
+  );
+  if (logoMatch?.groups) {
+    const { uri, name } = logoMatch.groups;
+    site.logo = `https://static.wixstatic.com/media/${uri}/v1/fill/w_512,h_512,al_c,q_85,enc_auto/${name}`;
+    console.log("Logo:", site.logo);
+  }
   writeFileSync(sitePath, JSON.stringify(site, null, 2) + "\n");
 }
 

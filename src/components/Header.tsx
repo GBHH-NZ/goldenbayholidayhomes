@@ -1,5 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
-import { CONTACT } from "@/lib/env";
+import { getSiteMedia } from "@/lib/content";
+import { assetPath, CONTACT } from "@/lib/env";
 
 const guestLinks = [
   { href: "/homes", label: "Homes" },
@@ -16,15 +18,52 @@ const ownerLinks = [
   { href: "/what-our-homeowners-say", label: "Testimonials" },
 ];
 
+function BrandMark({
+  variant = "light",
+  size = "nav",
+}: {
+  variant?: "light" | "dark";
+  size?: "nav" | "footer" | "hero";
+}) {
+  const { logo } = getSiteMedia();
+  const dims =
+    size === "hero"
+      ? { w: 220, h: 220, className: "h-28 w-28 md:h-40 md:w-40 lg:h-48 lg:w-48" }
+      : size === "footer"
+        ? { w: 72, h: 72, className: "h-14 w-14" }
+        : { w: 48, h: 48, className: "h-10 w-10 md:h-11 md:w-11" };
+  const labelClass =
+    variant === "light"
+      ? "text-white drop-shadow"
+      : "text-sea-deep";
+
+  return (
+    <span className="inline-flex items-center gap-2.5 md:gap-3">
+      <Image
+        src={assetPath(logo)}
+        alt="Golden Bay Holiday Homes"
+        width={dims.w}
+        height={dims.h}
+        className={`${dims.className} object-contain drop-shadow-md`}
+        priority={size === "hero" || size === "nav"}
+      />
+      {size !== "hero" && (
+        <span
+          className={`font-[family-name:var(--font-display)] text-base font-semibold tracking-tight md:text-lg ${labelClass}`}
+        >
+          Golden Bay Holiday Homes
+        </span>
+      )}
+    </span>
+  );
+}
+
 export function Header() {
   return (
     <header className="absolute inset-x-0 top-0 z-40">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-5 md:px-6">
-        <Link
-          href="/"
-          className="font-[family-name:var(--font-display)] text-lg font-semibold tracking-tight text-white drop-shadow md:text-xl"
-        >
-          Golden Bay Holiday Homes
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6 md:py-5">
+        <Link href="/" className="shrink-0">
+          <BrandMark variant="light" size="nav" />
         </Link>
         <nav
           aria-label="Primary"
@@ -70,12 +109,9 @@ export function Header() {
 export function SiteHeader() {
   return (
     <header className="border-b border-drift/60 bg-sand/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6">
-        <Link
-          href="/"
-          className="font-[family-name:var(--font-display)] text-lg font-semibold text-sea-deep md:text-xl"
-        >
-          Golden Bay Holiday Homes
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6 md:py-4">
+        <Link href="/" className="shrink-0">
+          <BrandMark variant="dark" size="nav" />
         </Link>
         <nav
           aria-label="Primary"
@@ -107,9 +143,9 @@ export function Footer() {
     <footer className="mt-auto border-t border-drift/50 bg-sea-deep text-foam">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-3 md:px-6">
         <div>
-          <p className="font-[family-name:var(--font-display)] text-xl font-semibold">
-            Golden Bay Holiday Homes
-          </p>
+          <Link href="/" className="inline-block">
+            <BrandMark variant="light" size="footer" />
+          </Link>
           <p className="mt-3 max-w-xs text-sm text-foam/75">
             Handpicked homes. Hotel comfort. Heartfelt hospitality.
           </p>
@@ -186,3 +222,5 @@ export function Footer() {
     </footer>
   );
 }
+
+export { BrandMark };

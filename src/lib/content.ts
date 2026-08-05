@@ -13,6 +13,7 @@ const EXPLORE_FILE = path.join(
 const SITE_FILE = path.join(process.cwd(), "content", "site.json");
 
 export type SiteMedia = {
+  logo: string;
   heroImage: string;
   heroAlt: string;
   ogImage: string;
