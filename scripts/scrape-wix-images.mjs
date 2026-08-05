@@ -211,6 +211,28 @@ async function main() {
     join(ROOT, "content", ".wix-photo-map.json"),
     JSON.stringify(Object.fromEntries(photosBySlug), null, 2) + "\n",
   );
+
+  // Hero / OG from live site (temporary brand media)
+  const sitePath = join(ROOT, "content", "site.json");
+  const site = JSON.parse(readFileSync(sitePath, "utf8"));
+  const og = html.match(/property="og:image"\s+content="([^"]+)"/i)?.[1];
+  const heroMatch = html.match(
+    /"uri":"(?<uri>9ef45b_[^"]+~mv2\.(?:jpg|jpeg|png))"[\s\S]{0,220}?"alt":"(?<alt>[^"]*Abel Tasman[^"]*)"[\s\S]{0,200}?"name":"(?<name>[^"]+)"/i,
+  ) || html.match(
+    /"uri":"(?<uri>9ef45b_[^"]+~mv2\.(?:jpg|jpeg|png))"[\s\S]{0,220}?"name":"(?<name>IMG_5374[^"]+)"[\s\S]{0,200}?"alt":"(?<alt>[^"]*)"/i,
+  );
+  if (heroMatch?.groups) {
+    const uri = heroMatch.groups.uri;
+    const name = heroMatch.groups.name || uri.split("/").pop();
+    site.heroImage = `https://static.wixstatic.com/media/${uri}/v1/fill/w_2400,h_1600,fp_0.50_0.68,q_90,enc_auto/${name}`;
+    if (heroMatch.groups.alt) site.heroAlt = decodeEntities(heroMatch.groups.alt);
+    console.log("Hero:", site.heroImage);
+  }
+  if (og) {
+    site.ogImage = decodeEntities(og);
+    console.log("OG:", site.ogImage);
+  }
+  writeFileSync(sitePath, JSON.stringify(site, null, 2) + "\n");
 }
 
 main().catch((err) => {

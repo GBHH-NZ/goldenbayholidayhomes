@@ -2,6 +2,15 @@ import type { Home } from "@/lib/homes/types";
 import { homeAmenities, homeDescription, homePhotos } from "@/lib/homes/types";
 import { SITE_URL } from "@/lib/env";
 import { CONTACT } from "@/lib/env";
+import { getSiteMedia } from "@/lib/content";
+
+function ogImageUrl() {
+  try {
+    return getSiteMedia().ogImage;
+  } catch {
+    return "/images/og-default.svg";
+  }
+}
 
 export function organizationJsonLd() {
   return {
@@ -79,7 +88,7 @@ export const defaultMetadata = {
     locale: "en_NZ",
     url: SITE_URL,
     siteName: "Golden Bay Holiday Homes",
-    images: [{ url: "/images/og-default.svg", width: 1200, height: 630 }],
+    images: [{ url: ogImageUrl(), width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image" as const,

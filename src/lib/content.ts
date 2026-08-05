@@ -10,6 +10,17 @@ const EXPLORE_FILE = path.join(
   "explore",
   "places.json",
 );
+const SITE_FILE = path.join(process.cwd(), "content", "site.json");
+
+export type SiteMedia = {
+  heroImage: string;
+  heroAlt: string;
+  ogImage: string;
+};
+
+export function getSiteMedia(): SiteMedia {
+  return JSON.parse(fs.readFileSync(SITE_FILE, "utf8")) as SiteMedia;
+}
 
 export function getPageContent<T = Record<string, unknown>>(
   slug: string,

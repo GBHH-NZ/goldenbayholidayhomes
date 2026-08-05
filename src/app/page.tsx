@@ -3,22 +3,24 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { Header } from "@/components/Header";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
+import { getSiteMedia } from "@/lib/content";
 import { assetPath } from "@/lib/env";
 import { getAllHomes, getHomeLocations } from "@/lib/homes";
 
 export default function HomePage() {
   const homes = getAllHomes();
   const locations = getHomeLocations();
+  const site = getSiteMedia();
 
   return (
     <main>
       <section className="relative min-h-[100svh] overflow-hidden">
         <Image
-          src={assetPath("/images/hero-beach.svg")}
-          alt="Golden Bay coastline at dusk"
+          src={assetPath(site.heroImage)}
+          alt={site.heroAlt}
           fill
           priority
-          className="object-cover"
+          className="object-cover object-[50%_68%]"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-sea-deep/85 via-sea-deep/45 to-sea-deep/25" />
