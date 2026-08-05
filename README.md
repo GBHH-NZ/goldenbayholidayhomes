@@ -70,6 +70,7 @@ Until then, homes use Wix-scraped title/location/guests/pets with empty placehol
 | `npm run dev` | Dev server |
 | `npm run build` | Static export to `out/` |
 | `npm run seed:homes` | Regenerate Wix seed into `homes.json` |
+| `npm run scrape:wix-images` | Temporarily pull listing card photos from the live Wix site into `homes.json` |
 | `npm run sync:guesty` | Pull listings from Guesty (needs keys) |
 
 ## Contacts

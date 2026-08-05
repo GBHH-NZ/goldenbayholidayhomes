@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "seed:homes": "node scripts/generate-homes-seed.mjs",
+    "scrape:wix-images": "node scripts/scrape-wix-images.mjs",
     "sync:guesty": "tsx scripts/sync-guesty.ts"
   },
   "dependencies": {

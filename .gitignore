@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# scrape caches (regenerate with npm run scrape:wix-images)
+content/.wix-*
+
 # vercel
 .vercel
 
