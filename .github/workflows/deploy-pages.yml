@@ -18,7 +18,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.goldenbayholidayhomes.nz' }}
+      # Defaults suit project Pages at https://agent5479.github.io/goldenbayholidayhomes/
+      # Override via repo Variables when moving to a custom domain.
+      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://agent5479.github.io/goldenbayholidayhomes' }}
       GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
       # Available if a future build step needs them; static export does not call Guesty at build time
       GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
@@ -39,8 +41,8 @@ jobs:
       - name: Build static export
         run: npm run build
         env:
-          NEXT_PUBLIC_BASE_PATH: ${{ vars.BASE_PATH }}
-          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.goldenbayholidayhomes.nz' }}
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.BASE_PATH || '/goldenbayholidayhomes' }}
+          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://agent5479.github.io/goldenbayholidayhomes' }}
           GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
           GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
           GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
