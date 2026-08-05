@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { assetPath } from "@/lib/env";
 
 export const syncStatusSchema = z.enum(["seed", "pending_api", "synced"]);
 
@@ -28,10 +29,13 @@ export const homeSchema = z.object({
 export type Home = z.infer<typeof homeSchema>;
 export type SyncStatus = z.infer<typeof syncStatusSchema>;
 
-export const PLACEHOLDER_PHOTO = "/images/placeholder-home.svg";
+export const PLACEHOLDER_PHOTO = assetPath("/images/placeholder-home.svg");
 
 export function homePhotos(home: Home): string[] {
-  return home.photos.length > 0 ? home.photos : [PLACEHOLDER_PHOTO];
+  if (home.photos.length > 0) {
+    return home.photos.map(assetPath);
+  }
+  return [PLACEHOLDER_PHOTO];
 }
 
 export function homeDescription(home: Home): string {

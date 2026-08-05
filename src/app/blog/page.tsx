@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SiteHeader } from "@/components/Header";
 import { getAllBlogPosts } from "@/lib/content";
+import { assetPath } from "@/lib/env";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -28,7 +29,7 @@ export default function BlogIndexPage() {
             <Link key={post.slug} href={`/blog/${post.slug}`} className="group">
               <div className="relative aspect-[16/10] overflow-hidden bg-drift">
                 <Image
-                  src={post.image ?? "/images/og-default.svg"}
+                  src={assetPath(post.image ?? "/images/og-default.svg")}
                   alt=""
                   fill
                   className="object-cover transition duration-500 group-hover:scale-105"

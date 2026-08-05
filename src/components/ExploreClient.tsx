@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Image from "next/image";
 import type { ExplorePlace } from "@/lib/content";
+import { assetPath } from "@/lib/env";
 
 const CATEGORIES = [
   "All",
@@ -45,7 +46,7 @@ export function ExploreClient({ places }: { places: ExplorePlace[] }) {
           <article key={place.slug}>
             <div className="relative aspect-[4/3] overflow-hidden bg-drift">
               <Image
-                src={place.image}
+                src={assetPath(place.image)}
                 alt={place.name}
                 fill
                 className="object-cover"

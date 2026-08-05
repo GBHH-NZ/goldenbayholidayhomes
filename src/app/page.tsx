@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { Header } from "@/components/Header";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
+import { assetPath } from "@/lib/env";
 import { getAllHomes, getHomeLocations } from "@/lib/homes";
 
 export default function HomePage() {
@@ -13,7 +14,7 @@ export default function HomePage() {
     <main>
       <section className="relative min-h-[100svh] overflow-hidden">
         <Image
-          src="/images/hero-beach.svg"
+          src={assetPath("/images/hero-beach.svg")}
           alt="Golden Bay coastline at dusk"
           fill
           priority

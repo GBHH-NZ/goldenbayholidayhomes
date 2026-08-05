@@ -42,6 +42,26 @@ export const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
 export const BASE_PATH =
   process.env.NEXT_PUBLIC_BASE_PATH?.replace(/\/$/, "") || "";
 
+/**
+ * Prefix local `/public` paths for project Pages.
+ * Needed because `images.unoptimized` does not apply `basePath` to Image `src`.
+ */
+export function assetPath(path: string): string {
+  if (
+    !path ||
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("data:") ||
+    path.startsWith("//")
+  ) {
+    return path;
+  }
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  if (BASE_PATH && normalized.startsWith(`${BASE_PATH}/`)) {
+    return normalized;
+  }
+  return `${BASE_PATH}${normalized}`;
+}
 
 export const CONTACT = {
   phoneMobile: "+64 20 4141 7230",
