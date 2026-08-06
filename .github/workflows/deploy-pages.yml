@@ -47,6 +47,22 @@ jobs:
           GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
           GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
 
+      - name: Install ops app
+        working-directory: ops
+        run: npm ci
+
+      - name: Build ops app into Pages export
+        working-directory: ops
+        run: npm run build
+        env:
+          VITE_BASE_PATH: ${{ vars.BASE_PATH || '/goldenbayholidayhomes' }}/ops/
+          VITE_DATA_BACKEND: mock
+
+      - name: Copy ops dist into site out/ops
+        run: |
+          mkdir -p out/ops
+          cp -R ops/dist/. out/ops/
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

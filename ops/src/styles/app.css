@@ -1,0 +1,102 @@
+:root {
+  --gb-forest: #1a5f4a;
+  --gb-forest-light: #2d7a62;
+  --gb-sand: #e8e4d9;
+  --gb-mist: #f5f7f6;
+  --gb-ink: #1c2b26;
+  --gb-muted: #5a6b64;
+  --gb-accent: #c4a35a;
+  --gb-danger: #b33a3a;
+  --shadow: 0 8px 28px rgba(26, 95, 74, 0.08);
+  --radius: 10px;
+  --transition: all 0.2s ease;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top left, rgba(26, 95, 74, 0.06), transparent 50%),
+    linear-gradient(180deg, var(--gb-mist) 0%, var(--gb-sand) 100%);
+  min-height: 100vh;
+  font-family: 'Segoe UI', 'Source Sans 3', system-ui, sans-serif;
+  color: var(--gb-ink);
+}
+
+.text-primary {
+  color: var(--gb-forest) !important;
+}
+
+.bg-primary,
+.btn-primary {
+  background-color: var(--gb-forest) !important;
+  border-color: var(--gb-forest) !important;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--gb-forest-light) !important;
+  border-color: var(--gb-forest-light) !important;
+}
+
+.btn-outline-primary {
+  color: var(--gb-forest) !important;
+  border-color: var(--gb-forest) !important;
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--gb-forest) !important;
+  color: #fff !important;
+}
+
+.navbar.ops-nav {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(26, 95, 74, 0.1);
+}
+
+.ops-card {
+  background: #fff;
+  border: 1px solid rgba(26, 95, 74, 0.08);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.ops-stat {
+  padding: 1.25rem;
+}
+
+.ops-stat .stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gb-forest);
+}
+
+.landing-hero {
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  background:
+    linear-gradient(135deg, rgba(26, 95, 74, 0.92), rgba(28, 43, 38, 0.85)),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  color: #fff;
+  border-radius: 0 0 24px 24px;
+}
+
+.fc {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: 0.75rem;
+}
+
+.leaflet-container {
+  height: 280px;
+  border-radius: var(--radius);
+  z-index: 0;
+}
+
+.sync-overlay {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1050;
+  font-size: 0.85rem;
+}

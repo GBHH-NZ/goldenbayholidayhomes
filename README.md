@@ -16,6 +16,19 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
+### Ops app (staff / property management)
+
+Separate Vite app under [`ops/`](ops/) — mock auth and seed data for now; Firebase later.
+
+```bash
+cd ops
+cp .env.example .env
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173/ops/](http://localhost:5173/ops/). Login: `test` / `test`. See [ops/README.md](ops/README.md).
+
 ## GitHub secrets and variables
 
 API credentials must live in GitHub Actions secrets — never in the repo.
