@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getSiteMedia } from "@/lib/content";
 import { assetPath, CONTACT } from "@/lib/env";
 
+const OPS_LOGIN = assetPath("/ops/login/");
+
 const guestLinks = [
   { href: "/homes", label: "Homes" },
   { href: "/explore-golden-bay", label: "Explore" },
@@ -84,6 +86,12 @@ export function Header() {
           >
             List Your Home
           </Link>
+          <a
+            href={OPS_LOGIN}
+            className="rounded-sm border border-white/50 px-3 py-1.5 transition hover:bg-white/15"
+          >
+            Staff login
+          </a>
         </nav>
         <a
           href={`tel:${CONTACT.phoneFree.replace(/\s/g, "")}`}
@@ -101,6 +109,9 @@ export function Header() {
             {l.label}
           </Link>
         ))}
+        <a href={OPS_LOGIN} className="whitespace-nowrap font-semibold">
+          Staff login
+        </a>
       </nav>
     </header>
   );
@@ -132,6 +143,12 @@ export function SiteHeader() {
           >
             List Your Home
           </Link>
+          <a
+            href={OPS_LOGIN}
+            className="rounded-sm border border-sea/40 px-3 py-1.5 text-sea-deep transition hover:bg-sea/10"
+          >
+            Staff login
+          </a>
         </nav>
       </div>
     </header>
@@ -199,6 +216,11 @@ export function Footer() {
                 target="_blank"
               >
                 Owner login
+              </a>
+            </li>
+            <li>
+              <a href={OPS_LOGIN} className="hover:text-white">
+                Staff login
               </a>
             </li>
           </ul>

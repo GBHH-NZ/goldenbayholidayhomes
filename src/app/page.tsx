@@ -48,7 +48,7 @@ export default function HomePage() {
               </Link>
               <a
                 href={assetPath("/ops/login/")}
-                className="border border-white/40 px-5 py-3 text-sm font-semibold text-white/90 transition hover:bg-white/10 hover:text-white"
+                className="bg-white/20 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30"
               >
                 Staff login
               </a>
