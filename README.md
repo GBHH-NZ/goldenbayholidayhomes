@@ -27,7 +27,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:5173/ops/](http://localhost:5173/ops/). Login: `test` / `test`. See [ops/README.md](ops/README.md).
+Open [http://localhost:5173/ops/](http://localhost:5173/ops/). Login: `test` / `test` (hash route `#/login`). See [ops/README.md](ops/README.md).
 
 ## GitHub secrets and variables
 

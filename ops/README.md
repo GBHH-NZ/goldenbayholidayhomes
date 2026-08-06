@@ -15,7 +15,9 @@ npm run dev
 
 Open [http://localhost:5173/ops/](http://localhost:5173/ops/).
 
-### Mock login
+Staff login URL: [http://localhost:5173/ops/#/login](http://localhost:5173/ops/#/login)
+
+> **Note:** Routing uses hash URLs (`#/login`, `#/dashboard`, …) so deep links work on GitHub Pages (no server-side SPA fallback).
 
 | Username | Password | Role |
 |----------|----------|------|

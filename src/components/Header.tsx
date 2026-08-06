@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getSiteMedia } from "@/lib/content";
 import { assetPath, CONTACT } from "@/lib/env";
 
-const OPS_LOGIN = assetPath("/ops/login/");
+const OPS_LOGIN = `${assetPath("/ops/")}#/login`;
 
 const guestLinks = [
   { href: "/homes", label: "Homes" },
