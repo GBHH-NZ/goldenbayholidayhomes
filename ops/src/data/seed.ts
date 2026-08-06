@@ -153,6 +153,7 @@ export function createSeedTenantData(tenantId = 'demo'): TenantData {
     },
   ];
 
+  const staffAssignees = ['sarah', 'mike', 'ana'];
   const assignees = employees.map((e) => e.username);
   const scheduledTasks: ScheduledTask[] = [];
   let schedId = 1;
@@ -168,6 +169,8 @@ export function createSeedTenantData(tenantId = 'demo'): TenantData {
             ? pick(rng, ['pending', 'in_progress'] as const)
             : 'pending';
       const overdue = d < -1 && status === 'pending';
+      const assignedTo = d <= 1 ? pick(rng, staffAssignees) : pick(rng, assignees);
+      const isCompleted = status === 'completed';
       scheduledTasks.push({
         id: `sched_${schedId++}`,
         propertyId: property.id,
@@ -176,12 +179,47 @@ export function createSeedTenantData(tenantId = 'demo'): TenantData {
         scheduledDate: daysFromToday(d),
         priority: pick(rng, ['normal', 'normal', 'high', 'low']),
         status: overdue ? 'pending' : status,
-        assignedTo: pick(rng, assignees),
+        assignedTo,
         notes: rng() > 0.7 ? 'Guest early check-in' : undefined,
         estimatedMinutes: estimateTaskMinutes(template, property),
         overdue: overdue || (d < 0 && status === 'pending'),
+        completedAt: isCompleted ? `${daysFromToday(d)}T${10 + Math.floor(rng() * 6)}:30:00.000Z` : undefined,
+        completedBy: isCompleted ? assignedTo : undefined,
       });
     }
+  }
+
+  // Guaranteed My-day demo tasks for each staff member (today + one overdue)
+  for (const staff of staffAssignees) {
+    const property = pick(rng, properties);
+    const template = pick(rng, taskTemplates.filter((t) => t.common));
+    scheduledTasks.push({
+      id: `sched_${schedId++}`,
+      propertyId: property.id,
+      taskId: template.id,
+      taskName: template.name,
+      scheduledDate: daysFromToday(0),
+      priority: 'high',
+      status: 'pending',
+      assignedTo: staff,
+      notes: 'Demo: confirm from My day',
+      estimatedMinutes: estimateTaskMinutes(template, property),
+      overdue: false,
+    });
+    const overdueProp = pick(rng, properties);
+    const overdueTpl = pick(rng, taskTemplates.filter((t) => t.common));
+    scheduledTasks.push({
+      id: `sched_${schedId++}`,
+      propertyId: overdueProp.id,
+      taskId: overdueTpl.id,
+      taskName: overdueTpl.name,
+      scheduledDate: daysFromToday(-2),
+      priority: 'normal',
+      status: 'pending',
+      assignedTo: staff,
+      estimatedMinutes: estimateTaskMinutes(overdueTpl, overdueProp),
+      overdue: true,
+    });
   }
 
   const workLogs: WorkLog[] = [];

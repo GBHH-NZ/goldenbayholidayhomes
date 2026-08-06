@@ -1,4 +1,3 @@
-import { useState, type FormEvent } from 'react';
 import { Alert, Badge, Button, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,6 +5,8 @@ import { usePermissions } from '@/hooks/usePermissions';
 import { mutate, newId, tenantPath } from '@/services/mutations';
 import type { TaskTemplate } from '@/types';
 import { estimateTaskMinutes } from '@/data/taskRules';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { useState, type FormEvent } from 'react';
 
 const blank = (): TaskTemplate => ({
   id: '',
@@ -84,17 +85,15 @@ export default function TasksPage() {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <div>
-          <h1 className="h3 mb-0">Task library</h1>
-          <p className="text-muted small mb-0">
-            Base minutes scale with property beds, baths, pets, and amenities.
-          </p>
-        </div>
-        <Button size="sm" onClick={openNew}>
-          Add task
-        </Button>
-      </div>
+      <PageHeader
+        title="Task library"
+        subtitle="Base minutes scale with property beds, baths, pets, and amenities."
+        actions={
+          <Button size="sm" onClick={openNew}>
+            Add task
+          </Button>
+        }
+      />
       <div className="ops-card table-responsive">
         <Table hover className="mb-0 align-middle">
           <thead>

@@ -6,6 +6,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { mutate, newId, tenantPath } from '@/services/mutations';
 import { estimateTaskMinutes } from '@/data/taskRules';
 import type { WorkLog } from '@/types';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 export default function LogWorkPage() {
   const { data, isLoading, setData } = useTenantData();
@@ -70,11 +71,14 @@ export default function LogWorkPage() {
 
   return (
     <div>
-      <Link to="/logs" className="small">
+      <Link to="/logs" className="small text-muted">
         ← Work logs
       </Link>
-      <h1 className="h3 mt-1 mb-3">Confirm work done</h1>
-      <Form onSubmit={onSubmit} className="ops-card p-3 p-md-4">
+      <PageHeader
+        title="Confirm work done"
+        subtitle="Log one or more tasks for a property (also used outside the schedule)."
+      />
+      <Form onSubmit={onSubmit} className="ops-card p-3 p-md-4 border-0">
         <Form.Group className="mb-3">
           <Form.Label>Property</Form.Label>
           <Form.Select

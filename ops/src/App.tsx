@@ -2,9 +2,11 @@ import { lazy, Suspense } from 'react';
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ProtectedLayout } from '@/components/ProtectedLayout';
+import { RoleHome } from '@/components/RoleHome';
 
 const LandingPage = lazy(() => import('@/features/landing/LandingPage'));
 const LoginPage = lazy(() => import('@/features/auth/LoginPage'));
+const MyDayPage = lazy(() => import('@/features/my-day/MyDayPage'));
 const DashboardPage = lazy(() => import('@/features/dashboard/DashboardPage'));
 const PropertiesPage = lazy(() => import('@/features/properties/PropertiesPage'));
 const PropertyFormPage = lazy(() => import('@/features/properties/PropertyFormPage'));
@@ -27,7 +29,6 @@ function PageLoader() {
 
 export default function App() {
   return (
-    // HashRouter: GitHub Pages has no SPA fallback for /ops/login/ etc.
     <HashRouter>
       <AuthProvider>
         <Suspense fallback={<PageLoader />}>
@@ -35,6 +36,8 @@ export default function App() {
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route element={<ProtectedLayout />}>
+              <Route path="/home" element={<RoleHome />} />
+              <Route path="/my-day" element={<MyDayPage />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/properties" element={<PropertiesPage />} />
               <Route path="/properties/new" element={<PropertyFormPage />} />

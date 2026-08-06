@@ -4,18 +4,23 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import type { EventClickArg, DateSelectArg } from '@fullcalendar/core';
-import { Alert, Badge, Button, Form, Modal, Spinner } from 'react-bootstrap';
+import { Alert, Button, Form, Modal, Spinner } from 'react-bootstrap';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { mutate, newId, tenantPath } from '@/services/mutations';
 import type { ScheduledTask } from '@/types';
 import { estimateTaskMinutes } from '@/data/taskRules';
+import { completeScheduledTask, isTaskOverdue } from '@/services/taskCompletion';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { StatusBadge } from '@/components/ui/StatusBadge';
+import { isAdminRole } from '@/services/permissions';
 
 export default function SchedulePage() {
   const { data, isLoading, setData } = useTenantData();
   const { user } = useAuth();
   const [selected, setSelected] = useState<ScheduledTask | null>(null);
   const [creating, setCreating] = useState<{ date: string } | null>(null);
+  const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({
     propertyId: '',
     taskId: '',
@@ -24,29 +29,33 @@ export default function SchedulePage() {
     notes: '',
   });
 
+  const isManager = isAdminRole(user?.role) || user?.role === 'demo_admin';
   const propName = (id: string) => data.properties.find((p) => p.id === id)?.name ?? id;
 
-  const events = useMemo(
-    () =>
-      data.scheduledTasks
-        .filter((t) => t.status !== 'cancelled')
-        .map((t) => ({
-          id: t.id,
-          title: `${t.taskName} · ${propName(t.propertyId)}`,
-          start: t.scheduledDate,
-          allDay: true,
-          backgroundColor:
-            t.status === 'completed'
-              ? '#6c757d'
-              : t.overdue || t.priority === 'high'
-                ? '#b33a3a'
-                : '#1a5f4a',
-          borderColor: 'transparent',
-          extendedProps: { task: t },
-        })),
+  const events = useMemo(() => {
+    const tasks = isManager
+      ? data.scheduledTasks
+      : data.scheduledTasks.filter(
+          (t) => t.assignedTo?.toLowerCase() === user?.username.toLowerCase()
+        );
+    return tasks
+      .filter((t) => t.status !== 'cancelled')
+      .map((t) => ({
+        id: t.id,
+        title: `${t.taskName} · ${propName(t.propertyId)}`,
+        start: t.scheduledDate,
+        allDay: true,
+        backgroundColor:
+          t.status === 'completed'
+            ? '#5a6a72'
+            : isTaskOverdue(t) || t.priority === 'high'
+              ? '#c4784a'
+              : '#1a5f6e',
+        borderColor: 'transparent',
+        extendedProps: { task: t },
+      }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [data.scheduledTasks, data.properties]
-  );
+  }, [data.scheduledTasks, data.properties, isManager, user?.username]);
 
   if (isLoading) {
     return (
@@ -61,10 +70,11 @@ export default function SchedulePage() {
   }
 
   function onSelect(arg: DateSelectArg) {
+    if (!isManager) return;
     setForm({
       propertyId: data.properties[0]?.id ?? '',
       taskId: data.taskTemplates.find((t) => t.common)?.id ?? data.taskTemplates[0]?.id ?? '',
-      assignedTo: user?.username ?? '',
+      assignedTo: data.employees.find((e) => e.role === 'employee')?.username ?? user?.username ?? '',
       priority: 'normal',
       notes: '',
     });
@@ -99,51 +109,39 @@ export default function SchedulePage() {
 
   async function completeTask(task: ScheduledTask) {
     if (!user) return;
-    const updated: ScheduledTask = { ...task, status: 'completed', overdue: false };
-    await mutate(
-      tenantPath(user.tenantId, 'scheduledTasks', task.id),
-      updated,
-      'complete_sched',
-      'set',
-      () => {
-        setData((d) => ({
-          ...d,
-          scheduledTasks: d.scheduledTasks.map((t) => (t.id === task.id ? updated : t)),
-        }));
-      }
-    );
-    const logId = newId('log');
-    const template = data.taskTemplates.find((t) => t.id === task.taskId);
-    const log = {
-      id: logId,
-      propertyId: task.propertyId,
-      taskId: task.taskId,
-      taskName: task.taskName,
-      taskCategory: template?.category,
-      date: new Date().toISOString().slice(0, 10),
-      loggedBy: user.username,
-      estimatedMinutes: task.estimatedMinutes,
-      actualMinutes: task.estimatedMinutes,
-      notes: task.notes,
-      createdAt: new Date().toISOString(),
-    };
-    await mutate(tenantPath(user.tenantId, 'workLogs', logId), log, 'log_from_sched', 'set', () => {
-      setData((d) => ({ ...d, workLogs: [...d.workLogs, log] }));
-    });
-    setSelected(null);
+    setBusy(true);
+    try {
+      await completeScheduledTask({
+        tenantId: user.tenantId,
+        username: user.username,
+        task,
+        templates: data.taskTemplates,
+        setData,
+      });
+      setSelected(null);
+    } finally {
+      setBusy(false);
+    }
   }
+
+  const openCount = data.scheduledTasks.filter(
+    (t) =>
+      t.status !== 'completed' &&
+      t.status !== 'cancelled' &&
+      (isManager || t.assignedTo?.toLowerCase() === user?.username.toLowerCase())
+  ).length;
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <div>
-          <h1 className="h3 mb-0">Schedule</h1>
-          <p className="text-muted small mb-0">Click a day to add a task · click an event to complete</p>
-        </div>
-        <Badge bg="light" text="dark">
-          {data.scheduledTasks.filter((t) => t.status === 'pending').length} pending
-        </Badge>
-      </div>
+      <PageHeader
+        title={isManager ? 'Schedule' : 'My schedule'}
+        subtitle={
+          isManager
+            ? 'Click a day to assign work · click an event to complete'
+            : 'Your assigned tasks — mark complete here or on My day'
+        }
+        actions={<StatusBadge status="pending" label={`${openCount} open`} />}
+      />
       <div className="ops-card p-2">
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -154,7 +152,7 @@ export default function SchedulePage() {
             right: 'dayGridMonth,timeGridWeek',
           }}
           height="auto"
-          selectable
+          selectable={isManager}
           selectMirror
           events={events}
           eventClick={onEventClick}
@@ -177,13 +175,19 @@ export default function SchedulePage() {
               Assigned: {selected.assignedTo || '—'} · Est. {selected.estimatedMinutes ?? '—'} min
               <br />
               Status: {selected.status}
-              {selected.overdue && (
-                <Badge bg="danger" className="ms-2">
-                  Overdue
-                </Badge>
+              {isTaskOverdue(selected) && (
+                <span className="ms-2">
+                  <StatusBadge status="overdue" />
+                </span>
               )}
             </p>
             {selected.notes && <Alert variant="light">{selected.notes}</Alert>}
+            {selected.completedBy && (
+              <p className="small text-success mb-0">
+                Completed by {selected.completedBy}
+                {selected.completedAt ? ` · ${new Date(selected.completedAt).toLocaleString()}` : ''}
+              </p>
+            )}
           </Modal.Body>
         )}
         <Modal.Footer>
@@ -191,7 +195,9 @@ export default function SchedulePage() {
             Close
           </Button>
           {selected && selected.status !== 'completed' && (
-            <Button onClick={() => void completeTask(selected)}>Mark complete & log</Button>
+            <Button variant="success" disabled={busy} onClick={() => void completeTask(selected)}>
+              {busy ? 'Saving…' : 'Mark complete & log'}
+            </Button>
           )}
         </Modal.Footer>
       </Modal>

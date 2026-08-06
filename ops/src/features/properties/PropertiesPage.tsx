@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom';
-import { Badge, Button, Card, Form, Spinner } from 'react-bootstrap';
+import { Button, Card, Form, Spinner } from 'react-bootstrap';
 import { useMemo, useState } from 'react';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePermissions } from '@/hooks/usePermissions';
 import { mutate, tenantPath } from '@/services/mutations';
 import { estimatePropertyTurnoverMinutes } from '@/data/taskRules';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { StatusBadge } from '@/components/ui/StatusBadge';
 
 export default function PropertiesPage() {
   const { data, isLoading, setData } = useTenantData();
@@ -47,12 +49,15 @@ export default function PropertiesPage() {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <h1 className="h3 mb-0">Properties</h1>
-        <Link to="/properties/new" className="btn btn-primary btn-sm">
-          Add property
-        </Link>
-      </div>
+      <PageHeader
+        title="Properties"
+        subtitle="House profiles drive task volume and estimated completion time."
+        actions={
+          <Link to="/properties/new" className="btn btn-primary btn-sm">
+            Add property
+          </Link>
+        }
+      />
       <div className="d-flex gap-3 mb-3 flex-wrap align-items-center">
         <Form.Control
           style={{ maxWidth: 280 }}
@@ -70,15 +75,15 @@ export default function PropertiesPage() {
       <div className="row g-3">
         {filtered.map((p) => (
           <div className="col-md-6 col-xl-4" key={p.id}>
-            <Card className="ops-card h-100">
+            <Card className="ops-card h-100 border-0">
               <Card.Body>
-                <div className="d-flex justify-content-between">
-                  <Card.Title className="h5">
+                <div className="d-flex justify-content-between gap-2">
+                  <Card.Title className="h5 mb-1">
                     <Link to={`/properties/${p.id}`} className="text-decoration-none text-primary">
                       {p.name}
                     </Link>
                   </Card.Title>
-                  {p.archived && <Badge bg="secondary">Archived</Badge>}
+                  {p.archived && <StatusBadge status="cancelled" label="Archived" />}
                 </div>
                 <Card.Text className="text-muted small mb-2">
                   {p.town} · {p.address}
@@ -87,13 +92,11 @@ export default function PropertiesPage() {
                   {p.bedrooms} bed · {p.bathrooms} bath · {p.maxGuests} guests
                   {p.petsAllowed ? ' · pets' : ''}
                 </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <Badge bg="light" text="dark">
+                <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                  <span className="property-chip">
                     ~{estimatePropertyTurnoverMinutes(data.taskTemplates, p)} min turnover
-                  </Badge>
-                  <Badge bg="outline-secondary" className="border text-muted">
-                    {p.cleaningTier}
-                  </Badge>
+                  </span>
+                  <span className="property-chip">{p.cleaningTier}</span>
                 </div>
               </Card.Body>
               {canDelete() && !p.archived && (

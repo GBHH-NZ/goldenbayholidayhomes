@@ -1,10 +1,12 @@
 import { Link } from 'react-router-dom';
-import { Badge, Button, Form, Spinner, Table } from 'react-bootstrap';
+import { Button, Form, Spinner, Table } from 'react-bootstrap';
 import { useMemo, useState } from 'react';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePermissions } from '@/hooks/usePermissions';
 import { mutate, tenantPath } from '@/services/mutations';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { StatusBadge } from '@/components/ui/StatusBadge';
 
 export default function LogsPage() {
   const { data, isLoading, setData } = useTenantData();
@@ -44,12 +46,15 @@ export default function LogsPage() {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
-        <h1 className="h3 mb-0">Work logs</h1>
-        <Link to="/logs/new" className="btn btn-primary btn-sm">
-          Log work
-        </Link>
-      </div>
+      <PageHeader
+        title="Work logs"
+        subtitle="Confirmed activity from My day and manual logs."
+        actions={
+          <Link to="/logs/new" className="btn btn-primary btn-sm">
+            Log work
+          </Link>
+        }
+      />
       <Form.Check
         type="switch"
         className="mb-3"
@@ -86,15 +91,7 @@ export default function LogsPage() {
                     <span className="text-muted small"> / {l.estimatedMinutes} est</span>
                   )}
                 </td>
-                <td>
-                  {l.flag ? (
-                    <Badge bg="warning" text="dark">
-                      {l.flag}
-                    </Badge>
-                  ) : (
-                    '—'
-                  )}
-                </td>
+                <td>{l.flag ? <StatusBadge status={l.flag} /> : '—'}</td>
                 <td className="text-end">
                   {canDelete() && (
                     <Button size="sm" variant="outline-danger" onClick={() => void softDelete(l.id)}>

@@ -1,5 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Alert, Button, Col, Form, Row, Spinner } from 'react-bootstrap';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -7,6 +6,9 @@ import { mutate, newId, tenantPath } from '@/services/mutations';
 import type { CleaningTier, Property } from '@/types';
 import { MapPicker } from '@/components/MapPicker';
 import { estimatePropertyTurnoverMinutes } from '@/data/taskRules';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { useEffect, useState, type FormEvent } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const empty: Property = {
   id: '',
@@ -92,14 +94,13 @@ export default function PropertyFormPage() {
 
   return (
     <div>
-      <div className="mb-3">
-        <Link to="/properties" className="small">
-          ← Properties
-        </Link>
-        <h1 className="h3 mt-1">{isNew ? 'New property' : form.name}</h1>
-      </div>
+      <Link to="/properties" className="small text-muted">
+        ← Properties
+      </Link>
+      <PageHeader title={isNew ? 'New property' : form.name || 'Property'} />
       {error && <Alert variant="danger">{error}</Alert>}
-      <Form onSubmit={onSubmit} className="ops-card p-3 p-md-4">
+      <Form onSubmit={onSubmit} className="ops-card p-3 p-md-4 border-0">
+        <div className="form-section-title">Basics</div>
         <Row className="g-3">
           <Col md={6}>
             <Form.Group>

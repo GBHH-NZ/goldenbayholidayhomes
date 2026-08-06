@@ -3,6 +3,7 @@ import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { mutate, tenantPath } from '@/services/mutations';
 import type { ChecklistItem } from '@/types';
+import { PageHeader } from '@/components/ui/PageHeader';
 
 export default function ChecklistsPage() {
   const { data, isLoading, setData } = useTenantData();
@@ -41,15 +42,17 @@ export default function ChecklistsPage() {
 
   return (
     <div>
-      <h1 className="h3 mb-1">Ops checklists</h1>
-      <p className="text-muted small mb-3">
-        Turnover, safety, and inventory reminders stored in tenant data (Firebase-ready).
-      </p>
+      <PageHeader
+        title="Ops checklists"
+        subtitle="Turnover, safety, and inventory reminders stored in tenant data."
+      />
       <div className="row g-3">
         {Object.entries(byCategory).map(([category, items]) => (
           <div className="col-md-6" key={category}>
-            <Card className="ops-card h-100">
-              <Card.Header className="bg-white fw-semibold">{category}</Card.Header>
+            <Card className="ops-card h-100 border-0">
+              <Card.Header className="border-0 fw-semibold" style={{ background: 'var(--foam)' }}>
+                {category}
+              </Card.Header>
               <ListGroup variant="flush">
                 {items.map((item) => (
                   <ListGroup.Item key={item.id} className="d-flex gap-2 align-items-start">

@@ -67,6 +67,8 @@ export interface ScheduledTask {
   notes?: string;
   estimatedMinutes?: number;
   overdue?: boolean;
+  completedAt?: string;
+  completedBy?: string;
 }
 
 export interface TaskTemplate {

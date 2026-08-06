@@ -1,4 +1,3 @@
-import { useState, type FormEvent } from 'react';
 import { Alert, Badge, Button, Form, Modal, Spinner, Table } from 'react-bootstrap';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,6 +5,8 @@ import { usePermissions } from '@/hooks/usePermissions';
 import { mutate, newId, tenantPath } from '@/services/mutations';
 import type { Employee, UserRole } from '@/types';
 import { getRoleDisplayName } from '@/services/permissions';
+import { PageHeader } from '@/components/ui/PageHeader';
+import { useState, type FormEvent } from 'react';
 
 export default function TeamPage() {
   const { data, isLoading, setData } = useTenantData();
@@ -72,12 +73,15 @@ export default function TeamPage() {
 
   return (
     <div>
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h1 className="h3 mb-0">Team</h1>
-        <Button size="sm" onClick={() => setShow(true)}>
-          Add staff
-        </Button>
-      </div>
+      <PageHeader
+        title="Team"
+        subtitle="Staff accounts for My day assignments and completions."
+        actions={
+          <Button size="sm" onClick={() => setShow(true)}>
+            Add staff
+          </Button>
+        }
+      />
       <div className="ops-card table-responsive">
         <Table hover className="mb-0 align-middle">
           <thead>

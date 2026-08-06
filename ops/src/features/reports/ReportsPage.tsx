@@ -15,8 +15,9 @@ import {
 } from 'recharts';
 import { useMemo } from 'react';
 import { useTenantData } from '@/contexts/TenantDataContext';
+import { PageHeader } from '@/components/ui/PageHeader';
 
-const COLORS = ['#1a5f4a', '#2d7a62', '#c4a35a', '#5a6b64', '#b33a3a', '#4a90a4'];
+const COLORS = ['#1a5f6e', '#2a7a8c', '#c4784a', '#5a6a72', '#0c2c3a', '#d4cbb8'];
 
 export default function ReportsPage() {
   const { data, isLoading } = useTenantData();
@@ -63,11 +64,13 @@ export default function ReportsPage() {
 
   return (
     <div>
-      <h1 className="h3 mb-3">Reports</h1>
+      <PageHeader title="Reports" subtitle="Workload and completion trends." />
       <Row className="g-3">
         <Col lg={4}>
-          <Card className="ops-card h-100">
-            <Card.Header className="bg-white">Work by category</Card.Header>
+          <Card className="ops-card h-100 border-0">
+            <Card.Header className="border-0 fw-semibold" style={{ background: 'var(--foam)' }}>
+              Work by category
+            </Card.Header>
             <Card.Body style={{ height: 280 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
@@ -83,8 +86,10 @@ export default function ReportsPage() {
           </Card>
         </Col>
         <Col lg={8}>
-          <Card className="ops-card h-100">
-            <Card.Header className="bg-white">Minutes logged by property</Card.Header>
+          <Card className="ops-card h-100 border-0">
+            <Card.Header className="border-0 fw-semibold" style={{ background: 'var(--foam)' }}>
+              Minutes logged by property
+            </Card.Header>
             <Card.Body style={{ height: 280 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={minutesByProperty}>
@@ -92,15 +97,17 @@ export default function ReportsPage() {
                   <XAxis dataKey="name" tick={{ fontSize: 11 }} interval={0} angle={-20} textAnchor="end" height={60} />
                   <YAxis />
                   <Tooltip />
-                  <Bar dataKey="minutes" fill="#1a5f4a" />
+                  <Bar dataKey="minutes" fill="#1a5f6e" />
                 </BarChart>
               </ResponsiveContainer>
             </Card.Body>
           </Card>
         </Col>
         <Col xs={12}>
-          <Card className="ops-card">
-            <Card.Header className="bg-white">Work logs per day (recent)</Card.Header>
+          <Card className="ops-card border-0">
+            <Card.Header className="border-0 fw-semibold" style={{ background: 'var(--foam)' }}>
+              Work logs per day (recent)
+            </Card.Header>
             <Card.Body style={{ height: 260 }}>
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={logsPerDay}>
@@ -108,7 +115,7 @@ export default function ReportsPage() {
                   <XAxis dataKey="date" tick={{ fontSize: 11 }} />
                   <YAxis allowDecimals={false} />
                   <Tooltip />
-                  <Line type="monotone" dataKey="count" stroke="#c4a35a" strokeWidth={2} />
+                  <Line type="monotone" dataKey="count" stroke="#c4784a" strokeWidth={2} />
                 </LineChart>
               </ResponsiveContainer>
             </Card.Body>
