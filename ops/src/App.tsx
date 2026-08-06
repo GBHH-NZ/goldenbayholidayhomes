@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ProtectedLayout } from '@/components/ProtectedLayout';
 
@@ -27,7 +27,8 @@ function PageLoader() {
 
 export default function App() {
   return (
-    <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '') || '/ops'}>
+    // HashRouter: GitHub Pages has no SPA fallback for /ops/login/ etc.
+    <HashRouter>
       <AuthProvider>
         <Suspense fallback={<PageLoader />}>
           <Routes>
@@ -51,6 +52,6 @@ export default function App() {
           </Routes>
         </Suspense>
       </AuthProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
