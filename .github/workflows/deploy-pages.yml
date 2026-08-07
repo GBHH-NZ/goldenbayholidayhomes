@@ -18,16 +18,36 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Custom domain defaults (www.goldenbayholidayhomes.nz on GitHub Pages).
-      # For project Pages only: set Variables NEXT_PUBLIC_SITE_URL + BASE_PATH=/repo-name
-      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.goldenbayholidayhomes.nz' }}
       GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
-      # Available if a future build step needs them; static export does not call Guesty at build time
       GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
       GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Resolve base path and site URL
+        id: paths
+        run: |
+          # Default: project Pages path so CSS/JS load on
+          # https://<user>.github.io/goldenbayholidayhomes/
+          # Custom-domain cutover: set repo Variable BASE_PATH=none (empty root)
+          # and NEXT_PUBLIC_SITE_URL=https://www.goldenbayholidayhomes.nz
+          RAW="${{ vars.BASE_PATH }}"
+          if [ "$RAW" = "none" ] || [ "$RAW" = "/" ]; then
+            BASE=""
+            SITE_DEFAULT="https://www.goldenbayholidayhomes.nz"
+          elif [ -n "$RAW" ]; then
+            BASE="$RAW"
+            SITE_DEFAULT="https://agent5479.github.io${BASE}"
+          else
+            BASE="/goldenbayholidayhomes"
+            SITE_DEFAULT="https://agent5479.github.io/goldenbayholidayhomes"
+          fi
+          SITE="${{ vars.NEXT_PUBLIC_SITE_URL }}"
+          if [ -z "$SITE" ]; then SITE="$SITE_DEFAULT"; fi
+          echo "base_path=$BASE" >> "$GITHUB_OUTPUT"
+          echo "site_url=$SITE" >> "$GITHUB_OUTPUT"
+          echo "Resolved BASE_PATH='${BASE:-<root>}' SITE_URL=$SITE"
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -41,8 +61,8 @@ jobs:
       - name: Build static export
         run: npm run build
         env:
-          NEXT_PUBLIC_BASE_PATH: ${{ vars.BASE_PATH || '' }}
-          NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.goldenbayholidayhomes.nz' }}
+          NEXT_PUBLIC_BASE_PATH: ${{ steps.paths.outputs.base_path }}
+          NEXT_PUBLIC_SITE_URL: ${{ steps.paths.outputs.site_url }}
           GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
           GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
           GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
@@ -55,7 +75,7 @@ jobs:
         working-directory: ops
         run: npm run build
         env:
-          VITE_BASE_PATH: ${{ vars.BASE_PATH || '' }}/ops/
+          VITE_BASE_PATH: ${{ steps.paths.outputs.base_path }}/ops/
           VITE_DATA_BACKEND: mock
 
       - name: Copy ops dist into site out/ops

@@ -17,11 +17,13 @@ Do **not** put Guesty credentials in the repo, `.env` commits, or `NEXT_PUBLIC_*
 
 | Name | Required | Default / example | Description |
 |------|----------|-------------------|-------------|
-| `NEXT_PUBLIC_SITE_URL` | Recommended | `https://www.goldenbayholidayhomes.nz` | Canonical site URL for metadata, sitemap, OG (deploy default) |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | `https://agent5479.github.io/goldenbayholidayhomes` (pre-cutover) or `https://www.goldenbayholidayhomes.nz` | Canonical site URL for metadata, sitemap, OG |
 | `GUESTY_API_BASE` | Optional | `https://booking-api.guesty.com` | Guesty Booking Engine API base |
-| `BASE_PATH` | Leave unset for custom domain | e.g. `/goldenbayholidayhomes` | Only if serving from `https://<user>.github.io/<repo>/` |
+| `BASE_PATH` | Optional | *(unset → `/goldenbayholidayhomes`)* | Asset prefix for project Pages. Set to `none` when www DNS points at GitHub Pages (root) |
 
-Deploy defaults to the custom domain with **no** base path. Leave `BASE_PATH` unset (or delete the variable if it was set for project Pages).
+**Pre-cutover (current):** leave `BASE_PATH` unset. Deploy uses `/goldenbayholidayhomes` so CSS/JS load on `https://agent5479.github.io/goldenbayholidayhomes/`.
+
+**Custom-domain cutover:** set `BASE_PATH=none`, set `NEXT_PUBLIC_SITE_URL=https://www.goldenbayholidayhomes.nz`, point DNS at GitHub Pages, then redeploy.
 
 ## Custom domain (GitHub Pages)
 
