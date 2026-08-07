@@ -1,98 +1,244 @@
 [
   {
     "slug": "te-waikoropupu-springs",
-    "name": "Te Waikoropupu Springs",
+    "name": "Te Waikoropupū Springs",
     "category": "Outdoor Adventures",
     "location": "Takaka",
-    "summary": "Some of the clearest water on earth — a short walk and a must-see Golden Bay stop.",
-    "image": "/images/explore-placeholder.svg"
+    "summary": "One of the clearest freshwater springs in the world.",
+    "image": "/images/explore/te-waikoropupu-springs.jpg",
+    "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/takaka-area/things-to-do/tracks/te-waikoropupu-springs-walk/"
   },
   {
-    "slug": "wharariki-beach",
-    "name": "Wharariki Beach",
+    "slug": "abel-tasman-national-park",
+    "name": "Abel Tasman National Park",
     "category": "Outdoor Adventures",
-    "location": "Cape Farewell",
-    "summary": "Iconic arches, seals, and wild West Coast drama at the top of the South Island.",
-    "image": "/images/explore-placeholder.svg"
+    "location": "Abel Tasman",
+    "summary": "Kayaking, hiking, and boat trips in paradise.",
+    "image": "/images/explore/abel-tasman-national-park.jpg",
+    "url": "https://www.abeltasman.com/abel-tasman-national-park/"
   },
   {
-    "slug": "farewell-spit",
-    "name": "Farewell Spit",
+    "slug": "pupu-hydro-walkway",
+    "name": "Pupu Hydro Walkway",
+    "category": "Outdoor Adventures",
+    "location": "Takaka",
+    "summary": "Scenic forest loop following an old hydro power scheme.",
+    "image": "/images/explore/pupu-hydro-walkway.jpg",
+    "url": "https://nelsontrails.co.nz/pupu-hydro-walkway/"
+  },
+  {
+    "slug": "aroha-health-spa",
+    "name": "Aroha Health Spa",
+    "category": "Family-Friendly and Relaxed",
+    "location": "Takaka",
+    "summary": "Treat yourself — massage, facials, and holistic wellness experiences.",
+    "image": "/images/explore/aroha-health-spa.jpg",
+    "url": "http://www.arohahealthspa.co.nz/"
+  },
+  {
+    "slug": "horse-treks-hack-n-stay",
+    "name": "Horse Treks with Hack 'n' Stay",
+    "category": "Outdoor Adventures",
+    "location": "Golden Bay",
+    "summary": "Experience guided horse treks through stunning coastal landscapes.",
+    "image": "/images/explore/horse-treks-hack-n-stay.jpg",
+    "url": "http://hackfarm.co.nz/"
+  },
+  {
+    "slug": "milnthorpe-park",
+    "name": "Milnthorpe Park",
     "category": "Outdoor Adventures",
     "location": "Collingwood",
-    "summary": "Guided tours along one of the world's longest sandspits — birdlife and endless horizon.",
-    "image": "/images/explore-placeholder.svg"
+    "summary": "Explore over 13 km of walking tracks through regenerating forest.",
+    "image": "/images/explore/milnthorpe-park.jpg",
+    "url": "https://nelsontrails.co.nz/milnthorpe-park/"
   },
   {
-    "slug": "rawhiti-cave",
-    "name": "Rāwhiti Cave",
+    "slug": "golden-bay-kayaks",
+    "name": "Golden Bay Kayaks",
     "category": "Outdoor Adventures",
-    "location": "Takaka",
-    "summary": "A dramatic cave mouth with famous stalactites — bring a torch and good shoes.",
-    "image": "/images/explore-placeholder.svg"
-  },
-  {
-    "slug": "wainui-falls",
-    "name": "Wainui Falls",
-    "category": "Family-Friendly",
-    "location": "Wainui Bay",
-    "summary": "A rewarding short walk to a beautiful waterfall in Abel Tasman country.",
-    "image": "/images/explore-placeholder.svg"
-  },
-  {
-    "slug": "pohara-beach",
-    "name": "Pohara Beach",
-    "category": "Family-Friendly",
-    "location": "Pohara",
-    "summary": "Swimming, sunsets, and cafés — the heart of many of our beachfront stays.",
-    "image": "/images/explore-placeholder.svg"
-  },
-  {
-    "slug": "tata-beach",
-    "name": "Tata Beach",
-    "category": "Family-Friendly",
     "location": "Tata Beach",
-    "summary": "Sheltered swimming and golden sand close to Abel Tasman National Park.",
-    "image": "/images/explore-placeholder.svg"
+    "summary": "Rent kayaks at the iconic Tata Beach.",
+    "image": "/images/explore/golden-bay-kayaks.jpg",
+    "url": "http://www.goldenbaykayaks.com/"
   },
   {
-    "slug": "collingwood-cafes",
-    "name": "Collingwood cafés",
-    "category": "Cafes & Restaurants",
-    "location": "Collingwood",
-    "summary": "Fuel up before Farewell Spit — small-town coffee and local produce.",
-    "image": "/images/explore-placeholder.svg"
+    "slug": "artisans-of-golden-bay",
+    "name": "Artisans of Golden Bay",
+    "category": "Family-Friendly and Relaxed",
+    "location": "Golden Bay",
+    "summary": "Visit potters, weavers, painters and other local artists.",
+    "image": "/images/explore/artisans-of-golden-bay.jpg",
+    "url": "http://www.accommodationcollingwood.co.nz/golden-bay-activities/golden-bay-arts-trail/"
   },
   {
-    "slug": "takaka-town",
-    "name": "Tākaka township",
-    "category": "Cafes & Restaurants",
-    "location": "Takaka",
-    "summary": "The hub of Golden Bay — groceries, galleries, and great brunch spots.",
-    "image": "/images/explore-placeholder.svg"
-  },
-  {
-    "slug": "museum-of-childhood",
+    "slug": "golden-bay-museum",
     "name": "Golden Bay Museum",
     "category": "Rainy Day Activities",
     "location": "Takaka",
-    "summary": "Local history and indoor browsing when the weather turns.",
-    "image": "/images/explore-placeholder.svg"
+    "summary": "Local history including Māori, colonial and natural exhibits.",
+    "image": "/images/explore/golden-bay-museum.jpg",
+    "url": "https://goldenbaymuseum.org.nz/"
   },
   {
-    "slug": "labyrinth",
-    "name": "The Labyrinth",
+    "slug": "monza-gallery",
+    "name": "Monza Gallery",
     "category": "Rainy Day Activities",
     "location": "Takaka",
-    "summary": "A quirky indoor maze — fun for kids and adults on wet days.",
-    "image": "/images/explore-placeholder.svg"
+    "summary": "Local art and exhibitions in Takaka.",
+    "image": "/images/explore/monza-gallery.jpg",
+    "url": "https://www.facebook.com/MonzaGallery/"
+  },
+  {
+    "slug": "golden-bay-air-scenic-flights",
+    "name": "Golden Bay Air Scenic Flights",
+    "category": "Outdoor Adventures",
+    "location": "Takaka",
+    "summary": "Flights over Golden Bay and Abel Tasman.",
+    "image": "/images/explore/golden-bay-air-scenic-flights.jpg",
+    "url": "https://goldenbayair.co.nz/flights/scenic-flights"
   },
   {
     "slug": "anatoki-salmon",
     "name": "Anatoki Salmon",
-    "category": "Family-Friendly",
+    "category": "Family-Friendly and Relaxed",
     "location": "Takaka",
-    "summary": "Catch your own salmon then have it cooked — a Golden Bay classic.",
-    "image": "/images/explore-placeholder.svg"
+    "summary": "Catch your own salmon, they prepare it for you on-site.",
+    "image": "/images/explore/anatoki-salmon.jpg",
+    "url": "https://www.anatokisalmon.co.nz/"
+  },
+  {
+    "slug": "the-grove-scenic-reserve",
+    "name": "The Grove Scenic Reserve",
+    "category": "Outdoor Adventures",
+    "location": "Takaka",
+    "summary": "Short, magical walk among limestone rock formations.",
+    "image": "/images/explore/the-grove-scenic-reserve.jpg",
+    "url": "https://www.nelsontasman.nz/activities-day-trips/the-grove-scenic-reserve-walk/"
+  },
+  {
+    "slug": "labyrinth-rocks-park",
+    "name": "Labyrinth Rocks Park",
+    "category": "Family-Friendly and Relaxed",
+    "location": "Takaka",
+    "summary": "Free natural rock maze for all ages.",
+    "image": "/images/explore/labyrinth-rocks-park.jpg",
+    "url": "https://www.nelsontasman.nz/activities-day-trips/labyrinth-rocks-park/"
+  },
+  {
+    "slug": "village-theatre-takaka",
+    "name": "The Village Theatre (Takaka)",
+    "category": "Rainy Day Activities",
+    "location": "Takaka",
+    "summary": "A charming boutique cinema showing new releases and indie films.",
+    "image": "/images/explore/village-theatre-takaka.jpg",
+    "url": "http://www.villagetheatre.org.nz/"
+  },
+  {
+    "slug": "rock-climbing",
+    "name": "Rock Climbing",
+    "category": "Outdoor Adventures",
+    "location": "Golden Bay",
+    "summary": "Discover over 220 bolted limestone routes ranging from easy slabs to challenging overhangs.",
+    "image": "/images/explore/rock-climbing.jpg",
+    "url": "http://www.hangdogcamp.co.nz/climbing/"
+  },
+  {
+    "slug": "rawhiti-cave-walk",
+    "name": "Rawhiti Cave Walk",
+    "category": "Outdoor Adventures",
+    "location": "Takaka",
+    "summary": "A challenging hike to a unique stalactite-covered cave entrance.",
+    "image": "/images/explore/rawhiti-cave-walk.jpg",
+    "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/takaka-area/things-to-do/tracks/rawhiti-cave-track/"
+  },
+  {
+    "slug": "wainui-falls-walk",
+    "name": "Wainui Falls Walk",
+    "category": "Outdoor Adventures",
+    "location": "Wainui Bay",
+    "summary": "Short forest walk to a stunning waterfall.",
+    "image": "/images/explore/wainui-falls-walk.jpg",
+    "url": "https://www.doc.govt.nz/parks-and-recreation/places-to-go/nelson-tasman/places/abel-tasman-national-park/things-to-do/tracks/wainui-falls-track/"
+  },
+  {
+    "slug": "farewell-spit-tours",
+    "name": "Farewell Spit Tours",
+    "category": "Outdoor Adventures",
+    "location": "Collingwood",
+    "summary": "Eco tours of the world's longest natural sandbar.",
+    "image": "/images/explore/farewell-spit-tours.jpg",
+    "url": "https://www.farewellspit.com/"
+  },
+  {
+    "slug": "wharariki-beach-walk",
+    "name": "Wharariki Beach Walk",
+    "category": "Outdoor Adventures",
+    "location": "Cape Farewell",
+    "summary": "Iconic beach with wind-sculpted rock formations and seal pups at low tide.",
+    "image": "/images/explore/wharariki-beach-walk.jpg",
+    "url": "https://www.newzealand.com/nz/feature/wharariki-beach/"
+  },
+  {
+    "slug": "paulas-kitchen",
+    "name": "Paula's Kitchen",
+    "category": "Cafes & Restaurants",
+    "location": "Collingwood",
+    "summary": "Come and try a fusion of flavours mixing local, international, healthy and tasty takeaway food at Collingwood Wharf.",
+    "image": "/images/explore/paulas-kitchen.jpg"
+  },
+  {
+    "slug": "the-wholemeal-cafe",
+    "name": "The Wholemeal Cafe",
+    "category": "Cafes & Restaurants",
+    "location": "Takaka",
+    "summary": "Serves wholesome meals, great coffee, and local flavour in a relaxed historic setting.",
+    "image": "/images/explore/the-wholemeal-cafe.jpg",
+    "url": "https://wholemealcafe.co.nz/"
+  },
+  {
+    "slug": "the-dangerous-kitchen",
+    "name": "The Dangerous Kitchen",
+    "category": "Cafes & Restaurants",
+    "location": "Takaka",
+    "summary": "A lively café serving great coffee and fresh, creative dishes in a relaxed atmosphere.",
+    "image": "/images/explore/the-dangerous-kitchen.jpg",
+    "url": "https://www.dangerouskitchen.info/"
+  },
+  {
+    "slug": "osha-eatery",
+    "name": "O'sha Eatery",
+    "category": "Cafes & Restaurants",
+    "location": "Takaka",
+    "summary": "A welcoming restaurant offering authentic Thai flavors in a modern, relaxed setting.",
+    "image": "/images/explore/osha-eatery.jpg",
+    "url": "https://www.oshathaieatery.com/"
+  },
+  {
+    "slug": "ratanui-lodge-restaurant",
+    "name": "Ratanui Lodge Restaurant",
+    "category": "Cafes & Restaurants",
+    "location": "Pohara",
+    "summary": "Refined dining in a relaxed setting with fresh, seasonal flavors.",
+    "image": "/images/explore/ratanui-lodge-restaurant.jpg",
+    "url": "https://ratanuilodge.com/"
+  },
+  {
+    "slug": "nikau-cafe-and-bar",
+    "name": "Nikau Cafe & Bar",
+    "category": "Cafes & Restaurants",
+    "location": "Takaka",
+    "summary": "A cosy spot for great coffee, fresh food, and relaxed dining.",
+    "image": "/images/explore/nikau-cafe-and-bar.jpg",
+    "url": "https://www.facebook.com/p/Nikau-cafe-and-bar-100095341477795/"
+  },
+  {
+    "slug": "tinkys-tavern",
+    "name": "Tinky's Tavern",
+    "category": "Cafes & Restaurants",
+    "location": "Collingwood",
+    "summary": "A friendly Collingwood pub serving hearty meals, cold drinks, and good vibes.",
+    "image": "/images/explore/tinkys-tavern.jpg",
+    "url": "https://www.tinkystavern.co.nz/"
   }
 ]

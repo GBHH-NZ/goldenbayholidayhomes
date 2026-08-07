@@ -12,7 +12,6 @@ const nextConfig: NextConfig = {
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     remotePatterns: [
       { protocol: "https", hostname: "assets.guesty.com" },
-      { protocol: "https", hostname: "static.wixstatic.com" },
       { protocol: "https", hostname: "**.guesty.com" },
     ],
   },

@@ -2,20 +2,36 @@
   "title": "Contact & Support",
   "seoTitle": "Contact and Support",
   "seoDescription": "Get in touch with Golden Bay Holiday Homes for guest support, lockbox help, Wi‑Fi, linen, and booking questions.",
-  "intro": "We're locals — and we're here to help. Reach us by phone or email for anything from lockbox codes to local recommendations.",
-  "hours": "We aim to respond within a few hours during the day. For urgent check-in issues, call us.",
+  "intro": "We're here to help you enjoy your stay in Golden Bay.",
+  "hours": "Best time to reach us: Monday – Friday, 9:00 am to 5:00 pm (NZST). For urgent matters outside business hours, please call our 24/7 helpline on the same numbers. If this is an emergency, dial 111 immediately.",
   "faqs": [
     {
-      "q": "Where do I find the lockbox code?",
-      "a": "Lockbox or access instructions are sent in your booking confirmation and pre-arrival message. If you can't find them, call or text us."
+      "q": "Where do I find the Wi-Fi password?",
+      "a": "In the house compendium, usually on the front page."
     },
     {
-      "q": "Wi‑Fi isn't working",
-      "a": "Try restarting the modem if accessible. Network names and passwords are in the property guide. Contact us if you're still stuck — we'll help remotely or send someone."
+      "q": "What is the lockbox code?",
+      "a": "It's included in your check-in details email. If you can't find it, call or text us."
     },
     {
-      "q": "What about linen and towels?",
-      "a": "Hotel-quality linen and towels are provided. Extra sets may be available on request for longer stays."
+      "q": "Is all linen provided for my stay?",
+      "a": "Yes — bed sheets, bath towels, hand towels, face washers, bath mat, and tea towels are provided. Extra sets may be available on request for longer stays."
+    },
+    {
+      "q": "The internet doesn't work.",
+      "a": "Reset the router (unplug for 30 seconds, then plug back in). Network names and passwords are in the property guide. Contact us if you're still stuck."
+    },
+    {
+      "q": "I have no power.",
+      "a": "There may be a local outage — check the switchboard for a tripped breaker, or call us."
+    },
+    {
+      "q": "It's raining — what should I do today?",
+      "a": "See wet-weather ideas on our Explore Golden Bay page (Rainy Day Activities filter)."
+    },
+    {
+      "q": "What should I do today?",
+      "a": "Browse Explore Golden Bay for walks, beaches, cafés, and local favourites."
     },
     {
       "q": "How do I change or cancel my booking?",

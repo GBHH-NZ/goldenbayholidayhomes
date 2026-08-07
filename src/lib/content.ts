@@ -87,6 +87,8 @@ export type ExplorePlace = {
   location: string;
   summary: string;
   image: string;
+  /** Outbound DOC / venue link when available */
+  url?: string;
 };
 
 export function getExplorePlaces(): ExplorePlace[] {

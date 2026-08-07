@@ -2,7 +2,7 @@
 
 Marketing-site rebuild of [goldenbayholidayhomes.nz](https://www.goldenbayholidayhomes.nz/) in Next.js.
 
-Book CTAs deep-link to the Guesty booking engine. Listing photos, descriptions, amenities, and Guesty IDs are **placeholders** until you run catalogue sync with API keys.
+Book CTAs deep-link to the Guesty booking engine. Listing photos are mirrored locally from the former Wix site until Guesty catalogue sync fills full galleries.
 
 Static export is enabled for **GitHub Pages** hosting (`out/`).
 
@@ -85,7 +85,8 @@ Until then, homes use Wix-scraped title/location/guests/pets with empty placehol
 | `npm run dev` | Dev server |
 | `npm run build` | Static export to `out/` |
 | `npm run seed:homes` | Regenerate Wix seed into `homes.json` |
-| `npm run scrape:wix-images` | Temporarily pull listing card photos from the live Wix site into `homes.json` |
+| `npm run scrape:wix-images` | Pull listing card photo URLs from the live Wix site into `homes.json` (pre-cutover) |
+| `npm run mirror:wix-assets` | Download remote Wix CDN images into `public/images/` and rewrite content to local paths |
 | `npm run sync:guesty` | Pull listings from Guesty (needs keys) |
 
 ## Contacts

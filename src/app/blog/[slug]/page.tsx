@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/Header";
 import { getAllBlogPosts, getBlogPost } from "@/lib/content";
+import { assetPath } from "@/lib/env";
+import { markdownToHtml } from "@/lib/markdown";
 import { buildPageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
@@ -27,18 +30,7 @@ export default async function BlogPostPage({ params }: Props) {
   const post = getBlogPost(slug);
   if (!post) notFound();
 
-  // Simple markdown-ish rendering for headings and paragraphs
-  const html = post.content
-    .trim()
-    .split(/\n\n+/)
-    .map((block) => {
-      const t = block.trim();
-      if (t.startsWith("## ")) {
-        return `<h2>${t.slice(3)}</h2>`;
-      }
-      return `<p>${t.replace(/\n/g, "<br/>")}</p>`;
-    })
-    .join("\n");
+  const html = markdownToHtml(post.content);
 
   return (
     <>
@@ -49,6 +41,18 @@ export default async function BlogPostPage({ params }: Props) {
           {post.title}
         </h1>
         <p className="mt-4 text-lg text-muted">{post.description}</p>
+        {post.image ? (
+          <div className="relative mt-8 aspect-[16/9] overflow-hidden bg-drift">
+            <Image
+              src={assetPath(post.image)}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 768px"
+              priority
+            />
+          </div>
+        ) : null}
         <article
           className="prose-gb mt-10"
           dangerouslySetInnerHTML={{ __html: html }}

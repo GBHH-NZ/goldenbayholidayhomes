@@ -58,20 +58,46 @@ body {
   color: var(--sea-deep);
 }
 
+.prose-gb h3 {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--sea-deep);
+}
+
 .prose-gb p {
   margin-bottom: 1rem;
 }
 
-.prose-gb ul {
+.prose-gb ul,
+.prose-gb ol {
   list-style: disc;
   padding-left: 1.25rem;
   margin-bottom: 1rem;
+}
+
+.prose-gb ol {
+  list-style: decimal;
+}
+
+.prose-gb li {
+  margin-bottom: 0.35rem;
 }
 
 .prose-gb a {
   color: var(--sea);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+.prose-gb .blog-inline-img,
+.prose-gb img {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 1.25rem 0;
 }
 
 @keyframes fade-up {

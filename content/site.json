@@ -1,7 +1,6 @@
 {
-  "logo": "https://static.wixstatic.com/media/9ef45b_568ffc780cbe499eb93bd3833dc4e25d~mv2.png/v1/fill/w_512,h_512,al_c,q_85,enc_auto/logo_no_background.png",
-  "heroImage": "https://static.wixstatic.com/media/9ef45b_48c7455b7e0d45ae86f7d43773335e0e~mv2.jpg/v1/fill/w_2400,h_1600,fp_0.50_0.68,q_90,enc_auto/IMG_5374_FB_full_no_crop_1920.jpg",
+  "logo": "/images/brand/logo.png",
+  "heroImage": "/images/brand/hero.jpg",
   "heroAlt": "Panoramic view over Abel Tasman National Park in Golden Bay, New Zealand",
-  "ogImage": "https://static.wixstatic.com/media/9ef45b_4fc4ee87a7e848f39e4fecee05b0ceff~mv2.jpg/v1/fit/w_2500,h_1330,al_c/9ef45b_4fc4ee87a7e848f39e4fecee05b0ceff~mv2.jpg",
-  "note": "Temporary Wix media URLs until final brand assets / Guesty imagery replace them."
+  "ogImage": "/images/brand/og.jpg"
 }

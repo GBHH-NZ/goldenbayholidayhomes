@@ -4,6 +4,8 @@ import { getSiteMedia } from "@/lib/content";
 import { assetPath, CONTACT } from "@/lib/env";
 
 const OPS_LOGIN = `${assetPath("/ops/")}#/login`;
+const EMERGENCY_INFO =
+  "https://www.nelsontasmancivildefence.co.nz/regions/golden-bay/";
 
 const guestLinks = [
   { href: "/homes", label: "Homes" },
@@ -35,9 +37,7 @@ function BrandMark({
         ? { w: 72, h: 72, className: "h-14 w-14" }
         : { w: 48, h: 48, className: "h-10 w-10 md:h-11 md:w-11" };
   const labelClass =
-    variant === "light"
-      ? "text-white drop-shadow"
-      : "text-sea-deep";
+    variant === "light" ? "text-white drop-shadow" : "text-sea-deep";
 
   return (
     <span className="inline-flex items-center gap-2.5 md:gap-3">
@@ -60,6 +60,59 @@ function BrandMark({
   );
 }
 
+function GuestNav({ tone }: { tone: "light" | "dark" }) {
+  const linkClass =
+    tone === "light"
+      ? "transition hover:text-white"
+      : "transition hover:text-sea";
+  const listClass =
+    tone === "light"
+      ? "rounded-sm bg-white/15 px-3 py-1.5 backdrop-blur transition hover:bg-white/25"
+      : "rounded-sm bg-sea px-3 py-1.5 text-white transition hover:bg-sea-deep";
+  const bookClass =
+    tone === "light"
+      ? "rounded-sm border border-white/70 bg-white/20 px-3 py-1.5 font-semibold backdrop-blur transition hover:bg-white/30"
+      : "rounded-sm border border-sea bg-sea-deep px-3 py-1.5 font-semibold text-white transition hover:bg-sea";
+  const ownerClass =
+    tone === "light"
+      ? "rounded-sm border border-white/50 px-3 py-1.5 transition hover:bg-white/15"
+      : "rounded-sm border border-sea/40 px-3 py-1.5 text-sea-deep transition hover:bg-sea/10";
+
+  return (
+    <nav
+      aria-label="Primary"
+      className={`hidden items-center gap-5 text-sm font-medium lg:flex ${
+        tone === "light" ? "text-white/95" : "text-sea-deep/80"
+      }`}
+    >
+      {guestLinks.map((l) => (
+        <Link key={l.href} href={l.href} className={linkClass}>
+          {l.label}
+        </Link>
+      ))}
+      <a
+        href={CONTACT.guestyBookings}
+        className={bookClass}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Book Now
+      </a>
+      <Link href="/list-your-home" className={listClass}>
+        List Your Home
+      </Link>
+      <a
+        href={CONTACT.guestyOwners}
+        className={ownerClass}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Owner Login
+      </a>
+    </nav>
+  );
+}
+
 export function Header() {
   return (
     <header className="absolute inset-x-0 top-0 z-40">
@@ -67,32 +120,7 @@ export function Header() {
         <Link href="/" className="shrink-0">
           <BrandMark variant="light" size="nav" />
         </Link>
-        <nav
-          aria-label="Primary"
-          className="hidden items-center gap-5 text-sm font-medium text-white/95 lg:flex"
-        >
-          {guestLinks.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="transition hover:text-white"
-            >
-              {l.label}
-            </Link>
-          ))}
-          <Link
-            href="/list-your-home"
-            className="rounded-sm bg-white/15 px-3 py-1.5 backdrop-blur transition hover:bg-white/25"
-          >
-            List Your Home
-          </Link>
-          <a
-            href={OPS_LOGIN}
-            className="rounded-sm border border-white/50 px-3 py-1.5 transition hover:bg-white/15"
-          >
-            Staff login
-          </a>
-        </nav>
+        <GuestNav tone="light" />
         <a
           href={`tel:${CONTACT.phoneFree.replace(/\s/g, "")}`}
           className="text-sm text-white/90 lg:hidden"
@@ -109,8 +137,21 @@ export function Header() {
             {l.label}
           </Link>
         ))}
-        <a href={OPS_LOGIN} className="whitespace-nowrap font-semibold">
-          Staff login
+        <a
+          href={CONTACT.guestyBookings}
+          className="whitespace-nowrap font-semibold"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Book Now
+        </a>
+        <a
+          href={CONTACT.guestyOwners}
+          className="whitespace-nowrap"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Owner Login
         </a>
       </nav>
     </header>
@@ -124,32 +165,7 @@ export function SiteHeader() {
         <Link href="/" className="shrink-0">
           <BrandMark variant="dark" size="nav" />
         </Link>
-        <nav
-          aria-label="Primary"
-          className="hidden items-center gap-5 text-sm font-medium text-sea-deep/80 lg:flex"
-        >
-          {guestLinks.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="transition hover:text-sea"
-            >
-              {l.label}
-            </Link>
-          ))}
-          <Link
-            href="/list-your-home"
-            className="rounded-sm bg-sea px-3 py-1.5 text-white transition hover:bg-sea-deep"
-          >
-            List Your Home
-          </Link>
-          <a
-            href={OPS_LOGIN}
-            className="rounded-sm border border-sea/40 px-3 py-1.5 text-sea-deep transition hover:bg-sea/10"
-          >
-            Staff login
-          </a>
-        </nav>
+        <GuestNav tone="dark" />
       </div>
     </header>
   );
@@ -166,12 +182,32 @@ export function Footer() {
           <p className="mt-3 max-w-xs text-sm text-foam/75">
             Handpicked homes. Hotel comfort. Heartfelt hospitality.
           </p>
+          <p className="mt-4 text-sm">
+            <a
+              href={CONTACT.facebook}
+              className="hover:text-white"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Facebook
+            </a>
+          </p>
         </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-foam/60">
-            Explore
+            Guest information
           </p>
           <ul className="mt-3 space-y-2 text-sm">
+            <li>
+              <a
+                href={EMERGENCY_INFO}
+                className="hover:text-white"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Emergency Information
+              </a>
+            </li>
             {guestLinks.map((l) => (
               <li key={l.href}>
                 <Link href={l.href} className="hover:text-white">
@@ -179,6 +215,16 @@ export function Footer() {
                 </Link>
               </li>
             ))}
+            <li>
+              <a
+                href={CONTACT.guestyBookings}
+                className="hover:text-white"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Book Now
+              </a>
+            </li>
           </ul>
         </div>
         <div>
