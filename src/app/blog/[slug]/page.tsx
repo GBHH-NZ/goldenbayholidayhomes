@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/Header";
 import { getAllBlogPosts, getBlogPost } from "@/lib/content";
+import { buildPageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -13,13 +14,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = getBlogPost(slug);
   if (!post) return { title: "Post not found" };
-  return {
+  return buildPageMetadata({
     title: post.title,
     description: post.description,
-    openGraph: {
-      images: post.image ? [{ url: post.image }] : undefined,
-    },
-  };
+    path: `/blog/${post.slug}`,
+    images: post.image ? [{ url: post.image }] : undefined,
+  });
 }
 
 export default async function BlogPostPage({ params }: Props) {

@@ -4,12 +4,14 @@ import Image from "next/image";
 import { SiteHeader } from "@/components/Header";
 import { getAllBlogPosts } from "@/lib/content";
 import { assetPath } from "@/lib/env";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Blog",
   description:
     "Travel tips for Golden Bay — beaches, walks, dog-friendly stays, and why booking direct helps.",
-};
+  path: "/blog",
+});
 
 export default function BlogIndexPage() {
   const posts = getAllBlogPosts();

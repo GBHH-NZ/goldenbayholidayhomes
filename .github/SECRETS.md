@@ -17,9 +17,20 @@ Do **not** put Guesty credentials in the repo, `.env` commits, or `NEXT_PUBLIC_*
 
 | Name | Required | Default / example | Description |
 |------|----------|-------------------|-------------|
-| `NEXT_PUBLIC_SITE_URL` | Recommended | `https://www.goldenbayholidayhomes.nz` | Canonical site URL for metadata, sitemap, OG |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | `https://www.goldenbayholidayhomes.nz` | Canonical site URL for metadata, sitemap, OG (deploy default) |
 | `GUESTY_API_BASE` | Optional | `https://booking-api.guesty.com` | Guesty Booking Engine API base |
-| `BASE_PATH` | Only for project Pages | e.g. `/goldenbayholidayhomes` | Set if the site is served from `https://<user>.github.io/<repo>/` |
+| `BASE_PATH` | Leave unset for custom domain | e.g. `/goldenbayholidayhomes` | Only if serving from `https://<user>.github.io/<repo>/` |
+
+Deploy defaults to the custom domain with **no** base path. Leave `BASE_PATH` unset (or delete the variable if it was set for project Pages).
+
+## Custom domain (GitHub Pages)
+
+1. Repo **Settings → Pages → Custom domain** → `www.goldenbayholidayhomes.nz` → Enforce HTTPS
+2. DNS at your registrar (typical):
+   - `www` → CNAME → `<user>.github.io`
+   - Apex `@` → A records for GitHub Pages (or ALIAS/ANAME to `www` if supported)
+3. `public/CNAME` ships `www.goldenbayholidayhomes.nz` into the static export
+4. After go-live: Google Search Console → add/verify `https://www.goldenbayholidayhomes.nz` → submit `https://www.goldenbayholidayhomes.nz/sitemap.xml`
 
 ## How they map into the app
 

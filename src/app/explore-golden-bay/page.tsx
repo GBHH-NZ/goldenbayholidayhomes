@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/Header";
 import { ExploreClient } from "@/components/ExploreClient";
 import { getExplorePlaces } from "@/lib/content";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Explore Golden Bay",
   description:
     "Beaches, walks, cafés, and rainy-day ideas across Golden Bay and Tasman.",
-};
+  path: "/explore-golden-bay",
+});
 
 export default function ExplorePage() {
   const places = getExplorePlaces();

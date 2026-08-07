@@ -10,7 +10,7 @@ import {
   homeDescription,
   homePhotos,
 } from "@/lib/homes/types";
-import { vacationRentalJsonLd } from "@/lib/seo";
+import { buildPageMetadata, vacationRentalJsonLd } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -23,15 +23,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const home = getHomeBySlug(slug);
   if (!home) return { title: "Home not found" };
   const description = homeDescription(home).slice(0, 160);
-  return {
+  const photo = homePhotos(home)[0];
+  return buildPageMetadata({
     title: home.title,
     description,
-    openGraph: {
-      images: homePhotos(home)[0]
-        ? [{ url: homePhotos(home)[0] }]
-        : undefined,
-    },
-  };
+    path: `/homes/${home.slug}`,
+    images: photo ? [{ url: photo }] : undefined,
+  });
 }
 
 export default async function HomeDetailPage({ params }: Props) {

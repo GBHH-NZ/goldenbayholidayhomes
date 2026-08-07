@@ -51,6 +51,8 @@ Workflows already wired:
 
 After pushing the repo: **Settings → Pages → Source = GitHub Actions**.
 
+For the live domain: set Pages **Custom domain** to `www.goldenbayholidayhomes.nz` (see [.github/SECRETS.md](.github/SECRETS.md)). Leave `BASE_PATH` unset. Deploy builds SEO (`robots.txt`, `sitemap.xml`, canonicals, OG) against `https://www.goldenbayholidayhomes.nz` by default.
+
 ## Guesty catalogue sync (when keys arrive)
 
 1. Add `GUESTY_CLIENT_ID` and `GUESTY_CLIENT_SECRET` as repository secrets

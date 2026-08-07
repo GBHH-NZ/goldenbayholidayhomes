@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/Header";
 import { PropertyGrid } from "@/components/PropertyCard";
 import { getAllHomes } from "@/lib/homes";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Holiday Homes",
   description:
     "Browse hand-picked Golden Bay holiday homes — filter by location, pets, and capacity.",
-};
+  path: "/homes",
+});
 
 export default function HomesPage() {
   const homes = getAllHomes();

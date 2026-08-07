@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/Header";
 import { getPageContent } from "@/lib/content";
 import { CONTACT } from "@/lib/env";
+import { buildPageMetadata } from "@/lib/seo";
 
 type PageJson = {
   title: string;
@@ -22,10 +23,11 @@ type PageJson = {
 
 function pageMeta(slug: string): Metadata {
   const page = getPageContent<PageJson>(slug);
-  return {
+  return buildPageMetadata({
     title: page.seoTitle ?? page.title,
     description: page.seoDescription,
-  };
+    path: `/${slug}`,
+  });
 }
 
 function StaticPage({
