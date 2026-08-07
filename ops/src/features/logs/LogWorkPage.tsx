@@ -4,9 +4,10 @@ import { Alert, Button, Form, Spinner } from 'react-bootstrap';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { mutate, newId, tenantPath } from '@/services/mutations';
-import { estimateTaskMinutes } from '@/data/taskRules';
+import { estimateTaskMinutes, formatDuration } from '@/data/taskRules';
 import type { WorkLog } from '@/types';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { COPY } from '@/data/copy';
 
 export default function LogWorkPage() {
   const { data, isLoading, setData } = useTenantData();
@@ -72,7 +73,7 @@ export default function LogWorkPage() {
   return (
     <div>
       <Link to="/logs" className="small text-muted">
-        ← Work logs
+        ← {COPY.activity}
       </Link>
       <PageHeader
         title="Confirm work done"
@@ -108,7 +109,7 @@ export default function LogWorkPage() {
                 key={t.id}
                 type="checkbox"
                 className="mb-1"
-                label={`${t.name} (~${est} min)`}
+                label={`${t.name} (~${formatDuration(est)})`}
                 checked={selectedTasks.includes(t.id)}
                 onChange={() => toggleTask(t.id)}
               />

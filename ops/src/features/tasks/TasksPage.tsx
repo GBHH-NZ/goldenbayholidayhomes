@@ -4,8 +4,9 @@ import { useAuth } from '@/contexts/AuthContext';
 import { usePermissions } from '@/hooks/usePermissions';
 import { mutate, newId, tenantPath } from '@/services/mutations';
 import type { TaskTemplate } from '@/types';
-import { estimateTaskMinutes } from '@/data/taskRules';
+import { estimateTaskMinutes, formatDuration } from '@/data/taskRules';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { COPY } from '@/data/copy';
 import { useState, type FormEvent } from 'react';
 
 const blank = (): TaskTemplate => ({
@@ -86,8 +87,8 @@ export default function TasksPage() {
   return (
     <div>
       <PageHeader
-        title="Task library"
-        subtitle="Base minutes scale with property beds, baths, pets, and amenities."
+        title={COPY.taskList}
+        subtitle="Base times scale with beds, baths, pets, and amenities."
         actions={
           <Button size="sm" onClick={openNew}>
             Add task
@@ -114,11 +115,11 @@ export default function TasksPage() {
                   {t.description && <div className="small text-muted">{t.description}</div>}
                 </td>
                 <td>{t.category}</td>
-                <td>{t.baseMinutes ?? '—'}</td>
+                <td>{t.baseMinutes != null ? formatDuration(t.baseMinutes) : '—'}</td>
                 <td>
                   {sampleProp ? (
                     <Badge bg="light" text="dark">
-                      {estimateTaskMinutes(t, sampleProp)} min @ {sampleProp.name}
+                      {formatDuration(estimateTaskMinutes(t, sampleProp))} @ {sampleProp.name}
                     </Badge>
                   ) : (
                     '—'

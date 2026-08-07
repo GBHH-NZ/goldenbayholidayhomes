@@ -1,12 +1,12 @@
 import { useMemo, useState } from 'react';
-import { Alert, Spinner } from 'react-bootstrap';
+import { Alert, Col, Row, Spinner } from 'react-bootstrap';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { TaskRow } from '@/components/ui/TaskRow';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { StatCard } from '@/components/ui/StatCard';
-import { Col, Row } from 'react-bootstrap';
+import { CompleteTaskModal, type CompleteTaskResult } from '@/components/ui/CompleteTaskModal';
 import {
   completeScheduledTask,
   isTaskOpen,
@@ -14,14 +14,17 @@ import {
   todayIso,
 } from '@/services/taskCompletion';
 import type { ScheduledTask } from '@/types';
+import { COPY } from '@/data/copy';
 
 export default function MyDayPage() {
   const { user } = useAuth();
   const { data, isLoading, setData } = useTenantData();
-  const [busyId, setBusyId] = useState<string | null>(null);
+  const [pending, setPending] = useState<ScheduledTask | null>(null);
+  const [busy, setBusy] = useState(false);
 
-  const propName = (id: string) => data.properties.find((p) => p.id === id)?.name ?? id;
   const today = todayIso();
+
+  const propOf = (id: string) => data.properties.find((p) => p.id === id);
 
   const mine = useMemo(() => {
     if (!user) return [];
@@ -32,9 +35,13 @@ export default function MyDayPage() {
         const ao = isTaskOverdue(a) ? 0 : 1;
         const bo = isTaskOverdue(b) ? 0 : 1;
         if (ao !== bo) return ao - bo;
+        const townA = propOf(a.propertyId)?.town || '';
+        const townB = propOf(b.propertyId)?.town || '';
+        if (townA !== townB) return townA.localeCompare(townB);
         return a.scheduledDate.localeCompare(b.scheduledDate) || (a.taskName || '').localeCompare(b.taskName || '');
       });
-  }, [data.scheduledTasks, user, today]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.scheduledTasks, data.properties, user, today]);
 
   const doneToday = useMemo(() => {
     if (!user) return [];
@@ -46,19 +53,23 @@ export default function MyDayPage() {
     );
   }, [data.scheduledTasks, user, today]);
 
-  async function onComplete(task: ScheduledTask) {
-    if (!user) return;
-    setBusyId(task.id);
+  async function onConfirm(result: CompleteTaskResult) {
+    if (!user || !pending) return;
+    setBusy(true);
     try {
       await completeScheduledTask({
         tenantId: user.tenantId,
         username: user.username,
-        task,
+        task: pending,
         templates: data.taskTemplates,
         setData,
+        notes: result.notes,
+        flag: result.flag,
+        photoDataUrl: result.photoDataUrl,
       });
+      setPending(null);
     } finally {
-      setBusyId(null);
+      setBusy(false);
     }
   }
 
@@ -73,10 +84,10 @@ export default function MyDayPage() {
   const overdueCount = mine.filter(isTaskOverdue).length;
 
   return (
-    <div>
+    <div className="staff-surface">
       <PageHeader
-        title="My day"
-        subtitle={`Hi ${user?.username} — confirm each task when it’s done. Managers see completions live.`}
+        title={COPY.myDay}
+        subtitle={`Kia ora ${user?.username} — mark each job done when you finish.`}
       />
 
       <Row className="g-3 mb-4">
@@ -93,43 +104,64 @@ export default function MyDayPage() {
 
       {overdueCount > 0 && (
         <Alert variant="warning" className="border-0">
-          You have {overdueCount} overdue task{overdueCount === 1 ? '' : 's'}. Complete those first when you can.
+          {overdueCount} overdue — do these first when you can.
         </Alert>
       )}
 
       <div className="ops-card overflow-hidden mb-4">
         <div className="px-3 py-2 border-bottom fw-semibold" style={{ background: 'var(--foam)' }}>
-          To do
+          To do · by town
         </div>
         {mine.length === 0 ? (
           <EmptyState
             icon="bi-check2-circle"
             title="All clear for now"
-            detail="No open tasks assigned to you through today."
+            detail="No open jobs assigned to you through today."
           />
         ) : (
-          mine.map((t) => (
-            <TaskRow
-              key={t.id}
-              task={t}
-              propertyName={propName(t.propertyId)}
-              onComplete={onComplete}
-              completing={busyId === t.id}
-            />
-          ))
+          mine.map((t) => {
+            const prop = propOf(t.propertyId);
+            return (
+              <TaskRow
+                key={t.id}
+                task={t}
+                propertyName={prop?.name ?? t.propertyId}
+                town={prop?.town}
+                staffMode
+                onComplete={(task) => setPending(task)}
+                completing={busy && pending?.id === t.id}
+              />
+            );
+          })
         )}
       </div>
 
       {doneToday.length > 0 && (
         <div className="ops-card overflow-hidden">
           <div className="px-3 py-2 border-bottom fw-semibold" style={{ background: 'var(--foam)' }}>
-            Completed today
+            Done today
           </div>
-          {doneToday.map((t) => (
-            <TaskRow key={t.id} task={t} propertyName={propName(t.propertyId)} />
-          ))}
+          {doneToday.map((t) => {
+            const prop = propOf(t.propertyId);
+            return (
+              <TaskRow
+                key={t.id}
+                task={t}
+                propertyName={prop?.name ?? t.propertyId}
+                town={prop?.town}
+              />
+            );
+          })}
         </div>
       )}
+
+      <CompleteTaskModal
+        task={pending}
+        propertyName={pending ? propOf(pending.propertyId)?.name : undefined}
+        busy={busy}
+        onHide={() => setPending(null)}
+        onConfirm={(r) => void onConfirm(r)}
+      />
     </div>
   );
 }

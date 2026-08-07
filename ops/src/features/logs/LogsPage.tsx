@@ -7,6 +7,9 @@ import { usePermissions } from '@/hooks/usePermissions';
 import { mutate, tenantPath } from '@/services/mutations';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { StatusBadge } from '@/components/ui/StatusBadge';
+import { formatDuration } from '@/data/taskRules';
+import { COPY } from '@/data/copy';
+import { staffLabel } from '@/services/permissions';
 
 export default function LogsPage() {
   const { data, isLoading, setData } = useTenantData();
@@ -47,11 +50,11 @@ export default function LogsPage() {
   return (
     <div>
       <PageHeader
-        title="Work logs"
+        title={COPY.activity}
         subtitle="Confirmed activity from My day and manual logs."
         actions={
           <Link to="/logs/new" className="btn btn-primary btn-sm">
-            Log work
+            {COPY.logWork}
           </Link>
         }
       />
@@ -76,31 +79,43 @@ export default function LogsPage() {
             </tr>
           </thead>
           <tbody>
-            {rows.map((l) => (
-              <tr key={l.id}>
-                <td>{l.date}</td>
-                <td>
-                  {l.taskName}
-                  {l.notes && <div className="small text-muted">{l.notes}</div>}
-                </td>
-                <td>{propName(l.propertyId)}</td>
-                <td>{l.loggedBy}</td>
-                <td>
-                  {l.actualMinutes ?? '—'}
-                  {l.estimatedMinutes != null && (
-                    <span className="text-muted small"> / {l.estimatedMinutes} est</span>
-                  )}
-                </td>
-                <td>{l.flag ? <StatusBadge status={l.flag} /> : '—'}</td>
-                <td className="text-end">
-                  {canDelete() && (
-                    <Button size="sm" variant="outline-danger" onClick={() => void softDelete(l.id)}>
-                      Delete
-                    </Button>
-                  )}
-                </td>
-              </tr>
-            ))}
+            {rows.map((l) => {
+              const emp = data.employees.find(
+                (e) => e.username?.toLowerCase() === l.loggedBy?.toLowerCase()
+              );
+              return (
+                <tr key={l.id}>
+                  <td>{l.date}</td>
+                  <td>
+                    <div className="d-flex gap-2 align-items-start">
+                      {l.photoDataUrl && (
+                        <img src={l.photoDataUrl} alt="" className="completion-thumb flex-shrink-0" />
+                      )}
+                      <div>
+                        {l.taskName}
+                        {l.notes && <div className="small text-muted">{l.notes}</div>}
+                      </div>
+                    </div>
+                  </td>
+                  <td>{propName(l.propertyId)}</td>
+                  <td>{staffLabel(emp?.displayName, emp?.jobType, l.loggedBy)}</td>
+                  <td>
+                    {l.actualMinutes != null ? formatDuration(l.actualMinutes) : '—'}
+                    {l.estimatedMinutes != null && (
+                      <span className="text-muted small"> / {formatDuration(l.estimatedMinutes)} est</span>
+                    )}
+                  </td>
+                  <td>{l.flag ? <StatusBadge status={l.flag} /> : '—'}</td>
+                  <td className="text-end">
+                    {canDelete() && (
+                      <Button size="sm" variant="outline-danger" onClick={() => void softDelete(l.id)}>
+                        Delete
+                      </Button>
+                    )}
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </Table>
       </div>

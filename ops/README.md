@@ -19,12 +19,12 @@ Staff login URL: [http://localhost:5173/ops/#/login](http://localhost:5173/ops/#
 
 > **Note:** Routing uses hash URLs (`#/login`, `#/dashboard`, …) so deep links work on GitHub Pages (no server-side SPA fallback).
 
-| Username | Password | Role |
-|----------|----------|------|
-| `test` | `test` | Admin |
-| `sarah` | `sarah` | Staff |
-| `mike` | `mike` | Staff |
-| `ana` | `ana` | Staff |
+| Username | Password | Role / job |
+|----------|----------|------------|
+| `test` | `test` | Manager |
+| `sarah` | `sarah` | Staff · Cleaner |
+| `mike` | `mike` | Staff · Maintenance |
+| `ana` | `ana` | Staff · Cleaner |
 
 Seed data includes Golden Bay–style properties, schedules, work logs, task templates (with ETA rules), team, and checklists.
 
@@ -53,6 +53,18 @@ Offline writes go through IndexedDB optimistic cache + a pending queue (`syncMan
 5. Add 2FA and Apps Script (`VITE_APPS_SCRIPT_URL`) when ready.
 
 Do **not** commit Firebase secrets.
+
+## Staged backlog
+
+Visible as **Coming soon** on the manager Overview (not built yet). Each item needs secrets / external services before wiring.
+
+| Feature | Intention | Dependencies |
+|---------|-----------|--------------|
+| **Booking turnovers** | Auto-create schedules from Guesty check-out / check-in windows | Guesty API credentials; property ID mapping; Firebase Auth + RTDB (or mock→live adapter) |
+| **Reminders** | Email / SMS / push for overdue & due-today | Apps Script web app URL (`VITE_APPS_SCRIPT_URL`); contact fields on employees; optional FCM later |
+| **Calendars** | Sync staff + property calendars | Google Calendar OAuth or Apps Script; per-staff calendar IDs; property calendar mapping |
+
+Until then, managers assign turnovers manually on Schedule, and staff complete on **My day** with optional note / flag / mock photo.
 
 ## Scripts
 

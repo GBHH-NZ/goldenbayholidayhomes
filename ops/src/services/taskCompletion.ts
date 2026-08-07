@@ -11,11 +11,13 @@ export interface CompleteTaskOptions {
   notes?: string;
   flag?: string;
   actualMinutes?: number;
+  photoDataUrl?: string;
 }
 
 /** Mark a scheduled task complete and append a work log (visible on manager dashboard). */
 export async function completeScheduledTask(opts: CompleteTaskOptions): Promise<void> {
-  const { tenantId, username, task, templates, setData, notes, flag, actualMinutes } = opts;
+  const { tenantId, username, task, templates, setData, notes, flag, actualMinutes, photoDataUrl } =
+    opts;
   const now = new Date().toISOString();
 
   const updated: ScheduledTask = {
@@ -25,6 +27,7 @@ export async function completeScheduledTask(opts: CompleteTaskOptions): Promise<
     completedAt: now,
     completedBy: username,
     notes: notes ?? task.notes,
+    completionPhotoUrl: photoDataUrl,
   };
 
   await mutate(tenantPath(tenantId, 'scheduledTasks', task.id), updated, 'complete_sched', 'set', () => {
@@ -49,6 +52,7 @@ export async function completeScheduledTask(opts: CompleteTaskOptions): Promise<
     notes: notes ?? task.notes,
     flag: flag || undefined,
     createdAt: now,
+    photoDataUrl,
   };
 
   await mutate(tenantPath(tenantId, 'workLogs', logId), log, 'log_from_sched', 'set', () => {

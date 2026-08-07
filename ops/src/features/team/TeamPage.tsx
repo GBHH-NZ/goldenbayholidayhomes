@@ -3,8 +3,9 @@ import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePermissions } from '@/hooks/usePermissions';
 import { mutate, newId, tenantPath } from '@/services/mutations';
-import type { Employee, UserRole } from '@/types';
+import type { Employee, JobType, UserRole } from '@/types';
 import { getRoleDisplayName } from '@/services/permissions';
+import { JOB_TYPE_LABELS, jobTypeLabel, COPY } from '@/data/copy';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { useState, type FormEvent } from 'react';
 
@@ -20,6 +21,7 @@ export default function TeamPage() {
     phone: '',
     skills: '',
     role: 'employee' as UserRole,
+    jobType: 'cleaner' as JobType,
     tempPassword: '',
   });
 
@@ -47,6 +49,7 @@ export default function TeamPage() {
       phone: form.phone,
       skills: form.skills,
       role: form.role,
+      jobType: form.jobType,
       tenantId: user.tenantId,
       active: true,
       tempPassword: form.tempPassword || form.username,
@@ -56,6 +59,19 @@ export default function TeamPage() {
       setData((d) => ({ ...d, employees: [...d.employees, next] }));
     });
     setShow(false);
+  }
+
+  async function updateJobType(id: string, jobType: JobType) {
+    if (!user) return;
+    const emp = data.employees.find((e) => e.id === id);
+    if (!emp) return;
+    const next = { ...emp, jobType };
+    await mutate(tenantPath(user.tenantId, 'employees', id), next, 'update_employee_job', 'set', () => {
+      setData((d) => ({
+        ...d,
+        employees: d.employees.map((e) => (e.id === id ? next : e)),
+      }));
+    });
   }
 
   async function deactivate(id: string) {
@@ -74,7 +90,7 @@ export default function TeamPage() {
   return (
     <div>
       <PageHeader
-        title="Team"
+        title={COPY.team}
         subtitle="Staff accounts for My day assignments and completions."
         actions={
           <Button size="sm" onClick={() => setShow(true)}>
@@ -88,7 +104,8 @@ export default function TeamPage() {
             <tr>
               <th>Name</th>
               <th>Username</th>
-              <th>Role</th>
+              <th>Job</th>
+              <th>Access</th>
               <th>Contact</th>
               <th>Status</th>
               <th />
@@ -102,7 +119,25 @@ export default function TeamPage() {
                   {e.skills && <div className="small text-muted">{e.skills}</div>}
                 </td>
                 <td>{e.username}</td>
-                <td>{getRoleDisplayName(e.role || 'employee')}</td>
+                <td>
+                  <Form.Select
+                    size="sm"
+                    style={{ maxWidth: 140 }}
+                    value={e.jobType || 'other'}
+                    onChange={(ev) => void updateJobType(e.id, ev.target.value as JobType)}
+                  >
+                    {(Object.keys(JOB_TYPE_LABELS) as JobType[]).map((jt) => (
+                      <option key={jt} value={jt}>
+                        {jobTypeLabel(jt)}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </td>
+                <td>
+                  <Badge bg="light" text="dark">
+                    {getRoleDisplayName(e.role || 'employee')}
+                  </Badge>
+                </td>
                 <td className="small">
                   {e.email}
                   <br />
@@ -157,13 +192,26 @@ export default function TeamPage() {
               />
             </Form.Group>
             <Form.Group className="mb-2">
-              <Form.Label>Role</Form.Label>
+              <Form.Label>Job type</Form.Label>
+              <Form.Select
+                value={form.jobType}
+                onChange={(e) => setForm({ ...form, jobType: e.target.value as JobType })}
+              >
+                {(Object.keys(JOB_TYPE_LABELS) as JobType[]).map((jt) => (
+                  <option key={jt} value={jt}>
+                    {jobTypeLabel(jt)}
+                  </option>
+                ))}
+              </Form.Select>
+            </Form.Group>
+            <Form.Group className="mb-2">
+              <Form.Label>Access</Form.Label>
               <Form.Select
                 value={form.role}
                 onChange={(e) => setForm({ ...form, role: e.target.value as UserRole })}
               >
                 <option value="employee">Staff</option>
-                <option value="admin">Administrator</option>
+                <option value="admin">Manager</option>
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-2">

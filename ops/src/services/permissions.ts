@@ -33,12 +33,26 @@ export function isAdminRole(role: UserRole | undefined): boolean {
 
 export function getRoleDisplayName(role: UserRole): string {
   const names: Record<UserRole, string> = {
-    master_admin: 'Master Administrator',
-    admin: 'Administrator',
-    demo_admin: 'Demo Account',
+    master_admin: 'Manager',
+    admin: 'Manager',
+    demo_admin: 'Manager',
     employee: 'Staff',
   };
   return names[role] || role;
+}
+
+export function staffLabel(displayName?: string, jobType?: string, username?: string): string {
+  const name = displayName || username || 'Staff';
+  if (!jobType || jobType === 'other') return name;
+  const job =
+    jobType === 'cleaner'
+      ? 'Cleaner'
+      : jobType === 'maintenance'
+        ? 'Maintenance'
+        : jobType === 'manager'
+          ? 'Manager'
+          : jobType;
+  return `${name} · ${job}`;
 }
 
 export const APP_VERSION = '0.1.0';

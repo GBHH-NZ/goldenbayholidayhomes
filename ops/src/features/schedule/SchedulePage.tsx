@@ -8,17 +8,22 @@ import { Alert, Button, Form, Modal, Spinner } from 'react-bootstrap';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { mutate, newId, tenantPath } from '@/services/mutations';
-import type { ScheduledTask } from '@/types';
-import { estimateTaskMinutes } from '@/data/taskRules';
+import type { JobType, ScheduledTask } from '@/types';
+import { estimateTaskMinutes, formatDuration } from '@/data/taskRules';
 import { completeScheduledTask, isTaskOverdue } from '@/services/taskCompletion';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { StatusBadge } from '@/components/ui/StatusBadge';
-import { isAdminRole } from '@/services/permissions';
+import { CompleteTaskModal, type CompleteTaskResult } from '@/components/ui/CompleteTaskModal';
+import { isAdminRole, staffLabel } from '@/services/permissions';
+import { COPY, JOB_TYPE_LABELS, jobTypeLabel } from '@/data/copy';
+
+const JOB_ORDER: JobType[] = ['cleaner', 'maintenance', 'manager', 'other'];
 
 export default function SchedulePage() {
   const { data, isLoading, setData } = useTenantData();
   const { user } = useAuth();
   const [selected, setSelected] = useState<ScheduledTask | null>(null);
+  const [completing, setCompleting] = useState<ScheduledTask | null>(null);
   const [creating, setCreating] = useState<{ date: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const [form, setForm] = useState({
@@ -31,6 +36,14 @@ export default function SchedulePage() {
 
   const isManager = isAdminRole(user?.role) || user?.role === 'demo_admin';
   const propName = (id: string) => data.properties.find((p) => p.id === id)?.name ?? id;
+
+  const employeesByJob = useMemo(() => {
+    const active = data.employees.filter((e) => e.active !== false);
+    return JOB_ORDER.map((jt) => ({
+      jobType: jt,
+      people: active.filter((e) => (e.jobType || 'other') === jt),
+    })).filter((g) => g.people.length > 0);
+  }, [data.employees]);
 
   const events = useMemo(() => {
     const tasks = isManager
@@ -107,18 +120,27 @@ export default function SchedulePage() {
     setCreating(null);
   }
 
-  async function completeTask(task: ScheduledTask) {
-    if (!user) return;
+  function startComplete() {
+    if (!selected) return;
+    setCompleting(selected);
+    setSelected(null);
+  }
+
+  async function onConfirmComplete(result: CompleteTaskResult) {
+    if (!user || !completing) return;
     setBusy(true);
     try {
       await completeScheduledTask({
         tenantId: user.tenantId,
         username: user.username,
-        task,
+        task: completing,
         templates: data.taskTemplates,
         setData,
+        notes: result.notes,
+        flag: result.flag,
+        photoDataUrl: result.photoDataUrl,
       });
-      setSelected(null);
+      setCompleting(null);
     } finally {
       setBusy(false);
     }
@@ -131,14 +153,20 @@ export default function SchedulePage() {
       (isManager || t.assignedTo?.toLowerCase() === user?.username.toLowerCase())
   ).length;
 
+  const assigneeLabel = (username?: string) => {
+    if (!username) return '—';
+    const emp = data.employees.find((e) => e.username?.toLowerCase() === username.toLowerCase());
+    return staffLabel(emp?.displayName, emp?.jobType, username);
+  };
+
   return (
     <div>
       <PageHeader
-        title={isManager ? 'Schedule' : 'My schedule'}
+        title={isManager ? COPY.schedule : COPY.mySchedule}
         subtitle={
           isManager
-            ? 'Click a day to assign work · click an event to complete'
-            : 'Your assigned tasks — mark complete here or on My day'
+            ? 'Click a day to assign work · click an event to mark done'
+            : 'Your assigned tasks — mark done here or on My day'
         }
         actions={<StatusBadge status="pending" label={`${openCount} open`} />}
       />
@@ -172,7 +200,10 @@ export default function SchedulePage() {
             <p className="text-muted small">
               {propName(selected.propertyId)} · {selected.scheduledDate}
               <br />
-              Assigned: {selected.assignedTo || '—'} · Est. {selected.estimatedMinutes ?? '—'} min
+              Assigned: {assigneeLabel(selected.assignedTo)} · Est.{' '}
+              {selected.estimatedMinutes != null
+                ? formatDuration(selected.estimatedMinutes)
+                : '—'}
               <br />
               Status: {selected.status}
               {isTaskOverdue(selected) && (
@@ -182,9 +213,12 @@ export default function SchedulePage() {
               )}
             </p>
             {selected.notes && <Alert variant="light">{selected.notes}</Alert>}
+            {selected.completionPhotoUrl && (
+              <img src={selected.completionPhotoUrl} alt="" className="completion-thumb mb-2" />
+            )}
             {selected.completedBy && (
               <p className="small text-success mb-0">
-                Completed by {selected.completedBy}
+                Done by {assigneeLabel(selected.completedBy)}
                 {selected.completedAt ? ` · ${new Date(selected.completedAt).toLocaleString()}` : ''}
               </p>
             )}
@@ -195,12 +229,20 @@ export default function SchedulePage() {
             Close
           </Button>
           {selected && selected.status !== 'completed' && (
-            <Button variant="success" disabled={busy} onClick={() => void completeTask(selected)}>
-              {busy ? 'Saving…' : 'Mark complete & log'}
+            <Button variant="success" onClick={startComplete}>
+              {COPY.markDone}
             </Button>
           )}
         </Modal.Footer>
       </Modal>
+
+      <CompleteTaskModal
+        task={completing}
+        propertyName={completing ? propName(completing.propertyId) : undefined}
+        busy={busy}
+        onHide={() => setCompleting(null)}
+        onConfirm={(r) => void onConfirmComplete(r)}
+      />
 
       <Modal show={!!creating} onHide={() => setCreating(null)} centered>
         <Form onSubmit={createTask}>
@@ -219,7 +261,7 @@ export default function SchedulePage() {
                   .filter((p) => !p.archived)
                   .map((p) => (
                     <option key={p.id} value={p.id}>
-                      {p.name}
+                      {p.name} ({p.town})
                     </option>
                   ))}
               </Form.Select>
@@ -244,13 +286,15 @@ export default function SchedulePage() {
                 value={form.assignedTo}
                 onChange={(e) => setForm({ ...form, assignedTo: e.target.value })}
               >
-                {data.employees
-                  .filter((e) => e.active !== false)
-                  .map((e) => (
-                    <option key={e.id} value={e.username}>
-                      {e.displayName || e.username}
-                    </option>
-                  ))}
+                {employeesByJob.map((g) => (
+                  <optgroup key={g.jobType} label={JOB_TYPE_LABELS[g.jobType] ?? jobTypeLabel(g.jobType)}>
+                    {g.people.map((e) => (
+                      <option key={e.id} value={e.username}>
+                        {e.displayName || e.username}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
               </Form.Select>
             </Form.Group>
             <Form.Group className="mb-2">

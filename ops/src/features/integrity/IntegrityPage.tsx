@@ -2,6 +2,7 @@ import { Alert, Badge, Card, ListGroup, Spinner } from 'react-bootstrap';
 import { useMemo } from 'react';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { PageHeader } from '@/components/ui/PageHeader';
+import { COPY } from '@/data/copy';
 
 interface Issue {
   severity: 'error' | 'warning' | 'info';
@@ -79,7 +80,7 @@ export default function IntegrityPage() {
 
   return (
     <div>
-      <PageHeader title="Data integrity" subtitle="Client-side checks on tenant data quality." />
+      <PageHeader title={COPY.dataHealth} subtitle="Quick checks for missing links and odd records." />
       <div className="d-flex gap-2 mb-3">
         <Badge bg="danger">{errors} errors</Badge>
         <Badge bg="warning" text="dark">

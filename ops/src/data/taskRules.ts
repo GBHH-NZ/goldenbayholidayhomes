@@ -37,6 +37,16 @@ export function estimateTaskMinutes(template: TaskTemplate, property?: Property 
   return Math.round(minutes);
 }
 
+/** Human-readable duration, e.g. 45m · 1h 45m · 7h 38m */
+export function formatDuration(minutes: number | null | undefined): string {
+  if (minutes == null || Number.isNaN(minutes)) return '—';
+  const m = Math.max(0, Math.round(minutes));
+  if (m < 60) return `${m}m`;
+  const h = Math.floor(m / 60);
+  const rem = m % 60;
+  return rem === 0 ? `${h}h` : `${h}h ${rem}m`;
+}
+
 export function estimatePropertyTurnoverMinutes(
   templates: TaskTemplate[],
   property: Property

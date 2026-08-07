@@ -1,15 +1,37 @@
 import { useMemo } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import { Col, ListGroup, Row, Spinner } from 'react-bootstrap';
+import { Badge, Col, ListGroup, Row, Spinner } from 'react-bootstrap';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTenantData } from '@/contexts/TenantDataContext';
-import { isAdminRole } from '@/services/permissions';
+import { isAdminRole, staffLabel } from '@/services/permissions';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { StatCard } from '@/components/ui/StatCard';
 import { StatusBadge } from '@/components/ui/StatusBadge';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { isTaskOpen, isTaskOverdue, todayIso } from '@/services/taskCompletion';
-import { estimatePropertyTurnoverMinutes } from '@/data/taskRules';
+import { estimatePropertyTurnoverMinutes, formatDuration } from '@/data/taskRules';
+import { COPY } from '@/data/copy';
+
+const COMING_SOON = [
+  {
+    id: 'turnovers',
+    icon: 'bi-arrow-left-right',
+    title: 'Booking turnovers',
+    detail: 'Auto-create schedules from Guesty check-out / check-in.',
+  },
+  {
+    id: 'reminders',
+    icon: 'bi-bell',
+    title: 'Reminders',
+    detail: 'Email / SMS / push for overdue and due-today via Apps Script.',
+  },
+  {
+    id: 'calendars',
+    icon: 'bi-calendar3',
+    title: 'Calendars',
+    detail: 'Sync staff and property calendars (Google / Apps Script).',
+  },
+] as const;
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -42,6 +64,11 @@ export default function DashboardPage() {
   }
 
   const propName = (id: string) => data.properties.find((p) => p.id === id)?.name ?? id;
+  const empLabel = (username?: string) => {
+    if (!username) return 'Staff';
+    const emp = data.employees.find((e) => e.username?.toLowerCase() === username.toLowerCase());
+    return staffLabel(emp?.displayName, emp?.jobType, username);
+  };
   const activeProps = data.properties.filter((p) => !p.archived);
   const overdue = data.scheduledTasks.filter(isTaskOverdue);
   const pendingToday = data.scheduledTasks.filter(
@@ -51,15 +78,15 @@ export default function DashboardPage() {
   return (
     <div>
       <PageHeader
-        title="Operations overview"
-        subtitle="Live view of staff completions, overdue work, and property load."
+        title={COPY.overview}
+        subtitle="Who finished what, what’s overdue, and estimated turnover load."
         actions={
           <>
             <Link className="btn btn-outline-primary btn-sm" to="/schedule">
-              Schedule
+              {COPY.schedule}
             </Link>
             <Link className="btn btn-primary btn-sm" to="/logs/new">
-              Log work
+              {COPY.logWork}
             </Link>
           </>
         }
@@ -67,7 +94,7 @@ export default function DashboardPage() {
 
       <Row className="g-3 mb-4">
         <Col xs={6} md={3}>
-          <StatCard label="Properties" value={activeProps.length} to="/properties" />
+          <StatCard label={COPY.properties} value={activeProps.length} to="/properties" />
         </Col>
         <Col xs={6} md={3}>
           <StatCard label="Due today" value={pendingToday.length} to="/schedule" />
@@ -95,17 +122,33 @@ export default function DashboardPage() {
               <EmptyState
                 icon="bi-people"
                 title="No completions yet"
-                detail="When staff mark tasks complete on My day, they appear here."
+                detail="When staff mark jobs done on My day, they appear here."
               />
             ) : (
               <div className="px-3">
                 {completedToday.slice(0, 10).map((t) => (
                   <div key={t.id} className="feed-item">
                     <div className="d-flex justify-content-between gap-2 flex-wrap">
-                      <span>
-                        <strong>{t.completedBy || t.assignedTo || 'Staff'}</strong> completed{' '}
-                        <strong>{t.taskName}</strong> @ {propName(t.propertyId)}
-                      </span>
+                      <div className="d-flex gap-2 align-items-start">
+                        {t.completionPhotoUrl && (
+                          <img
+                            src={t.completionPhotoUrl}
+                            alt=""
+                            className="completion-thumb flex-shrink-0"
+                          />
+                        )}
+                        <div>
+                          <span>
+                            <strong>{empLabel(t.completedBy || t.assignedTo)}</strong> finished{' '}
+                            <strong>{t.taskName}</strong> @ {propName(t.propertyId)}
+                          </span>
+                          {t.notes && (
+                            <div className="small text-muted text-truncate" style={{ maxWidth: 360 }}>
+                              {t.notes}
+                            </div>
+                          )}
+                        </div>
+                      </div>
                       <span className="small text-muted text-nowrap">
                         {t.completedAt
                           ? new Date(t.completedAt).toLocaleTimeString([], {
@@ -135,7 +178,7 @@ export default function DashboardPage() {
                   <span>
                     <strong>{t.taskName}</strong>
                     <div className="small text-muted">
-                      {propName(t.propertyId)} · {t.assignedTo || 'Unassigned'}
+                      {propName(t.propertyId)} · {empLabel(t.assignedTo) || 'Unassigned'}
                     </div>
                   </span>
                   <StatusBadge status="overdue" label={t.scheduledDate} />
@@ -149,9 +192,9 @@ export default function DashboardPage() {
         </Col>
       </Row>
 
-      <div className="ops-card">
+      <div className="ops-card mb-4">
         <div className="px-3 py-2 border-bottom fw-semibold" style={{ background: 'var(--foam)' }}>
-          Est. turnover minutes (common tasks × property profile)
+          Est. turnover time (common tasks × house profile)
         </div>
         <div className="table-responsive">
           <table className="table mb-0 align-middle">
@@ -161,7 +204,7 @@ export default function DashboardPage() {
                 <th>Town</th>
                 <th>Beds / baths</th>
                 <th>Tier</th>
-                <th>Est. minutes</th>
+                <th>Est. time</th>
               </tr>
             </thead>
             <tbody>
@@ -177,12 +220,32 @@ export default function DashboardPage() {
                   <td>
                     <span className="property-chip">{p.cleaningTier}</span>
                   </td>
-                  <td>{estimatePropertyTurnoverMinutes(data.taskTemplates, p)}</td>
+                  <td>{formatDuration(estimatePropertyTurnoverMinutes(data.taskTemplates, p))}</td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
+      </div>
+
+      <div id="coming-soon" className="ops-card">
+        <div className="px-3 py-2 border-bottom fw-semibold" style={{ background: 'var(--foam)' }}>
+          {COPY.integrations}
+        </div>
+        <Row className="g-3 p-3">
+          {COMING_SOON.map((item) => (
+            <Col md={4} key={item.id}>
+              <div className="coming-soon-card ops-card h-100 p-3 border">
+                <div className="d-flex justify-content-between align-items-start mb-2">
+                  <i className={`bi ${item.icon} text-primary fs-4`} />
+                  <Badge className="badge-soon border-0">Soon</Badge>
+                </div>
+                <div className="fw-semibold mb-1">{item.title}</div>
+                <p className="small text-muted mb-0">{item.detail}</p>
+              </div>
+            </Col>
+          ))}
+        </Row>
       </div>
     </div>
   );

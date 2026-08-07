@@ -106,7 +106,7 @@ export default function ReportsPage() {
         <Col xs={12}>
           <Card className="ops-card border-0">
             <Card.Header className="border-0 fw-semibold" style={{ background: 'var(--foam)' }}>
-              Work logs per day (recent)
+              Activity per day (recent)
             </Card.Header>
             <Card.Body style={{ height: 260 }}>
               <ResponsiveContainer width="100%" height="100%">

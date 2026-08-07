@@ -150,6 +150,48 @@ h1, h2, h3, h4, h5, .font-display, .navbar-brand {
   background: #fff;
 }
 
+.staff-surface .task-row {
+  padding: 1.15rem 1.25rem;
+  align-items: center;
+  gap: 1.15rem;
+}
+
+.staff-surface .task-row .btn-mark-done {
+  min-height: 44px;
+  min-width: 7.5rem;
+  font-weight: 600;
+  padding-left: 1.1rem;
+  padding-right: 1.1rem;
+}
+
+.property-thumb {
+  height: 88px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background:
+    linear-gradient(145deg, color-mix(in oklab, var(--sea) 35%, white), color-mix(in oklab, var(--sunset) 25%, var(--foam)));
+}
+
+.completion-thumb {
+  width: 48px;
+  height: 48px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--drift);
+}
+
+.coming-soon-card {
+  opacity: 0.85;
+  pointer-events: none;
+  user-select: none;
+}
+
+.coming-soon-card .badge-soon {
+  background: var(--foam);
+  color: var(--sea-deep);
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
 .task-row:last-child {
   border-bottom: none;
 }

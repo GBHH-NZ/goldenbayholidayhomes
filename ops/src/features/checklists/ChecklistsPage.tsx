@@ -43,8 +43,8 @@ export default function ChecklistsPage() {
   return (
     <div>
       <PageHeader
-        title="Ops checklists"
-        subtitle="Turnover, safety, and inventory reminders stored in tenant data."
+        title="Checklists"
+        subtitle="Turnover, safety, and inventory reminders for each visit."
       />
       <div className="row g-3">
         {Object.entries(byCategory).map(([category, items]) => (

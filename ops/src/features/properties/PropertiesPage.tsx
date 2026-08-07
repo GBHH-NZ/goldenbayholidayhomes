@@ -1,13 +1,21 @@
 import { Link } from 'react-router-dom';
 import { Button, Card, Form, Spinner } from 'react-bootstrap';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, type CSSProperties } from 'react';
 import { useTenantData } from '@/contexts/TenantDataContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePermissions } from '@/hooks/usePermissions';
 import { mutate, tenantPath } from '@/services/mutations';
-import { estimatePropertyTurnoverMinutes } from '@/data/taskRules';
+import { estimatePropertyTurnoverMinutes, formatDuration } from '@/data/taskRules';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { StatusBadge } from '@/components/ui/StatusBadge';
+import { COPY } from '@/data/copy';
+
+function propertyThumbStyle(lat?: number, lng?: number): CSSProperties {
+  const h = Math.abs(Math.round(((lat ?? -40.8) * 47 + (lng ?? 172.8) * 83) % 360));
+  return {
+    background: `linear-gradient(145deg, hsl(${h} 38% 58%), hsl(${(h + 48) % 360} 32% 78%))`,
+  };
+}
 
 export default function PropertiesPage() {
   const { data, isLoading, setData } = useTenantData();
@@ -50,8 +58,8 @@ export default function PropertiesPage() {
   return (
     <div>
       <PageHeader
-        title="Properties"
-        subtitle="House profiles drive task volume and estimated completion time."
+        title={COPY.properties}
+        subtitle="Profiles drive how long each job is expected to take."
         actions={
           <Link to="/properties/new" className="btn btn-primary btn-sm">
             Add property
@@ -75,9 +83,10 @@ export default function PropertiesPage() {
       <div className="row g-3">
         {filtered.map((p) => (
           <div className="col-md-6 col-xl-4" key={p.id}>
-            <Card className="ops-card h-100 border-0">
+            <Card className="ops-card h-100 border-0 overflow-hidden">
+              <div className="property-thumb" style={propertyThumbStyle(p.latitude, p.longitude)} />
               <Card.Body>
-                <div className="d-flex justify-content-between gap-2">
+                <div className="d-flex justify-content-between gap-2 align-items-start">
                   <Card.Title className="h5 mb-1">
                     <Link to={`/properties/${p.id}`} className="text-decoration-none text-primary">
                       {p.name}
@@ -85,16 +94,17 @@ export default function PropertiesPage() {
                   </Card.Title>
                   {p.archived && <StatusBadge status="cancelled" label="Archived" />}
                 </div>
-                <Card.Text className="text-muted small mb-2">
-                  {p.town} · {p.address}
-                </Card.Text>
+                <div className="mb-2">
+                  {p.town && <span className="property-chip me-1">{p.town}</span>}
+                  <span className="small text-muted">{p.address}</span>
+                </div>
                 <div className="small mb-2">
                   {p.bedrooms} bed · {p.bathrooms} bath · {p.maxGuests} guests
                   {p.petsAllowed ? ' · pets' : ''}
                 </div>
                 <div className="d-flex justify-content-between align-items-center flex-wrap gap-2">
                   <span className="property-chip">
-                    ~{estimatePropertyTurnoverMinutes(data.taskTemplates, p)} min turnover
+                    ~{formatDuration(estimatePropertyTurnoverMinutes(data.taskTemplates, p))} turnover
                   </span>
                   <span className="property-chip">{p.cleaningTier}</span>
                 </div>

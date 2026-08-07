@@ -2,6 +2,8 @@ export type UserRole = 'master_admin' | 'admin' | 'demo_admin' | 'employee';
 
 export type CleaningTier = 'standard' | 'deep' | 'premium';
 
+export type JobType = 'cleaner' | 'maintenance' | 'manager' | 'other';
+
 export interface User {
   username: string;
   role: UserRole;
@@ -53,6 +55,7 @@ export interface WorkLog {
   actualMinutes?: number;
   createdAt?: string;
   deleted?: boolean;
+  photoDataUrl?: string;
 }
 
 export interface ScheduledTask {
@@ -69,6 +72,7 @@ export interface ScheduledTask {
   overdue?: boolean;
   completedAt?: string;
   completedBy?: string;
+  completionPhotoUrl?: string;
 }
 
 export interface TaskTemplate {
@@ -90,6 +94,7 @@ export interface Employee {
   username: string;
   passwordHash?: string;
   role?: UserRole;
+  jobType?: JobType;
   tenantId?: string;
   active?: boolean;
   tempPassword?: string;
