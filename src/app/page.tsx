@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { Suspense } from "react";
 import { Header } from "@/components/Header";
+import { GuestyPropertiesEmbed } from "@/components/GuestyPropertiesEmbed";
 import { GuestySearchWidget } from "@/components/GuestySearchWidget";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
 import { getSiteMedia } from "@/lib/content";
@@ -51,6 +52,17 @@ export default function HomePage() {
             <div className="animate-fade-up-delay w-full">
               <GuestySearchWidget />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative z-0 pt-10 md:pt-14">
+        <div className="mx-auto max-w-7xl px-4 md:px-6">
+          <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold text-sea-deep">
+            Book online
+          </h2>
+          <div className="mt-4">
+            <GuestyPropertiesEmbed />
           </div>
         </div>
       </section>
