@@ -29,12 +29,12 @@ jobs:
         id: paths
         run: |
           # Custom domain (public/CNAME + DNS → GitHub Pages) needs empty basePath
-          # so CSS/JS load at https://www.goldenbayholidayhomes.nz/_next/...
+          # so CSS/JS load at https://goldenbayholidayhomes.nz/_next/...
           # Project preview only: set Variable BASE_PATH=/goldenbayholidayhomes
           RAW="${{ vars.BASE_PATH }}"
           if [ "$RAW" = "none" ] || [ "$RAW" = "/" ] || [ -z "$RAW" ]; then
             BASE=""
-            SITE_DEFAULT="https://www.goldenbayholidayhomes.nz"
+            SITE_DEFAULT="https://goldenbayholidayhomes.nz"
           else
             BASE="$RAW"
             SITE_DEFAULT="https://gbhh-nz.github.io${BASE}"

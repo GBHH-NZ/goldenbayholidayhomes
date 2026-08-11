@@ -1,6 +1,6 @@
 # Golden Bay Holiday Homes
 
-Marketing-site rebuild of [goldenbayholidayhomes.nz](https://www.goldenbayholidayhomes.nz/) in Next.js.
+Marketing-site rebuild of [goldenbayholidayhomes.nz](https://goldenbayholidayhomes.nz/) in Next.js.
 
 Book CTAs deep-link to the Guesty booking engine. Listing photos are mirrored locally from the former Wix site until Guesty catalogue sync fills full galleries.
 
@@ -38,7 +38,7 @@ Workflows already wired:
 
 After pushing the repo: **Settings → Pages → Source = GitHub Actions** (deploys from workflow on `main` — not “Deploy from a branch”).
 
-Production URL: `https://www.goldenbayholidayhomes.nz` (requires `BASE_PATH=none` so CSS/JS load at the domain root). See [.github/SECRETS.md](.github/SECRETS.md).
+Production URL: `https://goldenbayholidayhomes.nz` (requires `BASE_PATH=none` so CSS/JS load at the domain root). See [.github/SECRETS.md](.github/SECRETS.md).
 
 ## Homepage Guesty embeds
 

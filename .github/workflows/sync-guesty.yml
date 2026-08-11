@@ -20,7 +20,7 @@ jobs:
       GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
       GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
       GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
-      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.goldenbayholidayhomes.nz' }}
+      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://goldenbayholidayhomes.nz' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
