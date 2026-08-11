@@ -2,6 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { BrandMark, Header } from "@/components/Header";
+import { GuestyPropertiesEmbed } from "@/components/GuestyPropertiesEmbed";
+import { GuestySearchWidget } from "@/components/GuestySearchWidget";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
 import { getSiteMedia } from "@/lib/content";
 import { assetPath } from "@/lib/env";
@@ -51,23 +53,52 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section
-        id="homes"
-        className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24"
-      >
-        <div className="max-w-2xl">
-          <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold text-sea-deep md:text-4xl">
-            Stay in Golden Bay
-          </h2>
-          <p className="mt-3 text-muted">
-            Beach baches and holiday homes across Pohara, Tata Beach,
-            Collingwood and beyond — with local support when you need it.
-          </p>
+      <section id="homes" className="py-16 md:py-24">
+        <div className="mx-auto max-w-6xl px-4 md:px-6">
+          <div className="max-w-2xl">
+            <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold text-sea-deep md:text-4xl">
+              Stay in Golden Bay
+            </h2>
+            <p className="mt-3 text-muted">
+              Beach baches and holiday homes across Pohara, Tata Beach,
+              Collingwood and beyond — with local support when you need it.
+            </p>
+          </div>
         </div>
-        <div className="mt-8">
-          <Suspense fallback={<div className="h-40 animate-pulse bg-foam/50" />}>
-            <HomesCatalogue homes={homes} locations={locations} />
-          </Suspense>
+
+        {/* Compare live: remove blocks you do not want after reviewing. */}
+        <div className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+            Option A — Guesty search widget
+          </p>
+          <div className="mt-4">
+            <GuestySearchWidget />
+          </div>
+        </div>
+
+        <div className="mx-auto mt-14 max-w-7xl px-4 md:px-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+            Option B — Guesty booking catalogue (iframe)
+          </p>
+          <h3 className="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-sea-deep">
+            Book online
+          </h3>
+          <div className="mt-4">
+            <GuestyPropertiesEmbed />
+          </div>
+        </div>
+
+        <div className="mx-auto mt-14 max-w-6xl px-4 md:px-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-muted">
+            Option C — Site catalogue (current)
+          </p>
+          <div className="mt-4">
+            <Suspense
+              fallback={<div className="h-40 animate-pulse bg-foam/50" />}
+            >
+              <HomesCatalogue homes={homes} locations={locations} />
+            </Suspense>
+          </div>
         </div>
       </section>
     </main>

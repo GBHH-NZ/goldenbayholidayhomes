@@ -40,6 +40,14 @@ After pushing the repo: **Settings → Pages → Source = GitHub Actions**.
 
 Preview: `https://gbhh-nz.github.io/goldenbayholidayhomes/` (needs non-empty `BASE_PATH` so CSS loads). For www cutover, see [.github/SECRETS.md](.github/SECRETS.md) (`BASE_PATH=none` + DNS to GitHub Pages).
 
+## Homepage Guesty embeds
+
+The homepage currently stacks three catalogue options for comparison (search widget, Guesty properties iframe, and the local site grid). Trim what you do not want after reviewing.
+
+**Iframe prerequisite:** Guesty blocks embedding by default. For the properties catalogue iframe to load, enable **Settings → Site SSL → Allow site to be loaded in an iframe** in Guesty. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The search widget does not need that toggle.
+
+Optional later: [connect a custom domain](https://help.guesty.com/hc/en-gb/articles/9363657381277-Connecting-a-custom-domain-to-your-Guesty-Booking-Engine) to the booking engine, then update `CONTACT.guestyBookings` and the widget `siteUrl`.
+
 ## Guesty catalogue sync (when keys arrive)
 
 1. Add `GUESTY_CLIENT_ID` and `GUESTY_CLIENT_SECRET` as repository secrets
