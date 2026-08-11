@@ -1,11 +1,28 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import { Suspense } from "react";
 import { Header } from "@/components/Header";
+import { GuestyPropertiesEmbed } from "@/components/GuestyPropertiesEmbed";
 import { GuestySearchWidget } from "@/components/GuestySearchWidget";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
 import { getSiteMedia } from "@/lib/content";
 import { assetPath } from "@/lib/env";
 import { getAllHomes, getHomeLocations } from "@/lib/homes";
+import { buildPageMetadata } from "@/lib/seo";
+
+const HOME_TITLE =
+  "Golden Bay Accommodation & Holiday Homes | goldenbayholidayhomes.com";
+const HOME_DESCRIPTION =
+  "Hand-picked Golden Bay accommodation — beach baches and holiday homes with hotel-quality linen and local support from Michael & Katja.";
+
+export const metadata: Metadata = {
+  ...buildPageMetadata({
+    title: HOME_TITLE,
+    description: HOME_DESCRIPTION,
+    path: "/",
+  }),
+  title: { absolute: HOME_TITLE },
+};
 
 export default function HomePage() {
   const homes = getAllHomes();
@@ -30,9 +47,20 @@ export default function HomePage() {
             <p className="animate-fade-up max-w-2xl font-[family-name:var(--font-display)] text-2xl font-semibold text-foam md:text-4xl">
               Handpicked homes. Hotel comfort. Heartfelt hospitality.
             </p>
-            <div id="book-online" className="animate-fade-up-delay w-full scroll-mt-24">
+            <div className="animate-fade-up-delay w-full">
               <GuestySearchWidget />
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="pt-10 md:pt-14">
+        <div className="mx-auto max-w-7xl px-4 md:px-6">
+          <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold text-sea-deep">
+            Book online
+          </h2>
+          <div className="mt-4">
+            <GuestyPropertiesEmbed />
           </div>
         </div>
       </section>

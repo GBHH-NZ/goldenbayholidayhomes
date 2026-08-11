@@ -149,7 +149,7 @@ export const defaultMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "Golden Bay Accommodation & Holiday Homes - Golden Bay Holiday Homes, NZ",
+      "Golden Bay Accommodation & Holiday Homes | goldenbayholidayhomes.com",
     template: "%s | Golden Bay Holiday Homes",
   },
   description:
@@ -166,7 +166,7 @@ export const defaultMetadata: Metadata = {
     url: absoluteUrl("/"),
     siteName: "Golden Bay Holiday Homes",
     title:
-      "Golden Bay Accommodation & Holiday Homes - Golden Bay Holiday Homes, NZ",
+      "Golden Bay Accommodation & Holiday Homes | goldenbayholidayhomes.com",
     description:
       "Hand-picked Golden Bay accommodation — beach baches and holiday homes with hotel-quality linen and local support from Michael & Katja.",
     images: [{ url: ogImageUrl(), width: 1200, height: 630, alt: "Golden Bay Holiday Homes" }],
@@ -174,7 +174,7 @@ export const defaultMetadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Golden Bay Accommodation & Holiday Homes - Golden Bay Holiday Homes, NZ",
+      "Golden Bay Accommodation & Holiday Homes | goldenbayholidayhomes.com",
     description:
       "Hand-picked Golden Bay accommodation — beach baches and holiday homes with hotel-quality linen and local support from Michael & Katja.",
     images: [ogImageUrl()],
