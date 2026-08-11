@@ -3,7 +3,6 @@ import Image from "next/image";
 import { Suspense } from "react";
 import { Header } from "@/components/Header";
 import { GuestyPropertiesEmbed } from "@/components/GuestyPropertiesEmbed";
-import { GuestySearchWidget } from "@/components/GuestySearchWidget";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
 import { getSiteMedia } from "@/lib/content";
 import { assetPath } from "@/lib/env";
@@ -45,13 +44,10 @@ export default function HomePage() {
         </div>
         <Header />
         <div className="relative z-10 flex h-full flex-col justify-center px-4 pb-8 pt-20 md:px-6 md:pb-12 md:pt-24">
-          <div className="mx-auto flex w-full max-w-6xl -translate-y-6 flex-col items-start gap-4 md:-translate-y-8 md:gap-5">
+          <div className="mx-auto flex w-full max-w-6xl -translate-y-6 flex-col items-start md:-translate-y-8">
             <p className="animate-fade-up w-full max-w-none whitespace-nowrap font-[family-name:var(--font-display)] text-[clamp(0.8125rem,3.4vw+0.35rem,2.25rem)] font-semibold tracking-tight text-foam md:tracking-normal">
               Handpicked homes. Hotel comfort. Heartfelt hospitality.
             </p>
-            <div className="animate-fade-up-delay w-full">
-              <GuestySearchWidget />
-            </div>
           </div>
         </div>
       </section>

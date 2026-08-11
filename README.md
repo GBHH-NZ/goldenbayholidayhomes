@@ -44,8 +44,8 @@ Production URL: `https://www.goldenbayholidayhomes.com` (requires `BASE_PATH=non
 
 Homepage order:
 
-1. Hero panorama with the **Guesty search widget** on the image
-2. **Book online** Guesty catalogue iframe (`/#book-online`)
+1. Hero panorama with the slogan
+2. **Book online** Guesty catalogue iframe (`/#book-online`) — search and booking live here
 3. “Stay in Golden Bay” copy and the local listings grid (photo, blurb, meta, from-price, **Book now** → Guesty)
 
 Header and footer **Book Now** links go to `/#book-online`. Canonical metadata (title, Open Graph, sitemap, JSON-LD) uses `https://www.goldenbayholidayhomes.com`.
