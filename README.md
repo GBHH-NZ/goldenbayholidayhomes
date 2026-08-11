@@ -48,13 +48,17 @@ On the homepage `#homes` section, order is:
 2. Short “Stay in Golden Bay” copy
 3. Local listings grid styled like Guesty’s property rows (photo, blurb, meta, from-price, **Book now** → Guesty)
 
-Header and footer **Book Now** links open the [Guesty booking engine](https://goldenbayholidayhomes.guestybookings.com/en) in a new tab. A full catalogue iframe is not embedded (Guesty blocks framing until iframe allowlisting is enabled); the search widget does not need that toggle.
+Header and footer **Book Now** links open the [Guesty booking engine](https://goldenbayholidayhomes.guestybookings.com/en) in a new tab. A full catalogue iframe is not embedded on the homepage (Guesty blocks framing until iframe allowlisting is enabled); the search widget does not need that toggle.
 
 Refresh the matched catalogue from the public booking site (no API keys):
 
 ```bash
 npm run sync:guesty-bookings
 ```
+
+**Owner preview:** [`/preview`](/preview/) is a noindex page (not in the nav or sitemap) for reviewing the search widget, catalogue iframe, and local grid.
+
+**Iframe prerequisite:** The catalogue iframe lives on `/preview` only. In Guesty, enable **Settings → Site SSL → Allow site to be loaded in an iframe**. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame).
 
 Optional later: [connect a custom domain](https://help.guesty.com/hc/en-gb/articles/9363657381277-Connecting-a-custom-domain-to-your-Guesty-Booking-Engine) to the booking engine, then update `CONTACT.guestyBookings` and the widget `siteUrl`.
 

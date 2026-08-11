@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { LOCATIONS } from "@/lib/locations";
 
 export function LocationFilter({
@@ -9,17 +9,21 @@ export function LocationFilter({
   locations?: readonly string[];
 }) {
   const router = useRouter();
+  const pathname = usePathname();
   const params = useSearchParams();
   const active = params.get("location") ?? "";
   const pets = params.get("pets") === "1";
   const options = locations?.length ? locations : LOCATIONS;
+  const hash = pathname === "/" ? "#homes" : "";
 
   function setFilter(key: string, value: string | null) {
     const next = new URLSearchParams(params.toString());
     if (!value) next.delete(key);
     else next.set(key, value);
     const qs = next.toString();
-    router.push(qs ? `/?${qs}#homes` : "/#homes", { scroll: false });
+    router.push(qs ? `${pathname}?${qs}${hash}` : `${pathname}${hash}`, {
+      scroll: false,
+    });
   }
 
   return (
