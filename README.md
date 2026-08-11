@@ -44,7 +44,9 @@ Production URL: `https://www.goldenbayholidayhomes.com` (requires `BASE_PATH=non
 
 The homepage shows the Guesty search widget plus the local homes grid. Header and footer **Book Now** links open the [Guesty booking engine](https://goldenbayholidayhomes.guestybookings.com/en) in a new tab.
 
-A full catalogue iframe is not embedded: Guesty blocks that until **Settings → Site SSL → Allow site to be loaded in an iframe** is enabled. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The search widget does not need that toggle.
+**Owner preview:** [`/preview`](/preview/) is a noindex page (not in the nav or sitemap) for reviewing the search widget, catalogue iframe, and local grid.
+
+**Iframe prerequisite:** The catalogue iframe lives on `/preview` only. In Guesty, enable **Settings → Site SSL → Allow site to be loaded in an iframe**. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The search widget does not need that toggle.
 
 Optional later: [connect a custom domain](https://help.guesty.com/hc/en-gb/articles/9363657381277-Connecting-a-custom-domain-to-your-Guesty-Booking-Engine) to the booking engine, then update `CONTACT.guestyBookings` and the widget `siteUrl`.
 
