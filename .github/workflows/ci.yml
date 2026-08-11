@@ -13,7 +13,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://goldenbayholidayhomes.nz' }}
+      NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.goldenbayholidayhomes.com' }}
       # Guesty keys are optional for CI — build uses committed content/homes.json
       GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
       GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}

@@ -4,7 +4,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_SITE_URL: z
     .string()
     .url()
-    .default("https://goldenbayholidayhomes.nz"),
+    .default("https://www.goldenbayholidayhomes.com"),
   GUESTY_CLIENT_ID: z.string().optional(),
   GUESTY_CLIENT_SECRET: z.string().optional(),
   GUESTY_API_BASE: z.string().url().default("https://booking-api.guesty.com"),
@@ -22,7 +22,7 @@ function loadEnv(): Env {
 
   if (!parsed.success) {
     return {
-      NEXT_PUBLIC_SITE_URL: "https://goldenbayholidayhomes.nz",
+      NEXT_PUBLIC_SITE_URL: "https://www.goldenbayholidayhomes.com",
       GUESTY_API_BASE: "https://booking-api.guesty.com",
     };
   }
