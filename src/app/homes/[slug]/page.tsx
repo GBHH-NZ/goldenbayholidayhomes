@@ -81,11 +81,11 @@ export default async function HomeDetailPage({ params }: Props) {
 
             <div className="prose-gb mt-10">
               <p>{homeDescription(home)}</p>
-              {home.syncStatus !== "synced" && (
+              {home.syncStatus === "seed" && (
                 <p className="mt-4 text-sm text-muted">
-                  Photos, full description, and amenities are placeholders until
-                  Guesty catalogue sync (
-                  <code>npm run sync:guesty</code>).
+                  Full photos and amenities refresh when the Guesty catalogue is
+                  synced (
+                  <code>npm run sync:guesty-bookings</code>).
                 </p>
               )}
             </div>
@@ -106,17 +106,16 @@ export default async function HomeDetailPage({ params }: Props) {
                   ))}
                 </ul>
               </div>
-            ) : (
+            ) : home.syncStatus !== "synced" ? (
               <div className="mt-10 rounded-sm border border-dashed border-drift bg-foam/40 p-5">
                 <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold text-sea-deep">
                   Amenities
                 </h2>
                 <p className="mt-2 text-sm text-muted">
-                  Amenity list placeholder — will be filled from Guesty when API
-                  keys are configured.
+                  Amenity list placeholder — filled when Guesty sync is available.
                 </p>
               </div>
-            )}
+            ) : null}
           </div>
 
           <div className="lg:sticky lg:top-8 lg:self-start">

@@ -10,15 +10,21 @@ export const homeSchema = z.object({
   location: z.string().min(1),
   guests: z.number().int().positive(),
   petsAllowed: z.boolean().default(false),
-  /** Filled by Guesty API sync */
+  /** Filled by Guesty sync — e.g. Entire home, Private room */
+  propertyType: z.string().nullable().optional(),
+  /** Lowest nightly rate in NZD from Guesty bookings catalogue */
+  nightlyFrom: z.number().nonnegative().nullable().optional(),
+  reviewScore: z.number().nonnegative().nullable().optional(),
+  reviewCount: z.number().int().nonnegative().nullable().optional(),
+  /** Filled by Guesty API / bookings sync */
   guestyId: z.string().nullable().optional(),
-  /** Filled by Guesty API sync — booking engine deep link */
+  /** Filled by Guesty sync — booking engine deep link */
   guestyUrl: z.string().url().nullable().optional(),
-  /** Filled by Guesty API sync — empty until then */
+  /** Filled by Guesty sync — empty until then */
   photos: z.array(z.string()).default([]),
-  /** Filled by Guesty API sync */
+  /** Filled by Guesty sync */
   description: z.string().nullable().optional(),
-  /** Filled by Guesty API sync */
+  /** Filled by Guesty sync */
   amenities: z.array(z.string()).default([]),
   bedrooms: z.number().nullable().optional(),
   bathrooms: z.number().nullable().optional(),

@@ -32,8 +32,8 @@ export function BookCta({ home }: { home: Home }) {
       </p>
       {home.syncStatus === "seed" && (
         <p className="mt-4 border-t border-drift pt-3 text-xs text-muted">
-          Listing details pending Guesty API sync (
-          <code className="text-[11px]">npm run sync:guesty</code>).
+          Listing details pending catalogue sync (
+          <code className="text-[11px]">npm run sync:guesty-bookings</code>).
         </p>
       )}
     </aside>

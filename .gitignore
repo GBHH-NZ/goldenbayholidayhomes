@@ -37,6 +37,9 @@ yarn-error.log*
 # scrape caches (regenerate with npm run scrape:wix-images)
 content/.wix-*
 
+# Guesty bookings sync Chrome profile
+.tmp-guesty-chrome-profile/
+
 # vercel
 .vercel
 

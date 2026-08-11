@@ -42,13 +42,25 @@ Production URL: `https://www.goldenbayholidayhomes.com` (requires `BASE_PATH=non
 
 ## Homepage booking
 
-The homepage shows the Guesty search widget plus the local homes grid. Header and footer **Book Now** links open the [Guesty booking engine](https://goldenbayholidayhomes.guestybookings.com/en) in a new tab.
+On the homepage `#homes` section, order is:
 
-A full catalogue iframe is not embedded: Guesty blocks that until **Settings → Site SSL → Allow site to be loaded in an iframe** is enabled. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The search widget does not need that toggle.
+1. **Guesty search widget** (official embed) above the heading
+2. Short “Stay in Golden Bay” copy
+3. Local listings grid styled like Guesty’s property rows (photo, blurb, meta, from-price, **Book now** → Guesty)
+
+Header and footer **Book Now** links open the [Guesty booking engine](https://goldenbayholidayhomes.guestybookings.com/en) in a new tab. A full catalogue iframe is not embedded (Guesty blocks framing until iframe allowlisting is enabled); the search widget does not need that toggle.
+
+Refresh the matched catalogue from the public booking site (no API keys):
+
+```bash
+npm run sync:guesty-bookings
+```
 
 Optional later: [connect a custom domain](https://help.guesty.com/hc/en-gb/articles/9363657381277-Connecting-a-custom-domain-to-your-Guesty-Booking-Engine) to the booking engine, then update `CONTACT.guestyBookings` and the widget `siteUrl`.
 
-## Guesty catalogue sync (when keys arrive)
+## Guesty Booking Engine API sync (when keys arrive)
+
+For a fuller amenity merge via OAuth (optional; bookings scrape usually covers the homepage):
 
 1. Add `GUESTY_CLIENT_ID` and `GUESTY_CLIENT_SECRET` as repository secrets
 2. Either locally:
@@ -61,8 +73,6 @@ npm run sync:guesty
    Or on GitHub: **Actions → Sync Guesty catalogue → Run workflow**
 
 3. Merge the PR that updates `content/homes.json`
-
-Until then, homes use Wix-scraped title/location/guests/pets with empty placeholders for API fields (`syncStatus: "seed"`).
 
 ## Content
 
@@ -82,7 +92,8 @@ Until then, homes use Wix-scraped title/location/guests/pets with empty placehol
 | `npm run seed:homes` | Regenerate Wix seed into `homes.json` |
 | `npm run scrape:wix-images` | Pull listing card photo URLs from the live Wix site into `homes.json` (pre-cutover) |
 | `npm run mirror:wix-assets` | Download remote Wix CDN images into `public/images/` and rewrite content to local paths |
-| `npm run sync:guesty` | Pull listings from Guesty (needs keys) |
+| `npm run sync:guesty-bookings` | Refresh `homes.json` from the public Guesty properties page (needs Chrome) |
+| `npm run sync:guesty` | Pull listings from Guesty Booking Engine API (needs keys) |
 
 ## Contacts
 

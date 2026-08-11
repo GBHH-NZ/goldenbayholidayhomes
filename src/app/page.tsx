@@ -54,7 +54,10 @@ export default function HomePage() {
 
       <section id="homes" className="py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-4 md:px-6">
-          <div className="max-w-2xl">
+          <div id="book-online" className="scroll-mt-24">
+            <GuestySearchWidget />
+          </div>
+          <div className="mt-10 max-w-2xl">
             <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold text-sea-deep md:text-4xl">
               Stay in Golden Bay
             </h2>
@@ -62,9 +65,6 @@ export default function HomePage() {
               Beach baches and holiday homes across Pohara, Tata Beach,
               Collingwood and beyond — with local support when you need it.
             </p>
-          </div>
-          <div id="book-online" className="mt-8 scroll-mt-24">
-            <GuestySearchWidget />
           </div>
           <div className="mt-10">
             <Suspense
