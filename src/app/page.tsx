@@ -46,12 +46,6 @@ export default function HomePage() {
               >
                 List your home
               </Link>
-              <a
-                href={`${assetPath("/ops/")}#/login`}
-                className="bg-white/20 px-5 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30"
-              >
-                Staff login
-              </a>
             </div>
           </div>
         </div>

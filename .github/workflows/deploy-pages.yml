@@ -38,10 +38,10 @@ jobs:
             SITE_DEFAULT="https://www.goldenbayholidayhomes.nz"
           elif [ -n "$RAW" ]; then
             BASE="$RAW"
-            SITE_DEFAULT="https://agent5479.github.io${BASE}"
+            SITE_DEFAULT="https://gbhh-nz.github.io${BASE}"
           else
             BASE="/goldenbayholidayhomes"
-            SITE_DEFAULT="https://agent5479.github.io/goldenbayholidayhomes"
+            SITE_DEFAULT="https://gbhh-nz.github.io/goldenbayholidayhomes"
           fi
           SITE="${{ vars.NEXT_PUBLIC_SITE_URL }}"
           if [ -z "$SITE" ]; then SITE="$SITE_DEFAULT"; fi
@@ -66,22 +66,6 @@ jobs:
           GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
           GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
           GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
-
-      - name: Install ops app
-        working-directory: ops
-        run: npm ci
-
-      - name: Build ops app into Pages export
-        working-directory: ops
-        run: npm run build
-        env:
-          VITE_BASE_PATH: ${{ steps.paths.outputs.base_path }}/ops/
-          VITE_DATA_BACKEND: mock
-
-      - name: Copy ops dist into site out/ops
-        run: |
-          mkdir -p out/ops
-          cp -R ops/dist/. out/ops/
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

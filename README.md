@@ -16,19 +16,6 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000).
 
-### Ops app (staff / property management)
-
-Separate Vite app under [`ops/`](ops/) — mock auth and seed data for now; Firebase later.
-
-```bash
-cd ops
-cp .env.example .env
-npm install
-npm run dev
-```
-
-Open [http://localhost:5173/ops/](http://localhost:5173/ops/). Login: `test` / `test` (hash route `#/login`). See [ops/README.md](ops/README.md).
-
 ## GitHub secrets and variables
 
 API credentials must live in GitHub Actions secrets — never in the repo.
@@ -51,7 +38,7 @@ Workflows already wired:
 
 After pushing the repo: **Settings → Pages → Source = GitHub Actions**.
 
-Preview: `https://agent5479.github.io/goldenbayholidayhomes/` (needs non-empty `BASE_PATH` so CSS loads). For www cutover, see [.github/SECRETS.md](.github/SECRETS.md) (`BASE_PATH=none` + DNS to GitHub Pages).
+Preview: `https://gbhh-nz.github.io/goldenbayholidayhomes/` (needs non-empty `BASE_PATH` so CSS loads). For www cutover, see [.github/SECRETS.md](.github/SECRETS.md) (`BASE_PATH=none` + DNS to GitHub Pages).
 
 ## Guesty catalogue sync (when keys arrive)
 

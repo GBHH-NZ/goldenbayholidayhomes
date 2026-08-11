@@ -3,7 +3,6 @@ import Link from "next/link";
 import { getSiteMedia } from "@/lib/content";
 import { assetPath, CONTACT } from "@/lib/env";
 
-const OPS_LOGIN = `${assetPath("/ops/")}#/login`;
 const EMERGENCY_INFO =
   "https://www.nelsontasmancivildefence.co.nz/regions/golden-bay/";
 
@@ -262,11 +261,6 @@ export function Footer() {
                 target="_blank"
               >
                 Owner login
-              </a>
-            </li>
-            <li>
-              <a href={OPS_LOGIN} className="hover:text-white">
-                Staff login
               </a>
             </li>
           </ul>
