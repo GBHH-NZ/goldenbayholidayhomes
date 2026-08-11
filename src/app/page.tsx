@@ -14,7 +14,7 @@ export default function HomePage() {
 
   return (
     <main>
-      <section className="relative isolate min-h-[16rem] overflow-hidden h-[38svh] md:h-[42svh] md:min-h-[18rem]">
+      <section className="relative isolate min-h-[22rem] overflow-hidden h-[50svh] md:h-[54svh] md:min-h-[26rem]">
         <Image
           src={assetPath(site.heroImage)}
           alt={site.heroAlt}
@@ -25,9 +25,9 @@ export default function HomePage() {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-sea-deep/80 via-sea-deep/35 to-sea-deep/20" />
         <Header />
-        <div className="relative z-10 flex h-full flex-col justify-end px-4 pb-8 pt-24 md:px-6 md:pb-10 md:pt-28">
+        <div className="relative z-10 flex h-full flex-col justify-center px-4 pb-8 pt-20 md:px-6 md:pb-12 md:pt-24">
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start gap-4 md:gap-5">
-            <p className="animate-fade-up max-w-2xl font-[family-name:var(--font-display)] text-2xl font-semibold text-foam md:text-4xl">
+            <p className="animate-fade-up w-full max-w-none whitespace-nowrap font-[family-name:var(--font-display)] text-[clamp(0.8125rem,3.4vw+0.35rem,2.25rem)] font-semibold tracking-tight text-foam md:tracking-normal">
               Handpicked homes. Hotel comfort. Heartfelt hospitality.
             </p>
             <div id="book-online" className="animate-fade-up-delay w-full scroll-mt-24">
