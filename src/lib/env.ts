@@ -36,7 +36,25 @@ export function hasGuestyCredentials(): boolean {
   return Boolean(env.GUESTY_CLIENT_ID && env.GUESTY_CLIENT_SECRET);
 }
 
-export const SITE_URL = env.NEXT_PUBLIC_SITE_URL;
+const CANONICAL_SITE_URL = "https://www.goldenbayholidayhomes.com";
+
+/** Prefer the .com host even if an env var still points at the old .nz site. */
+function resolveSiteUrl(value: string): string {
+  try {
+    const host = new URL(value).hostname.replace(/^www\./, "");
+    if (
+      host === "goldenbayholidayhomes.com" ||
+      host === "goldenbayholidayhomes.nz"
+    ) {
+      return CANONICAL_SITE_URL;
+    }
+    return value.replace(/\/$/, "");
+  } catch {
+    return CANONICAL_SITE_URL;
+  }
+}
+
+export const SITE_URL = resolveSiteUrl(env.NEXT_PUBLIC_SITE_URL);
 
 /** Optional base path for GitHub project Pages (e.g. /repo-name). */
 export const BASE_PATH =
