@@ -89,9 +89,14 @@ function GuestNav({ tone }: { tone: "light" | "dark" }) {
           {l.label}
         </Link>
       ))}
-      <Link href="/#book-online" className={bookClass}>
+      <a
+        href={CONTACT.guestyBookings}
+        className={bookClass}
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         Book Now
-      </Link>
+      </a>
       <Link href="/list-your-home" className={listClass}>
         List Your Home
       </Link>
@@ -131,12 +136,14 @@ export function Header() {
             {l.label}
           </Link>
         ))}
-        <Link
-          href="/#book-online"
+        <a
+          href={CONTACT.guestyBookings}
           className="whitespace-nowrap font-semibold"
+          rel="noopener noreferrer"
+          target="_blank"
         >
           Book Now
-        </Link>
+        </a>
         <a
           href={CONTACT.guestyOwners}
           className="whitespace-nowrap"
@@ -208,9 +215,14 @@ export function Footer() {
               </li>
             ))}
             <li>
-              <Link href="/#book-online" className="hover:text-white">
+              <a
+                href={CONTACT.guestyBookings}
+                className="hover:text-white"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
                 Book Now
-              </Link>
+              </a>
             </li>
           </ul>
         </div>

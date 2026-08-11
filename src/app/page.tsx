@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import { BrandMark, Header } from "@/components/Header";
-import { GuestyPropertiesEmbed } from "@/components/GuestyPropertiesEmbed";
 import { GuestySearchWidget } from "@/components/GuestySearchWidget";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
 import { getSiteMedia } from "@/lib/content";
@@ -64,35 +63,10 @@ export default function HomePage() {
               Collingwood and beyond — with local support when you need it.
             </p>
           </div>
-        </div>
-
-        {/* Compare live: remove blocks you do not want after reviewing. */}
-        <div className="mx-auto mt-10 max-w-7xl px-4 md:px-6">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-            Option A — Guesty search widget
-          </p>
-          <div className="mt-4">
+          <div id="book-online" className="mt-8 scroll-mt-24">
             <GuestySearchWidget />
           </div>
-        </div>
-
-        <div className="mx-auto mt-14 max-w-7xl px-4 md:px-6">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-            Option B — Guesty booking catalogue (iframe)
-          </p>
-          <h3 className="mt-2 font-[family-name:var(--font-display)] text-xl font-semibold text-sea-deep">
-            Book online
-          </h3>
-          <div className="mt-4">
-            <GuestyPropertiesEmbed />
-          </div>
-        </div>
-
-        <div className="mx-auto mt-14 max-w-6xl px-4 md:px-6">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-            Option C — Site catalogue (current)
-          </p>
-          <div className="mt-4">
+          <div className="mt-10">
             <Suspense
               fallback={<div className="h-40 animate-pulse bg-foam/50" />}
             >
