@@ -44,7 +44,9 @@ Preview: `https://gbhh-nz.github.io/goldenbayholidayhomes/` (needs non-empty `BA
 
 The homepage currently stacks three catalogue options for comparison (search widget, Guesty properties iframe, and the local site grid). Trim what you do not want after reviewing.
 
-**Iframe prerequisite:** Guesty blocks embedding by default. For the properties catalogue iframe to load, enable **Settings → Site SSL → Allow site to be loaded in an iframe** in Guesty. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The search widget does not need that toggle.
+**In-site booking:** Header and footer **Book Now** links go to `/#book-online` (the Guesty properties iframe). Guests browse listings and complete checkout inside that embed while the brand hero stays on the marketing page. Options A and C remain for comparison until you decide what to keep.
+
+**Iframe prerequisite:** Guesty blocks embedding by default. For the properties catalogue iframe to load (and for in-embed booking to work), enable **Settings → Site SSL → Allow site to be loaded in an iframe** in Guesty. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The search widget does not need that toggle.
 
 Optional later: [connect a custom domain](https://help.guesty.com/hc/en-gb/articles/9363657381277-Connecting-a-custom-domain-to-your-Guesty-Booking-Engine) to the booking engine, then update `CONTACT.guestyBookings` and the widget `siteUrl`.
 

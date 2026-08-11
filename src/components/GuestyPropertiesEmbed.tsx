@@ -6,7 +6,7 @@ export function GuestyPropertiesEmbed() {
   const src = `${CONTACT.guestyBookings}${PROPERTIES_PATH}`;
 
   return (
-    <div className="w-full">
+    <div id="book-online" className="w-full scroll-mt-24">
       <p className="mb-3 text-sm text-muted">
         If the catalogue does not appear below, enable{" "}
         <span className="font-medium text-ink">
@@ -27,7 +27,7 @@ export function GuestyPropertiesEmbed() {
         title="Golden Bay Holiday Homes booking catalogue"
         src={src}
         loading="lazy"
-        className="min-h-[min(100vh,56rem)] w-full border-0 bg-foam/30"
+        className="min-h-[min(120vh,72rem)] w-full border-0 bg-foam/30"
         referrerPolicy="no-referrer-when-downgrade"
         allow="payment *"
       />
