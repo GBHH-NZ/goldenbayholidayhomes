@@ -157,9 +157,6 @@ export const defaultMetadata: Metadata = {
   alternates: {
     canonical: absoluteUrl("/"),
   },
-  icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-  },
   openGraph: {
     type: "website",
     locale: "en_NZ",
