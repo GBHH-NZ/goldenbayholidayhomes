@@ -45,14 +45,13 @@ Production URL: `https://www.goldenbayholidayhomes.com` (requires `BASE_PATH=non
 Homepage order:
 
 1. Slim hero panorama with the **Guesty search widget** on the image
-2. **Book online** Guesty catalogue iframe (`/#book-online`)
-3. “Stay in Golden Bay” copy and the local listings grid (photo, blurb, meta, from-price, **Book now** → Guesty)
+2. “Stay in Golden Bay” copy and the local listings grid (photo, blurb, meta, from-price, **Book now** → Guesty)
 
-Header and footer **Book Now** links go to `/#book-online`. Canonical metadata (title, Open Graph, sitemap, JSON-LD) uses `https://www.goldenbayholidayhomes.com`.
+Canonical metadata (title, Open Graph, sitemap, JSON-LD) uses `https://www.goldenbayholidayhomes.com`.
 
-**Owner preview:** [`/preview`](/preview/) remains a noindex sandbox of the same booking blocks.
+**Owner preview:** [`/preview`](/preview/) remains a noindex sandbox that still includes the Guesty catalogue iframe for comparison.
 
-**Iframe prerequisite:** In Guesty, enable **Settings → Site SSL → Allow site to be loaded in an iframe**. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The search widget does not need that toggle.
+**Iframe prerequisite (preview only):** In Guesty, enable **Settings → Site SSL → Allow site to be loaded in an iframe**. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The search widget does not need that toggle.
 
 Refresh the matched catalogue from the public booking site (no API keys):
 
