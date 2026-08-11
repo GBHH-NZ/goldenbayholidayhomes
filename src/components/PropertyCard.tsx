@@ -42,7 +42,7 @@ export function PropertyCard({ home }: { home: Home }) {
       <div className="flex flex-col gap-5 md:flex-row md:gap-8">
         <Link
           href={`/homes/${home.slug}`}
-          className="relative block aspect-[4/3] w-full shrink-0 overflow-hidden bg-drift focus:outline-none focus-visible:ring-2 focus-visible:ring-sea md:aspect-auto md:h-44 md:w-64 lg:h-52 lg:w-72"
+          className="relative block aspect-[4/3] w-full shrink-0 overflow-hidden rounded-md bg-drift focus:outline-none focus-visible:ring-2 focus-visible:ring-sea md:aspect-auto md:h-44 md:w-64 lg:h-52 lg:w-72"
         >
           <Image
             src={photo}
@@ -66,7 +66,7 @@ export function PropertyCard({ home }: { home: Home }) {
               </h3>
               <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-muted">
                 {home.petsAllowed && (
-                  <span className="bg-sea-deep/90 px-2 py-0.5 text-xs text-foam">
+                  <span className="rounded-md bg-sea-deep/90 px-2 py-0.5 text-xs text-foam">
                     Pets welcome
                   </span>
                 )}
@@ -113,7 +113,7 @@ export function PropertyCard({ home }: { home: Home }) {
               href={bookHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-sea px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sea-deep"
+              className="inline-block rounded-md bg-sea px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sea-deep"
             >
               Book now
             </a>

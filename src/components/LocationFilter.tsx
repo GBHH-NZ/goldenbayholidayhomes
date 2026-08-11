@@ -31,7 +31,7 @@ export function LocationFilter({
       <button
         type="button"
         onClick={() => setFilter("location", null)}
-        className={`px-3 py-1.5 text-sm transition ${
+        className={`rounded-md px-3 py-1.5 text-sm transition ${
           !active
             ? "bg-sea text-white"
             : "bg-foam text-sea-deep hover:bg-drift/40"
@@ -44,7 +44,7 @@ export function LocationFilter({
           key={loc}
           type="button"
           onClick={() => setFilter("location", loc)}
-          className={`px-3 py-1.5 text-sm transition ${
+          className={`rounded-md px-3 py-1.5 text-sm transition ${
             active === loc
               ? "bg-sea text-white"
               : "bg-foam text-sea-deep hover:bg-drift/40"
@@ -56,7 +56,7 @@ export function LocationFilter({
       <button
         type="button"
         onClick={() => setFilter("pets", pets ? null : "1")}
-        className={`ml-2 px-3 py-1.5 text-sm transition ${
+        className={`ml-2 rounded-md px-3 py-1.5 text-sm transition ${
           pets
             ? "bg-sunset text-white"
             : "border border-drift bg-transparent text-sea-deep"
