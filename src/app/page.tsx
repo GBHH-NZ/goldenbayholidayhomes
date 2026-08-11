@@ -30,16 +30,18 @@ export default function HomePage() {
 
   return (
     <main>
-      <section className="relative isolate min-h-[22rem] overflow-hidden h-[50svh] md:h-[54svh] md:min-h-[26rem]">
-        <Image
-          src={assetPath(site.heroImage)}
-          alt={site.heroAlt}
-          fill
-          priority
-          className="object-cover object-[50%_72%]"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-sea-deep/80 via-sea-deep/35 to-sea-deep/20" />
+      <section className="relative z-10 isolate min-h-[24rem] h-[54svh] md:h-[58svh] md:min-h-[28rem]">
+        <div className="absolute inset-0 overflow-hidden">
+          <Image
+            src={assetPath(site.heroImage)}
+            alt={site.heroAlt}
+            fill
+            priority
+            className="object-cover object-[50%_72%]"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-sea-deep/80 via-sea-deep/35 to-sea-deep/20" />
+        </div>
         <Header />
         <div className="relative z-10 flex h-full flex-col justify-center px-4 pb-8 pt-20 md:px-6 md:pb-12 md:pt-24">
           <div className="mx-auto flex w-full max-w-6xl -translate-y-6 flex-col items-start gap-4 md:-translate-y-8 md:gap-5">
