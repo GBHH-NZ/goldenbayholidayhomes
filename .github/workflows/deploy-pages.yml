@@ -28,20 +28,16 @@ jobs:
       - name: Resolve base path and site URL
         id: paths
         run: |
-          # Default: project Pages path so CSS/JS load on
-          # https://<user>.github.io/goldenbayholidayhomes/
-          # Custom-domain cutover: set repo Variable BASE_PATH=none (empty root)
-          # and NEXT_PUBLIC_SITE_URL=https://www.goldenbayholidayhomes.nz
+          # Custom domain (public/CNAME + DNS → GitHub Pages) needs empty basePath
+          # so CSS/JS load at https://www.goldenbayholidayhomes.nz/_next/...
+          # Project preview only: set Variable BASE_PATH=/goldenbayholidayhomes
           RAW="${{ vars.BASE_PATH }}"
-          if [ "$RAW" = "none" ] || [ "$RAW" = "/" ]; then
+          if [ "$RAW" = "none" ] || [ "$RAW" = "/" ] || [ -z "$RAW" ]; then
             BASE=""
             SITE_DEFAULT="https://www.goldenbayholidayhomes.nz"
-          elif [ -n "$RAW" ]; then
+          else
             BASE="$RAW"
             SITE_DEFAULT="https://gbhh-nz.github.io${BASE}"
-          else
-            BASE="/goldenbayholidayhomes"
-            SITE_DEFAULT="https://gbhh-nz.github.io/goldenbayholidayhomes"
           fi
           SITE="${{ vars.NEXT_PUBLIC_SITE_URL }}"
           if [ -z "$SITE" ]; then SITE="$SITE_DEFAULT"; fi

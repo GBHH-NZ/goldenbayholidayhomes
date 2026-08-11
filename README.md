@@ -28,7 +28,7 @@ Full checklist: **[.github/SECRETS.md](.github/SECRETS.md)**
 | Secret | `GUESTY_CLIENT_SECRET` | Guesty OAuth (sync workflow) |
 | Variable | `NEXT_PUBLIC_SITE_URL` | Canonical URL / SEO |
 | Variable | `GUESTY_API_BASE` | Optional API host override |
-| Variable | `BASE_PATH` | Unset → `/goldenbayholidayhomes` (project Pages); set `none` after www DNS cutover |
+| Variable | `BASE_PATH` | Production: `none` (domain root). Project preview: `/goldenbayholidayhomes` |
 
 Workflows already wired:
 
@@ -36,9 +36,9 @@ Workflows already wired:
 - [`.github/workflows/sync-guesty.yml`](.github/workflows/sync-guesty.yml) — sync catalogue → PR
 - [`.github/workflows/deploy-pages.yml`](.github/workflows/deploy-pages.yml) — build `out/` → GitHub Pages
 
-After pushing the repo: **Settings → Pages → Source = GitHub Actions**.
+After pushing the repo: **Settings → Pages → Source = GitHub Actions** (deploys from workflow on `main` — not “Deploy from a branch”).
 
-Preview: `https://gbhh-nz.github.io/goldenbayholidayhomes/` (needs non-empty `BASE_PATH` so CSS loads). For www cutover, see [.github/SECRETS.md](.github/SECRETS.md) (`BASE_PATH=none` + DNS to GitHub Pages).
+Production URL: `https://www.goldenbayholidayhomes.nz` (requires `BASE_PATH=none` so CSS/JS load at the domain root). See [.github/SECRETS.md](.github/SECRETS.md).
 
 ## Homepage Guesty embeds
 
