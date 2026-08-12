@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { SiteHeader } from "@/components/Header";
-import { GuestyPropertiesEmbed } from "@/components/GuestyPropertiesEmbed";
-import { GuestySearchWidget } from "@/components/GuestySearchWidget";
+import { GuestyBookingSection } from "@/components/GuestyBookingSection";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
 import { getAllHomes, getHomeLocations } from "@/lib/homes";
 import { buildPageMetadata } from "@/lib/seo";
@@ -31,51 +30,40 @@ export default function PreviewPage() {
               Booking features
             </h1>
             <p className="mt-3 max-w-2xl text-muted">
-              Use this page to review the Guesty search bar, the in-page
-              booking catalogue, and the site homes grid. The public homepage
-              can stay as the owner edits it.
+              Use this page to review the in-page Guesty search → iframe flow
+              and the site homes grid. Search stays on this page and refines
+              the booking catalogue below.
             </p>
           </div>
         </section>
 
         <section className="mx-auto max-w-6xl px-4 py-14 md:px-6">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-            1 — Guesty search widget
-          </p>
-          <h2 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-sea-deep">
-            Date search
-          </h2>
-          <p className="mt-2 max-w-2xl text-sm text-muted">
-            Works without changing Guesty settings. Guests pick dates here,
-            then continue on the booking engine.
-          </p>
-          <div className="mt-6">
-            <GuestySearchWidget />
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-4 py-6 md:px-6">
-          <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-            2 — Guesty booking catalogue (iframe)
+            1 — Hero search + Guesty iframe
           </p>
           <h2 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-sea-deep">
             Book on this site
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted">
-            Needs{" "}
+            Same flow as the homepage: dates, guests, and destination update
+            the iframe in place. Needs{" "}
             <span className="font-medium text-ink">
               Settings → Site SSL → Allow site to be loaded in an iframe
             </span>{" "}
             in Guesty. If the frame is blank, that toggle is still off.
           </p>
           <div className="mt-6">
-            <GuestyPropertiesEmbed id="preview-book-online" />
+            <GuestyBookingSection
+              id="preview-book-online"
+              locations={locations}
+              variant="preview"
+            />
           </div>
         </section>
 
         <section className="mx-auto max-w-6xl px-4 py-14 md:px-6">
           <p className="text-xs font-semibold uppercase tracking-wider text-muted">
-            3 — Site catalogue
+            2 — Site catalogue
           </p>
           <h2 className="mt-2 font-[family-name:var(--font-display)] text-2xl font-semibold text-sea-deep">
             Local homes grid

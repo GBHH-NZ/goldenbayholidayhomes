@@ -44,15 +44,15 @@ Production URL: `https://www.goldenbayholidayhomes.com` (requires `BASE_PATH=non
 
 Homepage order:
 
-1. Hero panorama with the slogan
-2. **Book online** Guesty catalogue iframe (`/#book-online`) — search and booking live here
+1. Hero panorama with the slogan and a **Find a stay** search bar at the bottom (dates, guests, destination)
+2. **Book online** Guesty catalogue iframe (`/#book-online`) — search refines this iframe in place (no navigation away)
 3. “Stay in Golden Bay” copy and the local listings grid (photo, blurb, meta, from-price, **Book now** → Guesty)
 
 Header and footer **Book Now** links go to `/#book-online`. Canonical metadata (title, Open Graph, sitemap, JSON-LD) uses `https://www.goldenbayholidayhomes.com`.
 
-**Owner preview:** [`/preview`](/preview/) remains a noindex sandbox of the same booking blocks.
+**Owner preview:** [`/preview`](/preview/) remains a noindex sandbox of the same search → iframe flow plus the local homes grid.
 
-**Iframe prerequisite:** In Guesty, enable **Settings → Site SSL → Allow site to be loaded in an iframe**. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The search widget does not need that toggle.
+**Iframe prerequisite:** In Guesty, enable **Settings → Site SSL → Allow site to be loaded in an iframe**. See [Load site in an iFrame](https://help.guesty.com/hc/en-gb/articles/9369345111197-Advanced-Website-Load-site-in-an-iFrame). The optional official search widget (`GuestySearchWidget`) does not need that toggle; the homepage search does not use it.
 
 Refresh the matched catalogue from the public booking site (no API keys):
 
