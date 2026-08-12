@@ -2,13 +2,12 @@
 
 import { useEffect, useId, useMemo, useState, type FormEvent } from "react";
 import { GuestyPropertiesEmbed } from "@/components/GuestyPropertiesEmbed";
-import { LOCATIONS } from "@/lib/locations";
+import { useGuestyEmbedRequired } from "@/components/GuestyEmbedContext";
 import {
-  defaultGuestyPropertiesUrl,
   extractIframeHeight,
-  guestyPropertiesUrl,
   isGuestyMessageOrigin,
 } from "@/lib/guesty/properties-url";
+import { LOCATIONS } from "@/lib/locations";
 
 type Variant = "home" | "preview";
 
@@ -24,17 +23,22 @@ export function GuestyBookingSection({
   const destinations = locations?.length ? locations : LOCATIONS;
   const formId = useId();
   const today = useMemo(() => todayIso(), []);
+  const {
+    iframeSrc,
+    showCatalogue,
+    filtered,
+    iframeHeight,
+    resultsId,
+    setIframeHeight,
+    openSearch,
+    clear,
+  } = useGuestyEmbedRequired();
 
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
   const [city, setCity] = useState("");
   const [error, setError] = useState("");
-  const [iframeSrc, setIframeSrc] = useState(() => defaultGuestyPropertiesUrl());
-  const [showCatalogue, setShowCatalogue] = useState(false);
-  const [filtered, setFiltered] = useState(false);
-  const [iframeHeight, setIframeHeight] = useState<number | undefined>();
-  const resultsId = `${id}-results`;
 
   useEffect(() => {
     function onMessage(event: MessageEvent) {
@@ -44,34 +48,9 @@ export function GuestyBookingSection({
     }
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
-  }, []);
+  }, [setIframeHeight]);
 
   const checkOutMin = checkIn ? addDaysIso(checkIn, 1) : addDaysIso(today, 1);
-
-  function applySearch(next: {
-    checkIn?: string;
-    checkOut?: string;
-    guests: number;
-    city?: string;
-  }) {
-    setIframeSrc(
-      guestyPropertiesUrl({
-        checkIn: next.checkIn,
-        checkOut: next.checkOut,
-        guests: next.guests,
-        adults: next.guests,
-        city: next.city,
-      }),
-    );
-    setIframeHeight(undefined);
-    setFiltered(Boolean(next.checkIn || next.checkOut || next.city || next.guests > 1));
-    setShowCatalogue(true);
-    requestAnimationFrame(() => {
-      document
-        .getElementById(resultsId)
-        ?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -88,10 +67,11 @@ export function GuestyBookingSection({
     }
 
     setError("");
-    applySearch({
+    openSearch({
       checkIn: checkIn || undefined,
       checkOut: checkOut || undefined,
       guests,
+      adults: guests,
       city: city || undefined,
     });
   }
@@ -102,10 +82,7 @@ export function GuestyBookingSection({
     setGuests(1);
     setCity("");
     setError("");
-    setIframeSrc(defaultGuestyPropertiesUrl());
-    setIframeHeight(undefined);
-    setFiltered(false);
-    setShowCatalogue(false);
+    clear();
   }
 
   const searchCard = (
@@ -223,7 +200,9 @@ export function GuestyBookingSection({
     return (
       <div id={id} className="scroll-mt-24">
         {searchCard}
-        {catalogue ? <div className="mt-8">{catalogue}</div> : null}
+        {catalogue ? (
+          <div className="mx-auto mt-8 w-full max-w-[100rem]">{catalogue}</div>
+        ) : null}
       </div>
     );
   }
@@ -232,7 +211,7 @@ export function GuestyBookingSection({
     <section id={id} className="relative z-20 -mt-16 scroll-mt-24 md:-mt-20">
       <div className="mx-auto max-w-6xl px-4 md:px-6">{searchCard}</div>
       {catalogue ? (
-        <div className="mx-auto mt-10 max-w-7xl px-4 md:px-6 md:mt-14">
+        <div className="mx-auto mt-10 w-full max-w-[100rem] px-2 sm:px-4 md:mt-14 md:px-6">
           {catalogue}
         </div>
       ) : null}

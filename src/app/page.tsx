@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { Suspense } from "react";
 import { Header } from "@/components/Header";
-import { GuestyBookingSection } from "@/components/GuestyBookingSection";
-import { HomesCatalogue } from "@/components/HomesCatalogue";
+import { HomeBookingStack } from "@/components/HomeBookingStack";
 import { getSiteMedia } from "@/lib/content";
 import { assetPath } from "@/lib/env";
 import { getAllHomes, getHomeLocations } from "@/lib/homes";
@@ -52,28 +50,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <GuestyBookingSection locations={locations} />
-
-      <section id="homes" className="py-16 md:py-24">
-        <div className="mx-auto max-w-6xl px-4 md:px-6">
-          <div className="max-w-2xl">
-            <h2 className="font-[family-name:var(--font-display)] text-3xl font-semibold text-sea-deep md:text-4xl">
-              Stay in Golden Bay
-            </h2>
-            <p className="mt-3 text-muted">
-              Beach baches and holiday homes across Pohara, Tata Beach,
-              Collingwood and beyond — with local support when you need it.
-            </p>
-          </div>
-          <div className="mt-10">
-            <Suspense
-              fallback={<div className="h-40 animate-pulse bg-foam/50" />}
-            >
-              <HomesCatalogue homes={homes} locations={locations} />
-            </Suspense>
-          </div>
-        </div>
-      </section>
+      <HomeBookingStack homes={homes} locations={locations} />
     </main>
   );
 }

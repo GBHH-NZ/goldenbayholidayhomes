@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import type { MouseEvent } from "react";
+import { useGuestyEmbed } from "@/components/GuestyEmbedContext";
 import type { Home } from "@/lib/homes/types";
 import { bookingUrl, homePhotos } from "@/lib/homes/types";
 import { clsx } from "clsx";
@@ -31,11 +35,20 @@ function metaBits(home: Home): string[] {
 }
 
 export function PropertyCard({ home }: { home: Home }) {
+  const embed = useGuestyEmbed();
   const photo = homePhotos(home)[0];
   const bookHref = bookingUrl(home);
   const nightly = formatNightly(home.nightlyFrom);
   const blurb = home.description?.trim() || null;
   const meta = metaBits(home);
+
+  function onBookClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (!embed) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (event.button !== 0) return;
+    event.preventDefault();
+    embed.openProperty(bookHref);
+  }
 
   return (
     <article className="border-b border-drift py-8 first:pt-0 last:border-b-0">
@@ -111,8 +124,9 @@ export function PropertyCard({ home }: { home: Home }) {
             </div>
             <a
               href={bookHref}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={embed ? undefined : "_blank"}
+              rel={embed ? undefined : "noopener noreferrer"}
+              onClick={onBookClick}
               className="inline-block rounded-md bg-sea px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sea-deep"
             >
               Book now
