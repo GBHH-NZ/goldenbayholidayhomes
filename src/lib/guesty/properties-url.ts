@@ -40,6 +40,16 @@ export function guestyPropertiesUrl(params: GuestySearchParams = {}): string {
   return url.toString();
 }
 
+/** True for a single listing page (`/properties/{id}`), not the catalogue list. */
+export function isGuestyPropertyUrl(src: string): boolean {
+  try {
+    const path = new URL(src).pathname.replace(/\/+$/, "");
+    return /\/properties\/[^/]+$/i.test(path);
+  } catch {
+    return false;
+  }
+}
+
 export function isGuestyMessageOrigin(origin: string): boolean {
   try {
     const host = new URL(origin).hostname.toLowerCase();

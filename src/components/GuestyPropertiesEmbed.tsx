@@ -1,5 +1,8 @@
 import { clsx } from "clsx";
-import { defaultGuestyPropertiesUrl } from "@/lib/guesty/properties-url";
+import {
+  defaultGuestyPropertiesUrl,
+  isGuestyPropertyUrl,
+} from "@/lib/guesty/properties-url";
 
 export function GuestyPropertiesEmbed({
   id,
@@ -13,6 +16,7 @@ export function GuestyPropertiesEmbed({
   filtered?: boolean;
 }) {
   const resolvedSrc = src ?? defaultGuestyPropertiesUrl();
+  const isProperty = isGuestyPropertyUrl(resolvedSrc);
 
   return (
     <div id={id} className="w-full scroll-mt-24">
@@ -26,9 +30,11 @@ export function GuestyPropertiesEmbed({
           "w-full border-0 bg-foam/30",
           height
             ? undefined
-            : filtered
-              ? "min-h-[min(160vh,96rem)]"
-              : "min-h-[min(120vh,72rem)]",
+            : isProperty
+              ? "min-h-[min(400vh,220rem)]"
+              : filtered
+                ? "min-h-[min(160vh,96rem)]"
+                : "min-h-[min(120vh,72rem)]",
         )}
         referrerPolicy="no-referrer-when-downgrade"
         allow="payment *"
