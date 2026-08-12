@@ -2,7 +2,7 @@ import { clsx } from "clsx";
 import { defaultGuestyPropertiesUrl } from "@/lib/guesty/properties-url";
 
 export function GuestyPropertiesEmbed({
-  id = "book-online",
+  id,
   src,
   height,
   filtered = false,
@@ -16,18 +16,6 @@ export function GuestyPropertiesEmbed({
 
   return (
     <div id={id} className="w-full scroll-mt-24">
-      <p className="mb-3 text-sm text-muted">
-        Browse availability and book below, or{" "}
-        <a
-          href={resolvedSrc}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-medium text-sea underline-offset-2 hover:underline"
-        >
-          open the booking catalogue
-        </a>
-        .
-      </p>
       <iframe
         key={resolvedSrc}
         title="Golden Bay Holiday Homes booking catalogue"

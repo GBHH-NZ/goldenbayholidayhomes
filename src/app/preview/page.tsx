@@ -45,8 +45,9 @@ export default function PreviewPage() {
             Book on this site
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-muted">
-            Same flow as the homepage: dates, guests, and destination update
-            the iframe in place. Needs{" "}
+            Same flow as the homepage: the iframe stays hidden until you
+            search, then dates, guests, and destination refine it in place.
+            Needs{" "}
             <span className="font-medium text-ink">
               Settings → Site SSL → Allow site to be loaded in an iframe
             </span>{" "}

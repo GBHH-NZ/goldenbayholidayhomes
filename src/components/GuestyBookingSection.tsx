@@ -31,8 +31,10 @@ export function GuestyBookingSection({
   const [city, setCity] = useState("");
   const [error, setError] = useState("");
   const [iframeSrc, setIframeSrc] = useState(() => defaultGuestyPropertiesUrl());
+  const [showCatalogue, setShowCatalogue] = useState(false);
   const [filtered, setFiltered] = useState(false);
   const [iframeHeight, setIframeHeight] = useState<number | undefined>();
+  const resultsId = `${id}-results`;
 
   useEffect(() => {
     function onMessage(event: MessageEvent) {
@@ -63,7 +65,12 @@ export function GuestyBookingSection({
     );
     setIframeHeight(undefined);
     setFiltered(Boolean(next.checkIn || next.checkOut || next.city || next.guests > 1));
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setShowCatalogue(true);
+    requestAnimationFrame(() => {
+      document
+        .getElementById(resultsId)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   }
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -98,6 +105,7 @@ export function GuestyBookingSection({
     setIframeSrc(defaultGuestyPropertiesUrl());
     setIframeHeight(undefined);
     setFiltered(false);
+    setShowCatalogue(false);
   }
 
   const searchCard = (
@@ -113,7 +121,7 @@ export function GuestyBookingSection({
         >
           Find a stay
         </h2>
-        {filtered && (
+        {showCatalogue && (
           <button
             type="button"
             onClick={onReset}
@@ -124,8 +132,8 @@ export function GuestyBookingSection({
         )}
       </div>
       <p className="mt-1 text-sm text-muted">
-        Search availability without leaving this page. Results update in the
-        booking catalogue below.
+        Search availability without leaving this page. Matching homes appear
+        below after you search.
       </p>
 
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_minmax(5.5rem,7rem)_minmax(9rem,1fr)_auto]">
@@ -201,38 +209,33 @@ export function GuestyBookingSection({
     </form>
   );
 
+  const catalogue = showCatalogue ? (
+    <div id={resultsId} className="scroll-mt-24">
+      <GuestyPropertiesEmbed
+        src={iframeSrc}
+        height={iframeHeight}
+        filtered={filtered || showCatalogue}
+      />
+    </div>
+  ) : null;
+
   if (variant === "preview") {
     return (
-      <div>
+      <div id={id} className="scroll-mt-24">
         {searchCard}
-        <div className="mt-8">
-          <GuestyPropertiesEmbed
-            id={id}
-            src={iframeSrc}
-            height={iframeHeight}
-            filtered={filtered}
-          />
-        </div>
+        {catalogue ? <div className="mt-8">{catalogue}</div> : null}
       </div>
     );
   }
 
   return (
-    <section className="relative z-20 -mt-16 md:-mt-20">
+    <section id={id} className="relative z-20 -mt-16 scroll-mt-24 md:-mt-20">
       <div className="mx-auto max-w-6xl px-4 md:px-6">{searchCard}</div>
-      <div className="mx-auto mt-10 max-w-7xl px-4 md:px-6 md:mt-14">
-        <h2 className="font-[family-name:var(--font-display)] text-xl font-semibold text-sea-deep">
-          Book online
-        </h2>
-        <div className="mt-4">
-          <GuestyPropertiesEmbed
-            id={id}
-            src={iframeSrc}
-            height={iframeHeight}
-            filtered={filtered}
-          />
+      {catalogue ? (
+        <div className="mx-auto mt-10 max-w-7xl px-4 md:px-6 md:mt-14">
+          {catalogue}
         </div>
-      </div>
+      ) : null}
     </section>
   );
 }
