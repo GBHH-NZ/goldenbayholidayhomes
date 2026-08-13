@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, type ReactNode } from "react";
 import { GuestyBookingSection } from "@/components/GuestyBookingSection";
 import { GuestyEmbedProvider } from "@/components/GuestyEmbedContext";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
@@ -9,13 +9,20 @@ import type { Home } from "@/lib/homes/types";
 export function HomeBookingStack({
   homes,
   locations,
+  rituals,
+  explore,
+  proof,
 }: {
   homes: Home[];
   locations: string[];
+  rituals?: ReactNode;
+  explore?: ReactNode;
+  proof?: ReactNode;
 }) {
   return (
     <GuestyEmbedProvider resultsId="book-online-results">
       <GuestyBookingSection locations={locations} />
+      {rituals}
       <section id="homes" className="py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-4 md:px-6">
           <div className="max-w-2xl">
@@ -36,6 +43,8 @@ export function HomeBookingStack({
           </div>
         </div>
       </section>
+      {explore}
+      {proof}
     </GuestyEmbedProvider>
   );
 }
@@ -82,7 +91,7 @@ export function PreviewBookingStack({
         </h2>
         <p className="mt-2 max-w-2xl text-sm text-muted">
           Listings we control on this site. Cards link through to each home
-          page; Book now opens the Guesty iframe above.
+          page; Book now opens a booking panel under that listing.
         </p>
         <div className="mt-8">
           <Suspense

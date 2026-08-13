@@ -29,11 +29,25 @@ export const homeSchema = z.object({
   bedrooms: z.number().nullable().optional(),
   bathrooms: z.number().nullable().optional(),
   address: z.string().nullable().optional(),
+  /** Hand-tagged stay setting — beach, bush, or farm. */
+  setting: z.enum(["beach", "bush", "farm"]).optional(),
+  /** Minutes’ walk to the beach when the listing copy states it. */
+  walkMins: z.number().int().nonnegative().optional(),
+  /** Hand-tagged when copy clearly mentions ocean, sea, or bay views. */
+  oceanView: z.boolean().optional(),
+  /** Hand-tagged when copy clearly mentions a spa or hot tub (not a bath). */
+  spa: z.boolean().optional(),
   syncStatus: syncStatusSchema.default("seed"),
 });
 
 export type Home = z.infer<typeof homeSchema>;
 export type SyncStatus = z.infer<typeof syncStatusSchema>;
+
+export const SETTING_LABEL = {
+  beach: "Beach",
+  bush: "Bush",
+  farm: "Farm",
+} as const;
 
 export const PLACEHOLDER_PHOTO = assetPath("/images/placeholder-home.svg");
 

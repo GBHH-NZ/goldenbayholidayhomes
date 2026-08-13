@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { MobileMenu } from "@/components/MobileMenu";
 import { getSiteMedia } from "@/lib/content";
 import { assetPath, CONTACT } from "@/lib/env";
 
@@ -39,18 +40,18 @@ function BrandMark({
     variant === "light" ? "text-white drop-shadow" : "text-sea-deep";
 
   return (
-    <span className="inline-flex items-center gap-2.5 md:gap-3">
+    <span className="inline-flex min-w-0 items-center gap-2 md:gap-3">
       <Image
         src={assetPath(logo)}
         alt="Golden Bay Holiday Homes"
         width={dims.w}
         height={dims.h}
-        className={`${dims.className} object-contain drop-shadow-md`}
+        className={`${dims.className} shrink-0 object-contain drop-shadow-md`}
         priority={size === "hero" || size === "nav"}
       />
       {size !== "hero" && (
         <span
-          className={`font-[family-name:var(--font-display)] text-base font-semibold tracking-tight md:text-lg ${labelClass}`}
+          className={`hidden font-[family-name:var(--font-display)] text-base font-semibold tracking-tight sm:inline md:text-lg ${labelClass}`}
         >
           Golden Bay Holiday Homes
         </span>
@@ -64,18 +65,14 @@ function GuestNav({ tone }: { tone: "light" | "dark" }) {
     tone === "light"
       ? "transition hover:text-white"
       : "transition hover:text-sea";
-  const listClass =
-    tone === "light"
-      ? "rounded-sm bg-white/15 px-3 py-1.5 backdrop-blur transition hover:bg-white/25"
-      : "rounded-sm bg-sea px-3 py-1.5 text-white transition hover:bg-sea-deep";
   const bookClass =
     tone === "light"
       ? "rounded-sm border border-white/70 bg-white/20 px-3 py-1.5 font-semibold backdrop-blur transition hover:bg-white/30"
       : "rounded-sm border border-sea bg-sea-deep px-3 py-1.5 font-semibold text-white transition hover:bg-sea";
-  const ownerClass =
+  const listClass =
     tone === "light"
-      ? "rounded-sm border border-white/50 px-3 py-1.5 transition hover:bg-white/15"
-      : "rounded-sm border border-sea/40 px-3 py-1.5 text-sea-deep transition hover:bg-sea/10";
+      ? "rounded-sm bg-white/15 px-3 py-1.5 font-semibold backdrop-blur transition hover:bg-white/25"
+      : "rounded-sm bg-sea px-3 py-1.5 font-semibold text-white transition hover:bg-sea-deep";
 
   return (
     <nav
@@ -93,71 +90,51 @@ function GuestNav({ tone }: { tone: "light" | "dark" }) {
         Book Now
       </Link>
       <Link href="/list-your-home" className={listClass}>
-        List Your Home
+        List with us
       </Link>
-      <a
-        href={CONTACT.guestyOwners}
-        className={ownerClass}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        Owner Login
-      </a>
     </nav>
   );
 }
 
 export function Header() {
   return (
-    <header className="absolute inset-x-0 top-0 z-40">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 md:px-6 md:py-5">
-        <Link href="/" className="shrink-0">
+    <header className="absolute inset-x-0 top-0 z-40 overflow-x-clip">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-4 sm:py-4 md:px-6 md:py-5">
+        <Link href="/" className="min-w-0 shrink">
           <BrandMark variant="light" size="nav" />
         </Link>
         <GuestNav tone="light" />
-        <a
-          href={`tel:${CONTACT.phoneFree.replace(/\s/g, "")}`}
-          className="text-sm text-white/90 lg:hidden"
-        >
-          Call
-        </a>
-      </div>
-      <nav
-        aria-label="Mobile"
-        className="flex gap-3 overflow-x-auto px-4 pb-3 text-xs text-white/90 lg:hidden"
-      >
-        {guestLinks.slice(0, 5).map((l) => (
-          <Link key={l.href} href={l.href} className="whitespace-nowrap">
-            {l.label}
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2 lg:hidden">
+          <Link
+            href="/#book-online"
+            className="inline-flex min-h-11 items-center rounded-sm border border-white/70 bg-white/20 px-2.5 py-2 text-sm font-semibold text-white backdrop-blur sm:px-3"
+          >
+            Book Now
           </Link>
-        ))}
-        <Link
-          href="/#book-online"
-          className="whitespace-nowrap font-semibold"
-        >
-          Book Now
-        </Link>
-        <a
-          href={CONTACT.guestyOwners}
-          className="whitespace-nowrap"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Owner Login
-        </a>
-      </nav>
+          <MobileMenu tone="light" />
+        </div>
+      </div>
     </header>
   );
 }
 
 export function SiteHeader() {
   return (
-    <header className="border-b border-drift/60 bg-sand/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 md:px-6 md:py-4">
-        <Link href="/" className="shrink-0">
+    <header className="overflow-x-clip border-b border-drift/60 bg-sand/90 backdrop-blur">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-4 md:px-6 md:py-4">
+        <Link href="/" className="min-w-0 shrink">
           <BrandMark variant="dark" size="nav" />
         </Link>
         <GuestNav tone="dark" />
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2 lg:hidden">
+          <Link
+            href="/#book-online"
+            className="inline-flex min-h-11 items-center rounded-sm border border-sea bg-sea-deep px-2.5 py-2 text-sm font-semibold text-white sm:px-3"
+          >
+            Book Now
+          </Link>
+          <MobileMenu tone="dark" />
+        </div>
       </div>
     </header>
   );

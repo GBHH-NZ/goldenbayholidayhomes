@@ -1,4 +1,5 @@
 import { guestyFetch } from "./auth";
+import { sortHomesForCatalogue } from "@/lib/homes/order";
 import type { Home } from "@/lib/homes/types";
 import { slugify } from "@/lib/slugify";
 import { normalizeLocation } from "@/lib/locations";
@@ -90,10 +91,13 @@ export function mergeHomes(seed: Home[], fromApi: Home[]): Home[] {
     return {
       ...row,
       ...match,
-      // Keep Wix location/pets/guests if API omits them
       location: match.location || row.location,
       guests: match.guests || row.guests,
       petsAllowed: match.petsAllowed ?? row.petsAllowed,
+      setting: row.setting ?? match.setting,
+      walkMins: row.walkMins ?? match.walkMins,
+      oceanView: row.oceanView ?? match.oceanView,
+      spa: row.spa ?? match.spa,
       syncStatus: "synced" as const,
     };
   });
@@ -105,5 +109,5 @@ export function mergeHomes(seed: Home[], fromApi: Home[]): Home[] {
     }
   }
 
-  return merged.sort((a, b) => a.title.localeCompare(b.title));
+  return sortHomesForCatalogue(merged);
 }

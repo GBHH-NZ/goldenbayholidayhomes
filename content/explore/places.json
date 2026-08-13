@@ -36,15 +36,6 @@
     "url": "http://www.arohahealthspa.co.nz/"
   },
   {
-    "slug": "horse-treks-hack-n-stay",
-    "name": "Horse Treks with Hack 'n' Stay",
-    "category": "Outdoor Adventures",
-    "location": "Golden Bay",
-    "summary": "Experience guided horse treks through stunning coastal landscapes.",
-    "image": "/images/explore/horse-treks-hack-n-stay.jpg",
-    "url": "http://hackfarm.co.nz/"
-  },
-  {
     "slug": "milnthorpe-park",
     "name": "Milnthorpe Park",
     "category": "Outdoor Adventures",
@@ -52,6 +43,17 @@
     "summary": "Explore over 13 km of walking tracks through regenerating forest.",
     "image": "/images/explore/milnthorpe-park.jpg",
     "url": "https://nelsontrails.co.nz/milnthorpe-park/"
+  },
+  {
+    "slug": "horse-treks-hack-n-stay",
+    "name": "Hack Farm",
+    "category": "Outdoor Adventures",
+    "location": "Patons Rock",
+    "summary": "Guided beach horse rides near Patons Rock, suited to riders of all abilities.",
+    "image": "/images/explore/horse-treks-hack-n-stay.jpg",
+    "url": "https://www.hackfarm.co.nz/",
+    "bookUrl": "https://fareharbor.com/embeds/book/hackfarm/items/?flow=543158&full-items=yes&back=https://www.hackfarm.co.nz/",
+    "bookLabel": "Book a Ride"
   },
   {
     "slug": "golden-bay-kayaks",

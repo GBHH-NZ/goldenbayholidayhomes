@@ -14,12 +14,20 @@ import {
   type GuestySearchParams,
 } from "@/lib/guesty/properties-url";
 
+export type CatalogueSearch = {
+  checkIn?: string;
+  checkOut?: string;
+  guests: number;
+  city?: string;
+};
+
 type GuestyEmbedContextValue = {
   iframeSrc: string;
   showCatalogue: boolean;
   filtered: boolean;
   iframeHeight: number | undefined;
   resultsId: string;
+  lastSearch: CatalogueSearch | null;
   setIframeHeight: (height: number | undefined) => void;
   openProperty: (url: string) => void;
   openSearch: (params: GuestySearchParams) => void;
@@ -47,6 +55,7 @@ export function GuestyEmbedProvider({
   const [showCatalogue, setShowCatalogue] = useState(false);
   const [filtered, setFiltered] = useState(false);
   const [iframeHeight, setIframeHeight] = useState<number | undefined>();
+  const [lastSearch, setLastSearch] = useState<CatalogueSearch | null>(null);
 
   const openProperty = useCallback(
     (url: string) => {
@@ -62,6 +71,7 @@ export function GuestyEmbedProvider({
   const openSearch = useCallback(
     (params: GuestySearchParams) => {
       const guests = params.guests ?? params.adults ?? 1;
+      const city = params.city?.trim() || undefined;
       setIframeSrc(
         guestyPropertiesUrl({
           ...params,
@@ -70,13 +80,14 @@ export function GuestyEmbedProvider({
         }),
       );
       setFiltered(
-        Boolean(
-          params.checkIn ||
-            params.checkOut ||
-            params.city ||
-            guests > 1,
-        ),
+        Boolean(params.checkIn || params.checkOut || city || guests > 1),
       );
+      setLastSearch({
+        checkIn: params.checkIn,
+        checkOut: params.checkOut,
+        guests,
+        city,
+      });
       setShowCatalogue(true);
       setIframeHeight(undefined);
       scrollToResults(resultsId);
@@ -89,6 +100,7 @@ export function GuestyEmbedProvider({
     setIframeHeight(undefined);
     setFiltered(false);
     setShowCatalogue(false);
+    setLastSearch(null);
   }, []);
 
   const value = useMemo(
@@ -98,6 +110,7 @@ export function GuestyEmbedProvider({
       filtered,
       iframeHeight,
       resultsId,
+      lastSearch,
       setIframeHeight,
       openProperty,
       openSearch,
@@ -109,6 +122,7 @@ export function GuestyEmbedProvider({
       filtered,
       iframeHeight,
       resultsId,
+      lastSearch,
       openProperty,
       openSearch,
       clear,

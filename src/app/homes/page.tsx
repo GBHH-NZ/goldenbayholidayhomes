@@ -1,24 +1,27 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { SiteHeader } from "@/components/Header";
-import { PropertyGrid } from "@/components/PropertyCard";
-import { getAllHomes } from "@/lib/homes";
+import { HomesCatalogue } from "@/components/HomesCatalogue";
+import { getAllHomes, getHomeLocations } from "@/lib/homes";
 import { buildPageMetadata } from "@/lib/seo";
 
+const HOME_COUNT = getAllHomes().length;
+
 export const metadata: Metadata = buildPageMetadata({
-  title: "Holiday Homes",
-  description:
-    "Browse hand-picked Golden Bay holiday homes — filter by location, pets, and capacity.",
+  title: "Holiday Homes in Golden Bay",
+  description: `Browse ${HOME_COUNT} holiday homes across Pohara, Tata Beach, Collingwood, Patons Rock and Golden Bay. Filter by town, pets, ocean views, spa, and how many you sleep.`,
   path: "/homes",
 });
 
 export default function HomesPage() {
   const homes = getAllHomes();
+  const locations = getHomeLocations();
 
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
-        <h1 className="font-[family-name:var(--font-display)] text-4xl font-semibold text-sea-deep">
+      <main className="mx-auto min-w-0 max-w-6xl px-4 py-12 md:px-6 md:py-16">
+        <h1 className="font-[family-name:var(--font-display)] text-4xl font-semibold text-sea-deep [overflow-wrap:anywhere]">
           Holiday Homes
         </h1>
         <p className="mt-3 max-w-2xl text-muted">
@@ -26,7 +29,11 @@ export default function HomesPage() {
           and our price-match promise.
         </p>
         <div className="mt-10">
-          <PropertyGrid homes={homes} />
+          <Suspense
+            fallback={<div className="h-40 animate-pulse bg-foam/50" />}
+          >
+            <HomesCatalogue homes={homes} locations={locations} />
+          </Suspense>
         </div>
       </main>
     </>

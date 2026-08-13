@@ -2,15 +2,20 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/Header";
-import { BookCta } from "@/components/BookCta";
+import { PropertyBooking } from "@/components/BookCta";
 import { JsonLd } from "@/components/JsonLd";
 import { getAllHomes, getHomeBySlug } from "@/lib/homes";
 import {
   homeAmenities,
   homeDescription,
   homePhotos,
+  SETTING_LABEL,
 } from "@/lib/homes/types";
-import { buildPageMetadata, vacationRentalJsonLd } from "@/lib/seo";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+  vacationRentalJsonLd,
+} from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -24,8 +29,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!home) return { title: "Home not found" };
   const description = homeDescription(home).slice(0, 160);
   const photo = homePhotos(home)[0];
+  const locationInTitle = home.title
+    .toLowerCase()
+    .includes(home.location.toLowerCase());
   return buildPageMetadata({
-    title: home.title,
+    title: locationInTitle
+      ? home.title
+      : `${home.title} in ${home.location}`,
     description,
     path: `/homes/${home.slug}`,
     images: photo ? [{ url: photo }] : undefined,
@@ -43,18 +53,29 @@ export default async function HomeDetailPage({ params }: Props) {
   return (
     <>
       <JsonLd data={vacationRentalJsonLd(home)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Holiday Homes", path: "/homes" },
+          { name: home.shortTitle || home.title, path: `/homes/${home.slug}` },
+        ])}
+      />
       <SiteHeader />
-      <main className="mx-auto max-w-6xl px-4 py-10 md:px-6 md:py-14">
+      <main className="mx-auto min-w-0 max-w-6xl px-4 py-10 md:px-6 md:py-14">
         <div className="grid gap-10 lg:grid-cols-[1.4fr_0.8fr]">
           <div>
             <p className="text-sm font-medium uppercase tracking-wide text-sea">
               {home.location}
             </p>
-            <h1 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-sea-deep md:text-5xl">
+            <h1 className="mt-2 font-[family-name:var(--font-display)] text-3xl font-semibold text-sea-deep [overflow-wrap:anywhere] md:text-5xl">
               {home.title}
             </h1>
             <p className="mt-3 text-muted">
               Sleeps {home.guests}
+              {home.setting ? ` · ${SETTING_LABEL[home.setting]}` : ""}
+              {home.walkMins != null ? ` · ${home.walkMins} min walk` : ""}
+              {home.oceanView ? " · Ocean view" : ""}
+              {home.spa ? " · Spa" : ""}
               {home.petsAllowed ? " · Pets welcome" : ""}
               {home.bedrooms ? ` · ${home.bedrooms} bedrooms` : ""}
             </p>
@@ -119,7 +140,7 @@ export default async function HomeDetailPage({ params }: Props) {
           </div>
 
           <div className="lg:sticky lg:top-8 lg:self-start">
-            <BookCta home={home} />
+            <PropertyBooking home={home} />
           </div>
         </div>
       </main>

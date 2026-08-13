@@ -59,6 +59,7 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.paths.outputs.base_path }}
           NEXT_PUBLIC_SITE_URL: ${{ steps.paths.outputs.site_url }}
+          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-P4LBS4D2WW' }}
           GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
           GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
           GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}

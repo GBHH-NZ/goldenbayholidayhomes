@@ -5,7 +5,8 @@ import { SiteHeader } from "@/components/Header";
 import { getAllBlogPosts, getBlogPost } from "@/lib/content";
 import { assetPath } from "@/lib/env";
 import { markdownToHtml } from "@/lib/markdown";
-import { buildPageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { blogPostingJsonLd, buildPageMetadata } from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -35,7 +36,16 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
+      <JsonLd
+        data={blogPostingJsonLd({
+          title: post.title,
+          description: post.description,
+          slug: post.slug,
+          date: post.date,
+          image: post.image,
+        })}
+      />
+      <main className="mx-auto min-w-0 max-w-3xl px-4 py-12 md:px-6 md:py-16">
         <p className="text-sm text-muted">{post.date}</p>
         <h1 className="mt-2 font-[family-name:var(--font-display)] text-4xl font-semibold text-sea-deep">
           {post.title}
@@ -45,7 +55,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="relative mt-8 aspect-[16/9] overflow-hidden bg-drift">
             <Image
               src={assetPath(post.image)}
-              alt=""
+              alt={post.title}
               fill
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 768px"

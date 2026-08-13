@@ -30,12 +30,26 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body), system-ui, sans-serif;
+  overflow-x: clip;
+}
+
+input,
+select,
+textarea,
+iframe {
+  max-width: 100%;
+}
+
+input[type="date"],
+input[type="number"] {
+  min-width: 0;
 }
 
 ::selection {
@@ -113,10 +127,10 @@ body {
 
 @keyframes drift {
   from {
-    transform: translateY(0);
+    transform: scale(1.16) translate3d(-5%, 1%, 0);
   }
   to {
-    transform: translateY(-6px);
+    transform: scale(1.22) translate3d(5%, -2%, 0);
   }
 }
 
@@ -129,5 +143,19 @@ body {
 }
 
 .animate-drift {
-  animation: drift 4s ease-in-out infinite alternate;
+  animation: drift 56s linear infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-drift,
+  .animate-fade-up,
+  .animate-fade-up-delay {
+    animation: none;
+  }
+}
+
+@media (max-width: 63.99rem) {
+  body.has-sticky-search {
+    padding-bottom: 7.5rem;
+  }
 }

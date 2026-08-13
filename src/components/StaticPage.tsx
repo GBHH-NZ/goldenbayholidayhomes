@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/Header";
 import { getPageContent } from "@/lib/content";
 import { CONTACT } from "@/lib/env";
-import { buildPageMetadata } from "@/lib/seo";
+import { JsonLd } from "@/components/JsonLd";
+import { buildPageMetadata, faqPageJsonLd } from "@/lib/seo";
 
 type PageJson = {
   title: string;
@@ -41,8 +42,9 @@ function StaticPage({
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto max-w-3xl px-4 py-12 md:px-6 md:py-16">
-        <h1 className="font-[family-name:var(--font-display)] text-4xl font-semibold text-sea-deep">
+      {page.faqs?.length ? <JsonLd data={faqPageJsonLd(page.faqs)} /> : null}
+      <main className="mx-auto min-w-0 max-w-3xl px-4 py-12 md:px-6 md:py-16">
+        <h1 className="font-[family-name:var(--font-display)] text-4xl font-semibold text-sea-deep [overflow-wrap:anywhere]">
           {page.title}
         </h1>
         {page.heroCaption && (

@@ -18,6 +18,7 @@ Do **not** put Guesty credentials in the repo, `.env` commits, or `NEXT_PUBLIC_*
 | Name | Required | Default / example | Description |
 |------|----------|-------------------|-------------|
 | `NEXT_PUBLIC_SITE_URL` | Recommended | `https://www.goldenbayholidayhomes.com` | Canonical site URL for metadata, sitemap, OG |
+| `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Recommended | `G-P4LBS4D2WW` | GA4 Measurement ID, inlined into the static export. The app also falls back to this ID if the variable is unset. |
 | `GUESTY_API_BASE` | Optional | `https://booking-api.guesty.com` | Guesty Booking Engine API base |
 | `BASE_PATH` | Recommended for custom domain | `none` | Empty asset prefix for www/apex DNS → Pages. Set `/goldenbayholidayhomes` only for project-URL preview on `*.github.io` |
 
@@ -50,6 +51,7 @@ env:
   GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
   GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
   NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.goldenbayholidayhomes.com' }}
+  NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-P4LBS4D2WW' }}
 ```
 
 Local development still uses `.env.local` (gitignored). Copy from [`.env.example`](../.env.example).

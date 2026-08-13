@@ -19,7 +19,7 @@ export default function BlogIndexPage() {
   return (
     <>
       <SiteHeader />
-      <main className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
+      <main className="mx-auto min-w-0 max-w-6xl px-4 py-12 md:px-6 md:py-16">
         <h1 className="font-[family-name:var(--font-display)] text-4xl font-semibold text-sea-deep">
           Blog
         </h1>
@@ -32,7 +32,7 @@ export default function BlogIndexPage() {
               <div className="relative aspect-[16/10] overflow-hidden bg-drift">
                 <Image
                   src={assetPath(post.image ?? "/images/og-default.svg")}
-                  alt=""
+                  alt={post.title}
                   fill
                   className="object-cover transition duration-500 group-hover:scale-105"
                   sizes="(max-width: 768px) 100vw, 50vw"

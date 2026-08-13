@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/*?lightbox=", "/preview", "/preview/"],
+        disallow: ["/preview", "/preview/"],
       },
       {
         userAgent: "PetalBot",

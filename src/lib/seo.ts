@@ -23,6 +23,19 @@ export function absoluteUrl(path = "/"): string {
   return `${SITE_URL}${withSlash}`;
 }
 
+/** Absolute URL for a file (no trailing slash). */
+export function absoluteAssetUrl(path: string): string {
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("//")
+  ) {
+    return path;
+  }
+  const normalized = path.startsWith("/") ? path : `/${path}`;
+  return `${SITE_URL}${normalized}`;
+}
+
 type PageMetaInput = {
   title?: string;
   description?: string;
@@ -83,7 +96,7 @@ export function organizationJsonLd() {
         url: `${SITE_URL}/`,
         email: CONTACT.email,
         telephone: [CONTACT.phoneMobile, CONTACT.phoneFree],
-        logo: getSiteMedia().logo,
+        logo: absoluteAssetUrl(getSiteMedia().logo),
         sameAs: [CONTACT.facebook],
         address: {
           "@type": "PostalAddress",
@@ -99,7 +112,7 @@ export function organizationJsonLd() {
         url: `${SITE_URL}/`,
         email: CONTACT.email,
         telephone: CONTACT.phoneMobile,
-        image: ogImageUrl(),
+        image: absoluteAssetUrl(ogImageUrl()),
         priceRange: "$$",
         areaServed: {
           "@type": "AdministrativeArea",
@@ -117,14 +130,35 @@ export function organizationJsonLd() {
   };
 }
 
+export function homesItemListJsonLd(homes: Home[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Golden Bay holiday homes",
+    numberOfItems: homes.length,
+    itemListElement: homes.map((home, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      url: absoluteUrl(`/homes/${home.slug}`),
+      name: home.title,
+    })),
+  };
+}
+
 export function vacationRentalJsonLd(home: Home) {
+  const photos = homePhotos(home);
+  const hasReviews =
+    home.reviewScore != null &&
+    home.reviewCount != null &&
+    home.reviewCount > 0;
+
   return {
     "@context": "https://schema.org",
     "@type": "VacationRental",
     name: home.title,
     description: homeDescription(home),
     url: absoluteUrl(`/homes/${home.slug}`),
-    image: homePhotos(home),
+    image: photos,
     address: {
       "@type": "PostalAddress",
       addressLocality: home.location,
@@ -142,6 +176,68 @@ export function vacationRentalJsonLd(home: Home) {
       name,
       value: true,
     })),
+    ...(hasReviews
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: home.reviewScore,
+            reviewCount: home.reviewCount,
+            bestRating: 10,
+            worstRating: 1,
+          },
+        }
+      : {}),
+  };
+}
+
+export function breadcrumbJsonLd(
+  crumbs: { name: string; path: string }[],
+) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: absoluteUrl(crumb.path),
+    })),
+  };
+}
+
+export function faqPageJsonLd(faqs: { q: string; a: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.a,
+      },
+    })),
+  };
+}
+
+export function blogPostingJsonLd(post: {
+  title: string;
+  description: string;
+  slug: string;
+  date: string;
+  image?: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    url: absoluteUrl(`/blog/${post.slug}`),
+    image: post.image ? [absoluteAssetUrl(post.image)] : undefined,
+    author: { "@id": `${SITE_URL}/#organization` },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    inLanguage: "en-NZ",
   };
 }
 
@@ -149,11 +245,11 @@ export const defaultMetadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "Golden Bay Accommodation & Holiday Homes | goldenbayholidayhomes.com",
+      "Holiday Homes in Golden Bay | Pohara, Tata Beach & Collingwood",
     template: "%s | Golden Bay Holiday Homes",
   },
   description:
-    "Hand-picked Golden Bay accommodation — beach baches and holiday homes with hotel-quality linen and local support from Michael & Katja.",
+    "Hand-picked holiday homes in Golden Bay, New Zealand — beach baches in Pohara, Tata Beach, Collingwood and beyond, with hotel-quality linen and local support.",
   alternates: {
     canonical: absoluteUrl("/"),
   },
@@ -162,18 +258,16 @@ export const defaultMetadata: Metadata = {
     locale: "en_NZ",
     url: absoluteUrl("/"),
     siteName: "Golden Bay Holiday Homes",
-    title:
-      "Golden Bay Accommodation & Holiday Homes | goldenbayholidayhomes.com",
+    title: "Holiday Homes in Golden Bay | Pohara, Tata Beach & Collingwood",
     description:
-      "Hand-picked Golden Bay accommodation — beach baches and holiday homes with hotel-quality linen and local support from Michael & Katja.",
+      "Hand-picked holiday homes in Golden Bay, New Zealand — beach baches in Pohara, Tata Beach, Collingwood and beyond, with hotel-quality linen and local support.",
     images: [{ url: ogImageUrl(), width: 1200, height: 630, alt: "Golden Bay Holiday Homes" }],
   },
   twitter: {
     card: "summary_large_image",
-    title:
-      "Golden Bay Accommodation & Holiday Homes | goldenbayholidayhomes.com",
+    title: "Holiday Homes in Golden Bay | Pohara, Tata Beach & Collingwood",
     description:
-      "Hand-picked Golden Bay accommodation — beach baches and holiday homes with hotel-quality linen and local support from Michael & Katja.",
+      "Hand-picked holiday homes in Golden Bay, New Zealand — beach baches in Pohara, Tata Beach, Collingwood and beyond, with hotel-quality linen and local support.",
     images: [ogImageUrl()],
   },
   robots: {

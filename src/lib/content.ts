@@ -17,6 +17,8 @@ export type SiteMedia = {
   heroImage: string;
   heroAlt: string;
   ogImage: string;
+  heroHeading: string;
+  heroLine: string;
 };
 
 export function getSiteMedia(): SiteMedia {
@@ -89,6 +91,9 @@ export type ExplorePlace = {
   image: string;
   /** Outbound DOC / venue link when available */
   url?: string;
+  /** FareHarbor (or similar) embed URL for an in-page Book a Ride panel */
+  bookUrl?: string;
+  bookLabel?: string;
 };
 
 export function getExplorePlaces(): ExplorePlace[] {

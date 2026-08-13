@@ -20,7 +20,9 @@
     "bedrooms": 2,
     "bathrooms": 2,
     "address": "2 Tennyson Street, Takaka 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "golden-bay-heights-luxury-accommodation",
@@ -43,7 +45,8 @@
     "bedrooms": 2,
     "bathrooms": 1,
     "address": "Parapara Valley Road, Parapara, Tasman 7182, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "bush"
   },
   {
     "slug": "kakariki-bach-beach-haven-in-patons-rock",
@@ -66,7 +69,8 @@
     "bedrooms": 4,
     "bathrooms": 2,
     "address": "199 Patons Rock Road, Patons Rock 7182, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "modern-escape-comfort-in-collingwood",
@@ -112,7 +116,9 @@
     "bedrooms": 4,
     "bathrooms": 2,
     "address": "51A Tata Heights, Tata Beach 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "ocean-views-across-the-beach-in-collingwood",
@@ -135,7 +141,9 @@
     "bedrooms": 4,
     "bathrooms": 2,
     "address": "42 Beach Road, Collingwood 7073, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "otere-river-view-villa-golden-bay",
@@ -181,7 +189,8 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "221 Patons Rock Road, Patons Rock 7182, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "penguin-cottage-in-ligar-bay",
@@ -204,7 +213,8 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "1146 Abel Tasman Drive, Ligar Bay 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "piwakawaka-haven-pohara-beach",
@@ -227,7 +237,9 @@
     "bedrooms": 3,
     "bathrooms": 2,
     "address": "45 Selwyn Street, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "pohara-beach-pukeko-studio",
@@ -250,7 +262,8 @@
     "bedrooms": 1,
     "bathrooms": 1,
     "address": "49 Selwyn Street, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "pohara-escape-bright-interiors-scenic-views",
@@ -273,7 +286,9 @@
     "bedrooms": 3,
     "bathrooms": 2.5,
     "address": "37 Selwyn Street, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "walkMins": 2
   },
   {
     "slug": "pohara-sands-family-beach-house",
@@ -296,7 +311,9 @@
     "bedrooms": 4,
     "bathrooms": 1.5,
     "address": "Selwyn Street, 7183 Pōhara, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "pohara-tide-beach-getaway",
@@ -319,7 +336,10 @@
     "bedrooms": 3,
     "bathrooms": 1.5,
     "address": "5A Selwyn Street, Pōhara, Tasman 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "walkMins": 1,
+    "oceanView": true
   },
   {
     "slug": "poharas-beach-escape",
@@ -342,7 +362,8 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "49 Selwyn Street, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "poharas-beach-house-your-coastal-getaway",
@@ -365,7 +386,9 @@
     "bedrooms": 1,
     "bathrooms": 1,
     "address": "753 Abel Tasman Drive, Pōhara, Tasman 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "poharas-beachside-bliss",
@@ -388,7 +411,8 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "43 Selwyn Street, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "poharas-beachside-gem",
@@ -411,7 +435,8 @@
     "bedrooms": 1,
     "bathrooms": 1,
     "address": "43 Selwyn Street, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "poharas-bliss-by-the-sea",
@@ -434,7 +459,9 @@
     "bedrooms": 3,
     "bathrooms": 2,
     "address": "Tennyson Street 6, 7183 Pōhara, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "poharas-kauri-lodge-coastal-views-in-golden-bay",
@@ -457,7 +484,9 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "6 Kowhatu Grove, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "poharas-kotare-heights",
@@ -480,7 +509,8 @@
     "bedrooms": 4,
     "bathrooms": 2,
     "address": "9 Kowhatu Grove, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "poharas-seaside-chalet-cosy-beach-stay",
@@ -503,7 +533,8 @@
     "bedrooms": 2,
     "bathrooms": 1,
     "address": "Tennyson Street 8, 7183 Pōhara, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "seaview-escape-in-patons-rock",
@@ -526,7 +557,9 @@
     "bedrooms": 3,
     "bathrooms": 2,
     "address": "7 Bydder Terrace, Patons Rock 7182, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "spacious-family-home-collingwood-golden-bay",
@@ -549,7 +582,8 @@
     "bedrooms": 4,
     "bathrooms": 2,
     "address": "33 Ruataniwha Drive, Collingwood 7073, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "studio-at-pohara",
@@ -572,7 +606,8 @@
     "bedrooms": 1,
     "bathrooms": 1,
     "address": "49 Selwyn Street, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "tata-beach-heights-spectacular-ocean-and-bush-views",
@@ -595,7 +630,9 @@
     "bedrooms": 3,
     "bathrooms": 2,
     "address": "Abel Tasman Drive 1397, 7183 Tata Beach, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "bush",
+    "oceanView": true
   },
   {
     "slug": "the-bach-classic-kiwi-stay-opposite-pohara-beach",
@@ -618,7 +655,9 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "776 Abel Tasman Drive, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "walkMins": 2
   },
   {
     "slug": "the-bach-home-away-from-home-in-pohara",
@@ -641,7 +680,9 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "776 Abel Tasman Drive, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "walkMins": 2
   },
   {
     "slug": "the-bach-one-escape-two-houses-many-memories",
@@ -664,7 +705,9 @@
     "bedrooms": 6,
     "bathrooms": 2,
     "address": "Abel Tasman Drive 776, 7183 Pōhara, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "walkMins": 2
   },
   {
     "slug": "the-gatehouse-tata-headlands",
@@ -687,7 +730,9 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "7183 Tata Beach, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "bush",
+    "oceanView": true
   },
   {
     "slug": "the-lighthouse-at-ligar-bay-romantic-coastal-escape-with-spa",
@@ -710,7 +755,10 @@
     "bedrooms": 3,
     "bathrooms": 1.5,
     "address": "56 Nyhane Drive, Ligar Bay 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true,
+    "spa": true
   },
   {
     "slug": "the-old-bakery-waterfront-retreat-in-collingwood",
@@ -733,7 +781,9 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "15 Tasman Street, Collingwood, Tasman 7073, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "the-woolshed-estate-at-tata-beach",
@@ -756,7 +806,8 @@
     "bedrooms": 5,
     "bathrooms": 3.5,
     "address": "1250 Abel Tasman Drive, Tata Beach 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   },
   {
     "slug": "totara-glen-bucolic-retreat-in-peaceful-countryside",
@@ -779,7 +830,8 @@
     "bedrooms": 5,
     "bathrooms": 1,
     "address": "12 Loop Road, East Tākaka 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "farm"
   },
   {
     "slug": "vista-al-mar-pohara",
@@ -802,7 +854,9 @@
     "bedrooms": 3,
     "bathrooms": 1.5,
     "address": "90 Bay Vista Drive, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "vista-serena-pohara",
@@ -825,7 +879,9 @@
     "bedrooms": 2,
     "bathrooms": 1.5,
     "address": "88 Bay Vista Drive, Pōhara 7183, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "wavesong-cottage-your-escape-by-the-sea",
@@ -848,6 +904,7 @@
     "bedrooms": 3,
     "bathrooms": 1,
     "address": "Parapara, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "setting": "beach"
   }
 ]
