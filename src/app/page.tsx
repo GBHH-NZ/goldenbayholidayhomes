@@ -46,18 +46,25 @@ export default function HomePage() {
             alt={site.heroAlt}
             fill
             priority
-            className="animate-drift object-cover object-[50%_40%]"
+            className="hero-photo animate-drift object-cover object-[50%_54%]"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-sea-deep/80 via-sea-deep/35 to-sea-deep/20" />
+          <div
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-gradient-to-t from-sea-deep/45 via-sea-deep/10 to-transparent"
+            aria-hidden
+          />
+          <div
+            className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-sea-deep/28 to-transparent md:h-28"
+            aria-hidden
+          />
         </div>
         <Header />
         <div className="relative z-10 flex h-full flex-col justify-end px-4 pb-28 pt-24 md:justify-center md:px-6 md:pb-28 md:pt-24">
           <div className="mx-auto flex w-full max-w-6xl flex-col items-start md:-translate-y-8">
-            <h1 className="animate-fade-up max-w-full font-[family-name:var(--font-display)] text-[clamp(1.75rem,4vw+0.5rem,3.5rem)] font-semibold leading-tight tracking-tight text-foam [overflow-wrap:anywhere]">
+            <h1 className="animate-fade-up max-w-full font-[family-name:var(--font-display)] text-[clamp(1.75rem,4vw+0.5rem,3.5rem)] font-semibold leading-tight tracking-tight text-foam [overflow-wrap:anywhere] [text-shadow:0_1px_2px_rgba(12,44,58,0.45),0_4px_28px_rgba(12,44,58,0.55)]">
               {site.heroHeading}
             </h1>
-            <p className="animate-fade-up-delay mt-3 max-w-full text-sm leading-relaxed text-foam/90 sm:max-w-xl md:text-lg">
+            <p className="animate-fade-up-delay mt-3 max-w-full text-sm leading-relaxed text-foam/95 sm:max-w-xl md:text-lg [text-shadow:0_1px_2px_rgba(12,44,58,0.4),0_4px_20px_rgba(12,44,58,0.5)]">
               {site.heroLine}
             </p>
           </div>

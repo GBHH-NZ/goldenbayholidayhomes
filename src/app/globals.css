@@ -127,10 +127,10 @@ input[type="number"] {
 
 @keyframes drift {
   from {
-    transform: scale(1.16) translate3d(-5%, 1%, 0);
+    transform: scale(1.14) translate3d(-5%, 0.4%, 0);
   }
   to {
-    transform: scale(1.22) translate3d(5%, -2%, 0);
+    transform: scale(1.16) translate3d(5%, -0.6%, 0);
   }
 }
 
@@ -142,7 +142,12 @@ input[type="number"] {
   animation: fade-up 0.8s ease-out 0.15s both;
 }
 
+.hero-photo {
+  filter: saturate(1.35) contrast(1.22) brightness(1.03);
+}
+
 .animate-drift {
+  transform: scale(1.14);
   animation: drift 56s linear infinite alternate;
 }
 
@@ -151,5 +156,9 @@ input[type="number"] {
   .animate-fade-up,
   .animate-fade-up-delay {
     animation: none;
+  }
+
+  .animate-drift {
+    transform: scale(1.14);
   }
 }
