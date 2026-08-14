@@ -8,8 +8,8 @@ import { buildPageMetadata } from "@/lib/seo";
 const HOME_COUNT = getAllHomes().length;
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Holiday Homes in Golden Bay",
-  description: `Browse ${HOME_COUNT} holiday homes across Pohara, Tata Beach, Collingwood, Patons Rock and Golden Bay. Filter by town, pets, ocean views, spa, and how many you sleep.`,
+  title: "Browse Holiday Homes in Pohara, Collingwood & Tata Beach",
+  description: `Browse ${HOME_COUNT} holiday homes across Pohara, Tata Beach, Collingwood, Patons Rock and near Takaka. Filter by town, pets, ocean views, spa, and how many you sleep.`,
   path: "/homes",
 });
 

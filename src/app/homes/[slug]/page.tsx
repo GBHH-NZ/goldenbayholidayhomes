@@ -14,6 +14,8 @@ import {
 import {
   breadcrumbJsonLd,
   buildPageMetadata,
+  listingMetaDescription,
+  listingPageTitle,
   vacationRentalJsonLd,
 } from "@/lib/seo";
 
@@ -27,18 +29,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const home = getHomeBySlug(slug);
   if (!home) return { title: "Home not found" };
-  const description = homeDescription(home).slice(0, 160);
   const photo = homePhotos(home)[0];
-  const locationInTitle = home.title
-    .toLowerCase()
-    .includes(home.location.toLowerCase());
   return buildPageMetadata({
-    title: locationInTitle
-      ? home.title
-      : `${home.title} in ${home.location}`,
-    description,
+    title: listingPageTitle(home),
+    description: listingMetaDescription(home),
     path: `/homes/${home.slug}`,
-    images: photo ? [{ url: photo }] : undefined,
+    images:
+      photo && !photo.includes("placeholder")
+        ? [{ url: photo, alt: `${home.title} in ${home.location}, Golden Bay` }]
+        : undefined,
   });
 }
 

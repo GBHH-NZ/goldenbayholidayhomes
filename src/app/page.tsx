@@ -9,20 +9,20 @@ import { StayRituals } from "@/components/StayRituals";
 import { getExplorePlaces, getSiteMedia } from "@/lib/content";
 import { assetPath } from "@/lib/env";
 import { getAllHomes, getHomeLocations, getHomesReviewAggregate } from "@/lib/homes";
-import { buildPageMetadata, homesItemListJsonLd } from "@/lib/seo";
-
-const HOME_TITLE =
-  "Holiday Homes in Golden Bay | Pohara, Tata Beach & Collingwood";
-const HOME_DESCRIPTION =
-  "Hand-picked holiday homes in Golden Bay, New Zealand — beach baches in Pohara, Tata Beach, Collingwood and beyond, with hotel-quality linen and local support.";
+import {
+  SITE_DESCRIPTION,
+  SITE_TITLE,
+  buildPageMetadata,
+  homesItemListJsonLd,
+} from "@/lib/seo";
 
 export const metadata: Metadata = {
   ...buildPageMetadata({
-    title: HOME_TITLE,
-    description: HOME_DESCRIPTION,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
     path: "/",
   }),
-  title: { absolute: HOME_TITLE },
+  title: { absolute: SITE_TITLE },
 };
 
 export default function HomePage() {

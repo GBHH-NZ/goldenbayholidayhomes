@@ -5,9 +5,9 @@ import { getExplorePlaces } from "@/lib/content";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Explore Golden Bay | Walks, Beaches & Things to Do",
+  title: "Things to Do in Golden Bay",
   description:
-    "Local favourites near our holiday homes — Pupū Springs, Wharariki Beach, Tata kayaks, Hack Farm horse rides, and cafés in Takaka and Collingwood.",
+    "Walks, beaches and local favourites near our holiday homes — Pupū Springs, Wharariki Beach, Tata kayaks, Hack Farm, and cafés in Takaka and Collingwood.",
   path: "/explore-golden-bay",
 });
 

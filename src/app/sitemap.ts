@@ -2,8 +2,8 @@ import fs from "fs";
 import path from "path";
 import type { MetadataRoute } from "next";
 import { getAllBlogPosts } from "@/lib/content";
-import { getAllHomes } from "@/lib/homes";
-import { absoluteUrl } from "@/lib/seo";
+import { getAllHomes, homePhotos } from "@/lib/homes";
+import { absoluteAssetUrl, absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-static";
 
@@ -108,12 +108,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: page.priority,
   }));
 
-  const homeEntries: MetadataRoute.Sitemap = homes.map((home) => ({
-    url: absoluteUrl(`/homes/${home.slug}`),
-    lastModified: homesModified,
-    changeFrequency: "weekly",
-    priority: 0.8,
-  }));
+  const homeEntries: MetadataRoute.Sitemap = homes.map((home) => {
+    const photo = homePhotos(home)[0];
+    const image =
+      photo && !photo.includes("placeholder")
+        ? [absoluteAssetUrl(photo)]
+        : undefined;
+    return {
+      url: absoluteUrl(`/homes/${home.slug}`),
+      lastModified: homesModified,
+      changeFrequency: "weekly",
+      priority: 0.8,
+      ...(image ? { images: image } : {}),
+    };
+  });
 
   const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: absoluteUrl(`/blog/${post.slug}`),

@@ -7,9 +7,9 @@ import { assetPath } from "@/lib/env";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Blog",
+  title: "Golden Bay Travel Tips",
   description:
-    "Travel tips for Golden Bay — beaches, walks, dog-friendly stays, and why booking direct helps.",
+    "Local tips for a Golden Bay holiday — beaches, family walks, dog-friendly stays, and why booking a holiday home direct is the easier choice for guests.",
   path: "/blog",
 });
 
