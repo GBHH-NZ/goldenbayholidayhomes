@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type MouseEvent } from "react";
+import { useEffect, type MouseEvent } from "react";
 import { GuestyEmbedProvider, useGuestyEmbed, useGuestyEmbedRequired } from "@/components/GuestyEmbedContext";
 import { GuestyPropertiesEmbed } from "@/components/GuestyPropertiesEmbed";
 import {
@@ -10,7 +10,6 @@ import {
 import type { Home } from "@/lib/homes/types";
 import { bookingUrl } from "@/lib/homes/types";
 import { CONTACT } from "@/lib/env";
-import type { DismissInsideRef } from "@/components/BookingEmbedPanel";
 
 export function BookCta({ home }: { home: Home }) {
   const embed = useGuestyEmbed();
@@ -62,11 +61,7 @@ export function BookCta({ home }: { home: Home }) {
   );
 }
 
-function PropertyEmbedSlot({
-  insideRefs,
-}: {
-  insideRefs?: readonly DismissInsideRef[];
-}) {
+function PropertyEmbedSlot() {
   const {
     showCatalogue,
     iframeSrc,
@@ -96,21 +91,16 @@ function PropertyEmbedSlot({
         height={iframeHeight}
         filtered={filtered}
         onClear={clear}
-        insideRefs={insideRefs}
       />
     </div>
   );
 }
 
 export function PropertyBooking({ home }: { home: Home }) {
-  const insideRef = useRef<HTMLDivElement>(null);
-
   return (
     <GuestyEmbedProvider resultsId={`book-${home.slug}`}>
-      <div ref={insideRef}>
-        <BookCta home={home} />
-        <PropertyEmbedSlot insideRefs={[insideRef]} />
-      </div>
+      <BookCta home={home} />
+      <PropertyEmbedSlot />
     </GuestyEmbedProvider>
   );
 }

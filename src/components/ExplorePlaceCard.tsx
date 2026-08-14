@@ -5,8 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   BookingEmbedPanel,
-  ConfirmCloseDialog,
-  useConfirmOutsideDismiss,
+  scrollIframePanelIntoView,
 } from "@/components/BookingEmbedPanel";
 import type { ExplorePlace } from "@/lib/content";
 import { assetPath } from "@/lib/env";
@@ -51,8 +50,6 @@ export function ExplorePlaceCard({
 }) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
-  const photoRef = useRef<HTMLButtonElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const infoHref = href ?? place.url;
   const Title = heading === "h3" ? "h3" : "h2";
@@ -61,13 +58,14 @@ export function ExplorePlaceCard({
 
   const [photoSrc, setPhotoSrc] = useState(assetPath(place.image));
 
-  const outsideClose = useConfirmOutsideDismiss(
-    open && Boolean(place.bookUrl),
-    () => setOpen(false),
-    photoRef,
-    triggerRef,
-    panelRef,
-  );
+  function openBooking() {
+    if (open) {
+      const panel = panelRef.current;
+      scrollIframePanelIntoView(panel, panel?.closest("article") ?? panel);
+      return;
+    }
+    setOpen(true);
+  }
 
   const photo = (
     <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-drift md:aspect-auto md:h-full md:min-h-[14rem]">
@@ -91,12 +89,11 @@ export function ExplorePlaceCard({
         <div className="p-3 pb-0 md:w-72 md:shrink-0 md:p-4 md:pr-0 lg:w-80">
           {place.bookUrl ? (
             <button
-              ref={photoRef}
               type="button"
               aria-expanded={open}
               aria-controls={panelId}
               aria-label={`${bookLabel} — ${place.name}`}
-              onClick={() => setOpen((value) => !value)}
+              onClick={openBooking}
               className="group block h-full w-full cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-sea"
             >
               {photo}
@@ -143,25 +140,17 @@ export function ExplorePlaceCard({
               <span />
             )}
             {place.bookUrl ? (
-              <div ref={triggerRef} className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   aria-expanded={open}
                   aria-controls={panelId}
-                  onClick={() => setOpen((value) => !value)}
+                  onClick={openBooking}
                   className="inline-flex min-h-11 items-center rounded-md bg-sea px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sea-deep"
                 >
                   {bookLabel}
                 </button>
-                {open ? (
-                  <button
-                    type="button"
-                    onClick={() => setOpen(false)}
-                    className="text-sm font-medium text-sea underline-offset-2 hover:underline"
-                  >
-                    Close
-                  </button>
-                ) : (
+                {open ? null : (
                   <span className="text-xs text-muted">Opens booking below</span>
                 )}
               </div>
@@ -179,13 +168,6 @@ export function ExplorePlaceCard({
             onClose={() => setOpen(false)}
           />
         </div>
-      ) : null}
-
-      {outsideClose.confirming ? (
-        <ConfirmCloseDialog
-          onConfirm={outsideClose.confirm}
-          onCancel={outsideClose.cancel}
-        />
       ) : null}
     </article>
   );

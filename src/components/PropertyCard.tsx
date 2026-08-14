@@ -5,8 +5,7 @@ import Image from "next/image";
 import { useId, useRef, useState } from "react";
 import {
   BookingEmbedPanel,
-  ConfirmCloseDialog,
-  useConfirmOutsideDismiss,
+  scrollIframePanelIntoView,
 } from "@/components/BookingEmbedPanel";
 import type { Home } from "@/lib/homes/types";
 import {
@@ -50,16 +49,12 @@ export function PropertyCard({
   home,
   bookingOpen,
   onToggleBooking,
-  onDismissBooking,
 }: {
   home: Home;
   bookingOpen?: boolean;
   onToggleBooking?: () => void;
-  onDismissBooking?: () => void;
 }) {
   const panelId = useId();
-  const photoRef = useRef<HTMLButtonElement>(null);
-  const triggerRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [localOpen, setLocalOpen] = useState(false);
   const photos = homePhotos(home);
@@ -74,27 +69,21 @@ export function PropertyCard({
   const canEmbed = Boolean(home.guestyId || home.guestyUrl);
   const open = onToggleBooking ? Boolean(bookingOpen) : localOpen;
 
-  function toggleBooking() {
-    if (onToggleBooking) onToggleBooking();
-    else setLocalOpen((value) => !value);
-  }
-
-  function dismissBooking() {
-    if (onDismissBooking) onDismissBooking();
-    else if (onToggleBooking) {
-      if (open) onToggleBooking();
-    } else {
-      setLocalOpen(false);
+  function openBooking() {
+    if (open) {
+      const panel = panelRef.current;
+      scrollIframePanelIntoView(panel, panel?.closest("article") ?? panel);
+      return;
     }
+    if (onToggleBooking) onToggleBooking();
+    else setLocalOpen(true);
   }
 
-  const outsideClose = useConfirmOutsideDismiss(
-    open && canEmbed,
-    dismissBooking,
-    photoRef,
-    triggerRef,
-    panelRef,
-  );
+  function closeBooking() {
+    if (!open) return;
+    if (onToggleBooking) onToggleBooking();
+    else setLocalOpen(false);
+  }
 
   const photoImage = (
     <Image
@@ -111,7 +100,6 @@ export function PropertyCard({
       <div className="flex flex-col md:flex-row">
         {canEmbed ? (
           <button
-            ref={photoRef}
             type="button"
             aria-expanded={open}
             aria-controls={panelId}
@@ -120,7 +108,7 @@ export function PropertyCard({
               photoFrameClass,
               "focus:outline-none focus-visible:ring-2 focus-visible:ring-sea",
             )}
-            onClick={toggleBooking}
+            onClick={openBooking}
             onMouseEnter={() => {
               if (canHoverGallery) setPhotoIndex(1);
             }}
@@ -238,25 +226,17 @@ export function PropertyCard({
               )}
             </div>
             {canEmbed ? (
-              <div ref={triggerRef} className="flex flex-wrap items-center gap-3">
+              <div className="flex flex-wrap items-center gap-3">
                 <button
                   type="button"
                   aria-expanded={open}
                   aria-controls={panelId}
-                  onClick={toggleBooking}
+                  onClick={openBooking}
                   className="inline-flex min-h-11 items-center rounded-md bg-sea px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-sea-deep"
                 >
                   Book now
                 </button>
-                {open ? (
-                  <button
-                    type="button"
-                    onClick={toggleBooking}
-                    className="text-sm font-medium text-sea underline-offset-2 hover:underline"
-                  >
-                    Close
-                  </button>
-                ) : (
+                {open ? null : (
                   <span className="text-xs text-muted">Opens booking below</span>
                 )}
               </div>
@@ -279,16 +259,9 @@ export function PropertyCard({
           <BookingEmbedPanel
             src={bookHref}
             title={`${home.shortTitle || home.title} booking`}
-            onClose={toggleBooking}
+            onClose={closeBooking}
           />
         </div>
-      ) : null}
-
-      {outsideClose.confirming ? (
-        <ConfirmCloseDialog
-          onConfirm={outsideClose.confirm}
-          onCancel={outsideClose.cancel}
-        />
       ) : null}
     </article>
   );
@@ -320,9 +293,6 @@ export function PropertyGrid({
           bookingOpen={openSlug === h.slug}
           onToggleBooking={() =>
             setOpenSlug((current) => (current === h.slug ? null : h.slug))
-          }
-          onDismissBooking={() =>
-            setOpenSlug((current) => (current === h.slug ? null : current))
           }
         />
       ))}

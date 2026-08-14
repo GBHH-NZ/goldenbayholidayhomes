@@ -8,6 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
+import { scrollIframePanelIntoView } from "@/components/BookingEmbedPanel";
 import {
   defaultGuestyPropertiesUrl,
   guestyPropertiesUrl,
@@ -38,9 +39,7 @@ const GuestyEmbedContext = createContext<GuestyEmbedContextValue | null>(null);
 
 function scrollToResults(resultsId: string) {
   requestAnimationFrame(() => {
-    document
-      .getElementById(resultsId)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    scrollIframePanelIntoView(document.getElementById(resultsId));
   });
 }
 

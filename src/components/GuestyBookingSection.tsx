@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useId, useMemo, useState, type FormEvent } from "react";
 import { GuestyPropertiesEmbed } from "@/components/GuestyPropertiesEmbed";
 import { useGuestyEmbedRequired } from "@/components/GuestyEmbedContext";
 import {
@@ -26,7 +26,6 @@ export function GuestyBookingSection({
   const destinations = locations?.length ? locations : LOCATIONS;
   const formId = useId();
   const today = useMemo(() => todayIso(), []);
-  const cardRef = useRef<HTMLDivElement>(null);
   const {
     iframeSrc,
     showCatalogue,
@@ -92,12 +91,11 @@ export function GuestyBookingSection({
   }
 
   const searchCard = (
-    <div ref={cardRef}>
-      <form
-        onSubmit={onSubmit}
-        className="w-full min-w-0 rounded-xl border border-drift/70 bg-sand/95 p-4 shadow-lg shadow-sea-deep/15 backdrop-blur md:p-5"
-        aria-labelledby={`${formId}-heading`}
-      >
+    <form
+      onSubmit={onSubmit}
+      className="w-full min-w-0 rounded-xl border border-drift/70 bg-sand/95 p-4 shadow-lg shadow-sea-deep/15 backdrop-blur md:p-5"
+      aria-labelledby={`${formId}-heading`}
+    >
         <div className="flex flex-wrap items-end justify-between gap-2">
           <h2
             id={`${formId}-heading`}
@@ -192,7 +190,6 @@ export function GuestyBookingSection({
           </p>
         )}
       </form>
-    </div>
   );
 
   const catalogue = showCatalogue ? (
@@ -202,7 +199,6 @@ export function GuestyBookingSection({
         height={iframeHeight}
         filtered={filtered || showCatalogue}
         onClear={onReset}
-        insideRefs={[cardRef]}
       />
     </div>
   ) : null;

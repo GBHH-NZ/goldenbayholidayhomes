@@ -5,9 +5,9 @@ import { clsx } from "clsx";
 import { CONTACT } from "@/lib/env";
 import {
   BOOKING_IFRAME_CLASS,
+  CLOSE_WINDOW_BUTTON_CLASS,
   ConfirmCloseDialog,
-  useConfirmOutsideDismiss,
-  type DismissInsideRef,
+  scrollIframePanelIntoView,
 } from "@/components/BookingEmbedPanel";
 import {
   defaultGuestyPropertiesUrl,
@@ -21,21 +21,27 @@ export function GuestyPropertiesEmbed({
   src,
   height,
   onClear,
-  insideRefs,
 }: {
   id?: string;
   src?: string;
   height?: number;
   filtered?: boolean;
   onClear?: () => void;
-  insideRefs?: readonly DismissInsideRef[];
 }) {
   const resolvedSrc = src ?? defaultGuestyPropertiesUrl();
   const isProperty = isGuestyPropertyUrl(resolvedSrc);
   const rootRef = useRef<HTMLDivElement>(null);
   const [collapsed, setCollapsed] = useState(false);
+  const [confirming, setConfirming] = useState(false);
   const [loadedSrc, setLoadedSrc] = useState<string | null>(null);
+  const [activeSrc, setActiveSrc] = useState(resolvedSrc);
   const loaded = loadedSrc === resolvedSrc;
+
+  if (activeSrc !== resolvedSrc) {
+    setActiveSrc(resolvedSrc);
+    setCollapsed(false);
+    setConfirming(false);
+  }
 
   const fallbackHref = isProperty ? resolvedSrc : CONTACT.guestyBookings;
   const iframeHeight = height
@@ -43,15 +49,10 @@ export function GuestyPropertiesEmbed({
     : undefined;
 
   useEffect(() => {
-    setCollapsed(false);
-  }, [resolvedSrc]);
-
-  const outsideClose = useConfirmOutsideDismiss(
-    !collapsed,
-    () => setCollapsed(true),
-    rootRef,
-    ...(insideRefs ?? []),
-  );
+    if (collapsed) return;
+    const panel = rootRef.current;
+    scrollIframePanelIntoView(panel, panel?.parentElement ?? panel);
+  }, [collapsed, resolvedSrc]);
 
   return (
     <div
@@ -64,13 +65,23 @@ export function GuestyPropertiesEmbed({
           Live availability
         </p>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
-          <button
-            type="button"
-            className="font-medium underline-offset-2 hover:underline"
-            onClick={() => setCollapsed((value) => !value)}
-          >
-            {collapsed ? "Show panel" : "Hide panel"}
-          </button>
+          {collapsed ? (
+            <button
+              type="button"
+              className="font-medium underline-offset-2 hover:underline"
+              onClick={() => setCollapsed(false)}
+            >
+              Show panel
+            </button>
+          ) : (
+            <button
+              type="button"
+              className={CLOSE_WINDOW_BUTTON_CLASS}
+              onClick={() => setConfirming(true)}
+            >
+              Close window
+            </button>
+          )}
           {onClear ? (
             <button
               type="button"
@@ -132,7 +143,7 @@ export function GuestyPropertiesEmbed({
           title="Golden Bay Holiday Homes live availability"
           src={resolvedSrc}
           loading="lazy"
-            onLoad={() => setLoadedSrc(resolvedSrc)}
+          onLoad={() => setLoadedSrc(resolvedSrc)}
           style={iframeHeight ? { height: `${iframeHeight}px` } : undefined}
           className={clsx(
             "w-full border-0 bg-foam/30",
@@ -143,10 +154,13 @@ export function GuestyPropertiesEmbed({
         />
       </div>
 
-      {outsideClose.confirming ? (
+      {confirming ? (
         <ConfirmCloseDialog
-          onConfirm={outsideClose.confirm}
-          onCancel={outsideClose.cancel}
+          onConfirm={() => {
+            setConfirming(false);
+            setCollapsed(true);
+          }}
+          onCancel={() => setConfirming(false)}
         />
       ) : null}
     </div>

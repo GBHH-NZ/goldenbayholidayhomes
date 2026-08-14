@@ -12,84 +12,52 @@ import {
 export const BOOKING_IFRAME_CLASS =
   "h-[min(85vh,56.25rem)] min-h-[min(70vh,56.25rem)] w-full max-w-full border-0 bg-foam/30";
 
-export type DismissInsideRef = { readonly current: HTMLElement | null };
+export const CLOSE_WINDOW_BUTTON_CLASS =
+  "inline-flex min-h-9 items-center rounded-md border border-foam/40 bg-foam/10 px-3 py-1.5 text-sm font-semibold text-foam hover:bg-foam/20";
 
-/** Close an open booking panel on outside pointerdown or Escape. */
-export function useDismissOnOutside(
-  enabled: boolean,
-  onDismiss: () => void,
-  ...insideRefs: DismissInsideRef[]
+/**
+ * Scroll so the iframe panel (and surrounding context, when it fits) is in view.
+ * If the block is taller than the viewport, pin the panel chrome to the top.
+ */
+export function scrollIframePanelIntoView(
+  panel: HTMLElement | null,
+  context: HTMLElement | null = panel,
 ) {
-  const onDismissRef = useRef(onDismiss);
-  const insideRefsRef = useRef(insideRefs);
+  if (!panel || typeof window === "undefined") return;
 
-  useLayoutEffect(() => {
-    onDismissRef.current = onDismiss;
-    insideRefsRef.current = insideRefs;
-  });
+  const run = () => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const behavior: ScrollBehavior = reduceMotion ? "auto" : "smooth";
+    const margin = 16;
+    const vh = window.innerHeight;
+    const panelRect = panel.getBoundingClientRect();
+    const contextRect = (context ?? panel).getBoundingClientRect();
+    const top = Math.min(contextRect.top, panelRect.top);
+    const bottom = Math.max(contextRect.bottom, panelRect.bottom);
 
-  useEffect(() => {
-    if (!enabled) return;
+    if (top >= margin && bottom <= vh - margin) return;
 
-    function isInside(target: EventTarget | null) {
-      if (!(target instanceof Node)) return false;
-      return insideRefsRef.current.some((ref) => ref.current?.contains(target));
+    if (bottom - top <= vh - margin * 2) {
+      if (top < margin) {
+        window.scrollBy({ top: top - margin, behavior });
+      } else if (bottom > vh - margin) {
+        window.scrollBy({ top: bottom - (vh - margin), behavior });
+      }
+      return;
     }
 
-    function onPointerDown(event: PointerEvent) {
-      if (event.button !== 0) return;
-      if (isInside(event.target)) return;
-      onDismissRef.current();
-    }
-
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key !== "Escape") return;
-      onDismissRef.current();
-    }
-
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [enabled]);
-}
-
-/** Outside click / Escape asks before closing, so an open iframe is not destroyed immediately. */
-export function useConfirmOutsideDismiss(
-  enabled: boolean,
-  onDismiss: () => void,
-  ...insideRefs: DismissInsideRef[]
-) {
-  const [confirming, setConfirming] = useState(false);
-
-  useEffect(() => {
-    if (!enabled) setConfirming(false);
-  }, [enabled]);
-
-  useDismissOnOutside(
-    enabled && !confirming,
-    () => setConfirming(true),
-    ...insideRefs,
-  );
-
-  return {
-    confirming,
-    confirm() {
-      setConfirming(false);
-      onDismiss();
-    },
-    cancel() {
-      setConfirming(false);
-    },
+    window.scrollBy({ top: panelRect.top - margin, behavior });
   };
+
+  requestAnimationFrame(run);
 }
 
 export function ConfirmCloseDialog({
-  title = "Close the booking panel?",
+  title = "Close this window?",
   description = "You can keep it open if you still need live availability.",
-  confirmLabel = "Close",
+  confirmLabel = "Close window",
   cancelLabel = "Keep open",
   onConfirm,
   onCancel,
@@ -212,18 +180,26 @@ export function BookingEmbedPanel({
   heading?: string;
   onClose?: () => void;
 }) {
+  const rootRef = useRef<HTMLDivElement>(null);
+  const [confirming, setConfirming] = useState(false);
+
+  useEffect(() => {
+    const panel = rootRef.current;
+    scrollIframePanelIntoView(panel, panel?.closest("article") ?? panel);
+  }, [src]);
+
   return (
-    <div className="border-t border-drift/70 bg-foam/30">
+    <div ref={rootRef} className="border-t border-drift/70 bg-foam/30">
       <div className="flex flex-wrap items-center justify-between gap-2 bg-sea-deep px-4 py-2 text-foam">
         <p className="text-sm font-semibold">{heading}</p>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
           {onClose ? (
             <button
               type="button"
-              onClick={onClose}
-              className="font-medium underline-offset-2 hover:underline"
+              onClick={() => setConfirming(true)}
+              className={CLOSE_WINDOW_BUTTON_CLASS}
             >
-              Close
+              Close window
             </button>
           ) : null}
           <a
@@ -244,6 +220,15 @@ export function BookingEmbedPanel({
         referrerPolicy="no-referrer-when-downgrade"
         allow="payment *"
       />
+      {confirming && onClose ? (
+        <ConfirmCloseDialog
+          onConfirm={() => {
+            setConfirming(false);
+            onClose();
+          }}
+          onCancel={() => setConfirming(false)}
+        />
+      ) : null}
     </div>
   );
 }
