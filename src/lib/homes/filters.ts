@@ -18,6 +18,8 @@ export const BEDROOM_FILTERS = [
 
 export type BedroomFilterId = (typeof BEDROOM_FILTERS)[number]["id"];
 
+export type HomeSetting = NonNullable<Home["setting"]>;
+
 export type CatalogueFilters = {
   location?: string;
   pets?: boolean;
@@ -27,6 +29,7 @@ export type CatalogueFilters = {
   minGuests?: number;
   oceanView?: boolean;
   spa?: boolean;
+  setting?: string | null;
 };
 
 export type HomesReviewAggregate = {
@@ -50,6 +53,13 @@ export function parseBedroomFilter(
   return BEDROOM_FILTERS.some((band) => band.id === value)
     ? (value as BedroomFilterId)
     : null;
+}
+
+export function parseSetting(
+  value: string | null | undefined,
+): HomeSetting | null {
+  if (value === "beach" || value === "bush" || value === "farm") return value;
+  return null;
 }
 
 export function matchSleepsBand(home: Home, bandId: SleepsBandId): boolean {
@@ -109,6 +119,10 @@ export function applyCatalogueFilters(
   }
   if (filters.spa) {
     list = list.filter((h) => h.spa);
+  }
+  const setting = parseSetting(filters.setting);
+  if (setting) {
+    list = list.filter((h) => h.setting === setting);
   }
 
   return list;

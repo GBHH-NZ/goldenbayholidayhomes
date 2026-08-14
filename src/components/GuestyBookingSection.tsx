@@ -40,7 +40,7 @@ export function GuestyBookingSection({
 
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState(1);
+  const [guests, setGuests] = useState("1");
   const [city, setCity] = useState("");
   const [error, setError] = useState("");
 
@@ -71,11 +71,13 @@ export function GuestyBookingSection({
     }
 
     setError("");
+    const guestCount = parseGuests(guests);
+    setGuests(String(guestCount));
     openSearch({
       checkIn: checkIn || undefined,
       checkOut: checkOut || undefined,
-      guests,
-      adults: guests,
+      guests: guestCount,
+      adults: guestCount,
       city: city || undefined,
     });
   }
@@ -83,7 +85,7 @@ export function GuestyBookingSection({
   function onReset() {
     setCheckIn("");
     setCheckOut("");
-    setGuests(1);
+    setGuests("1");
     setCity("");
     setError("");
     clear();
@@ -148,15 +150,16 @@ export function GuestyBookingSection({
           <label className="block text-xs font-semibold uppercase tracking-wide text-sea-deep/80">
             Guests
             <input
-              type="number"
+              type="text"
+              inputMode="numeric"
+              pattern="[0-9]*"
               name="guests"
-              min={1}
-              max={20}
+              autoComplete="off"
               value={guests}
               onChange={(e) => {
-                const n = Number.parseInt(e.target.value, 10);
-                setGuests(Number.isFinite(n) ? Math.min(20, Math.max(1, n)) : 1);
+                setGuests(e.target.value.replace(/\D/g, ""));
               }}
+              onBlur={(e) => setGuests(String(parseGuests(e.target.value)))}
               className={fieldClass}
             />
           </label>
@@ -225,6 +228,15 @@ export function GuestyBookingSection({
       ) : null}
     </section>
   );
+}
+
+const GUESTS_MIN = 1;
+const GUESTS_MAX = 20;
+
+function parseGuests(raw: string): number {
+  const n = Number.parseInt(raw, 10);
+  if (!Number.isFinite(n)) return GUESTS_MIN;
+  return Math.min(GUESTS_MAX, Math.max(GUESTS_MIN, n));
 }
 
 function todayIso(): string {

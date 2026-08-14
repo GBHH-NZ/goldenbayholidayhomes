@@ -24,13 +24,17 @@ export function ExploreClient({ places }: { places: ExplorePlace[] }) {
 
   return (
     <>
-      <div className="mt-8 flex flex-wrap gap-2">
+      <div
+        role="group"
+        aria-label="Place categories"
+        className="mt-8 flex w-full min-w-0 flex-nowrap gap-2 overflow-x-auto overscroll-x-contain pb-1 [scrollbar-width:thin]"
+      >
         {CATEGORIES.map((c) => (
           <button
             key={c}
             type="button"
             onClick={() => setCategory(c)}
-            className={`max-w-full min-h-11 px-3 py-2 text-sm transition ${
+            className={`shrink-0 whitespace-nowrap max-w-full min-h-11 px-3 py-2 text-sm transition ${
               category === c
                 ? "bg-sea text-white"
                 : "bg-foam text-sea-deep hover:bg-drift/40"

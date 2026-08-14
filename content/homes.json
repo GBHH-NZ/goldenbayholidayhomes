@@ -46,7 +46,8 @@
     "bathrooms": 1,
     "address": "Parapara Valley Road, Parapara, Tasman 7182, New Zealand",
     "syncStatus": "synced",
-    "setting": "bush"
+    "setting": "bush",
+    "oceanView": true
   },
   {
     "slug": "kakariki-bach-beach-haven-in-patons-rock",
@@ -166,7 +167,8 @@
     "bedrooms": 4,
     "bathrooms": 1.5,
     "address": "1318 Takaka-Collingwood Highway, Onekaka 7182, New Zealand",
-    "syncStatus": "synced"
+    "syncStatus": "synced",
+    "oceanView": true
   },
   {
     "slug": "patons-rock-latitude-modern-getaway",
@@ -190,7 +192,8 @@
     "bathrooms": 1,
     "address": "221 Patons Rock Road, Patons Rock 7182, New Zealand",
     "syncStatus": "synced",
-    "setting": "beach"
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "penguin-cottage-in-ligar-bay",
@@ -363,7 +366,8 @@
     "bathrooms": 1,
     "address": "49 Selwyn Street, Pōhara 7183, New Zealand",
     "syncStatus": "synced",
-    "setting": "beach"
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "poharas-beach-house-your-coastal-getaway",
@@ -412,7 +416,8 @@
     "bathrooms": 1,
     "address": "43 Selwyn Street, Pōhara 7183, New Zealand",
     "syncStatus": "synced",
-    "setting": "beach"
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "poharas-beachside-gem",
@@ -510,7 +515,8 @@
     "bathrooms": 2,
     "address": "9 Kowhatu Grove, Pōhara 7183, New Zealand",
     "syncStatus": "synced",
-    "setting": "beach"
+    "setting": "beach",
+    "oceanView": true
   },
   {
     "slug": "poharas-seaside-chalet-cosy-beach-stay",
@@ -905,6 +911,7 @@
     "bathrooms": 1,
     "address": "Parapara, New Zealand",
     "syncStatus": "synced",
-    "setting": "beach"
+    "setting": "beach",
+    "oceanView": true
   }
 ]

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { SiteHeader } from "@/components/Header";
 import { getPageContent } from "@/lib/content";
-import { CONTACT } from "@/lib/env";
+import { CONTACT, assetPath } from "@/lib/env";
 import { JsonLd } from "@/components/JsonLd";
 import { buildPageMetadata, faqPageJsonLd } from "@/lib/seo";
 
@@ -10,6 +11,8 @@ type PageJson = {
   seoTitle?: string;
   seoDescription?: string;
   intro?: string;
+  heroImage?: string;
+  heroAlt?: string;
   heroCaption?: string;
   sections?: { heading: string; body: string }[];
   faqs?: { q: string; a: string }[];
@@ -47,9 +50,31 @@ function StaticPage({
         <h1 className="font-[family-name:var(--font-display)] text-4xl font-semibold text-sea-deep [overflow-wrap:anywhere]">
           {page.title}
         </h1>
-        {page.heroCaption && (
+        {page.heroImage ? (
+          <figure className="mt-8">
+            <div className="relative aspect-[4/3] overflow-hidden bg-drift">
+              <Image
+                src={assetPath(page.heroImage)}
+                alt={
+                  page.heroAlt ??
+                  page.heroCaption ??
+                  page.title
+                }
+                fill
+                className="object-cover object-[50%_40%]"
+                sizes="(max-width: 768px) 100vw, 768px"
+                priority
+              />
+            </div>
+            {page.heroCaption ? (
+              <figcaption className="mt-3 text-sm italic text-muted">
+                {page.heroCaption}
+              </figcaption>
+            ) : null}
+          </figure>
+        ) : page.heroCaption ? (
           <p className="mt-2 text-sm italic text-muted">{page.heroCaption}</p>
-        )}
+        ) : null}
         {page.intro && <p className="mt-6 text-lg text-ink/90">{page.intro}</p>}
         {page.hours && <p className="mt-4 text-muted">{page.hours}</p>}
         {page.sections?.map((s) => (

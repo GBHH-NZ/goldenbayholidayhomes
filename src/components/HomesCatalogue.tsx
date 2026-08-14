@@ -22,6 +22,7 @@ export function HomesCatalogue({
   const pets = params.get("pets") === "1";
   const oceanView = params.get("oceanView") === "1";
   const spa = params.get("spa") === "1";
+  const setting = params.get("setting");
   const q = params.get("q") ?? "";
   const sleeps = params.get("sleeps");
   const bedrooms = params.get("bedrooms");
@@ -39,6 +40,7 @@ export function HomesCatalogue({
         bedrooms,
         oceanView,
         spa,
+        setting,
         minGuests:
           searchGuests && searchGuests > 1 ? searchGuests : undefined,
       }),
@@ -51,6 +53,7 @@ export function HomesCatalogue({
       bedrooms,
       oceanView,
       spa,
+      setting,
       searchGuests,
     ],
   );

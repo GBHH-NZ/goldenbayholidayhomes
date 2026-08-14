@@ -5,7 +5,8 @@ import { clsx } from "clsx";
 import { CONTACT } from "@/lib/env";
 import {
   BOOKING_IFRAME_CLASS,
-  useDismissOnOutside,
+  ConfirmCloseDialog,
+  useConfirmOutsideDismiss,
   type DismissInsideRef,
 } from "@/components/BookingEmbedPanel";
 import {
@@ -45,7 +46,7 @@ export function GuestyPropertiesEmbed({
     setCollapsed(false);
   }, [resolvedSrc]);
 
-  useDismissOnOutside(
+  const outsideClose = useConfirmOutsideDismiss(
     !collapsed,
     () => setCollapsed(true),
     rootRef,
@@ -141,6 +142,13 @@ export function GuestyPropertiesEmbed({
           allow="payment *"
         />
       </div>
+
+      {outsideClose.confirming ? (
+        <ConfirmCloseDialog
+          onConfirm={outsideClose.confirm}
+          onCancel={outsideClose.cancel}
+        />
+      ) : null}
     </div>
   );
 }

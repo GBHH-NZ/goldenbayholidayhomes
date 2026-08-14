@@ -22,7 +22,6 @@ export function HomeBookingStack({
   return (
     <GuestyEmbedProvider resultsId="book-online-results">
       <GuestyBookingSection locations={locations} />
-      {rituals}
       <section id="homes" className="py-16 md:py-24">
         <div className="mx-auto max-w-6xl px-4 md:px-6">
           <div className="max-w-2xl">
@@ -43,6 +42,7 @@ export function HomeBookingStack({
           </div>
         </div>
       </section>
+      {rituals}
       {explore}
       {proof}
     </GuestyEmbedProvider>

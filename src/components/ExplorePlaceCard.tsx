@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   BookingEmbedPanel,
-  useDismissOnOutside,
+  ConfirmCloseDialog,
+  useConfirmOutsideDismiss,
 } from "@/components/BookingEmbedPanel";
 import type { ExplorePlace } from "@/lib/content";
 import { assetPath } from "@/lib/env";
@@ -58,7 +59,9 @@ export function ExplorePlaceCard({
   const bookLabel = place.bookLabel ?? "Book a Ride";
   const visitLabel = href ? "See details →" : "Visit website →";
 
-  useDismissOnOutside(
+  const [photoSrc, setPhotoSrc] = useState(assetPath(place.image));
+
+  const outsideClose = useConfirmOutsideDismiss(
     open && Boolean(place.bookUrl),
     () => setOpen(false),
     photoRef,
@@ -69,11 +72,15 @@ export function ExplorePlaceCard({
   const photo = (
     <div className="relative aspect-[4/3] overflow-hidden rounded-md bg-drift md:aspect-auto md:h-full md:min-h-[14rem]">
       <Image
-        src={assetPath(place.image)}
+        src={photoSrc}
         alt={place.name}
         fill
-        className="object-cover transition duration-500 group-hover:scale-105"
+        className="object-cover transition duration-500 group-hover:scale-105 motion-reduce:transform-none motion-reduce:transition-none"
         sizes="(max-width: 768px) 100vw, 320px"
+        onError={() => {
+          const fallback = assetPath("/images/explore-placeholder.svg");
+          if (photoSrc !== fallback) setPhotoSrc(fallback);
+        }}
       />
     </div>
   );
@@ -172,6 +179,13 @@ export function ExplorePlaceCard({
             onClose={() => setOpen(false)}
           />
         </div>
+      ) : null}
+
+      {outsideClose.confirming ? (
+        <ConfirmCloseDialog
+          onConfirm={outsideClose.confirm}
+          onCancel={outsideClose.cancel}
+        />
       ) : null}
     </article>
   );
