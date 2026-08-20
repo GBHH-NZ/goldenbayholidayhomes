@@ -88,6 +88,7 @@ export type ExplorePlace = {
   category: string;
   location: string;
   summary: string;
+  detail?: string;
   image: string;
   /** Outbound DOC / venue link when available */
   url?: string;
@@ -98,4 +99,8 @@ export type ExplorePlace = {
 
 export function getExplorePlaces(): ExplorePlace[] {
   return JSON.parse(fs.readFileSync(EXPLORE_FILE, "utf8")) as ExplorePlace[];
+}
+
+export function getExplorePlace(slug: string): ExplorePlace | null {
+  return getExplorePlaces().find((place) => place.slug === slug) ?? null;
 }

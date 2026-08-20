@@ -46,7 +46,11 @@ export function ExploreClient({ places }: { places: ExplorePlace[] }) {
       </div>
       <div className="mt-10 flex flex-col gap-6">
         {filtered.map((place) => (
-          <ExplorePlaceCard key={place.slug} place={place} />
+          <ExplorePlaceCard
+            key={place.slug}
+            place={place}
+            href={`/explore-golden-bay/${place.slug}/`}
+          />
         ))}
       </div>
     </>

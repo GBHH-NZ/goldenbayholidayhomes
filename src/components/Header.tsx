@@ -22,6 +22,17 @@ const ownerLinks = [
   { href: "/what-our-homeowners-say", label: "Testimonials" },
 ];
 
+const areaLinks = [
+  { href: "/holiday-homes/pohara/", label: "Pohara" },
+  { href: "/holiday-homes/collingwood/", label: "Collingwood" },
+  { href: "/holiday-homes/tata-beach/", label: "Tata Beach" },
+  { href: "/holiday-homes/patons-rock/", label: "Patons Rock" },
+  { href: "/holiday-homes/ligar-bay/", label: "Ligar Bay" },
+  { href: "/holiday-homes/parapara/", label: "Parapara" },
+  { href: "/holiday-homes/onekaka/", label: "Onekaka" },
+  { href: "/holiday-homes/east-takaka/", label: "East Takaka" },
+];
+
 function BrandMark({
   variant = "light",
   size = "nav",
@@ -143,7 +154,7 @@ export function SiteHeader() {
 export function Footer() {
   return (
     <footer className="mt-auto border-t border-drift/50 bg-sea-deep text-foam">
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:grid-cols-3 md:px-6">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:grid-cols-2 md:px-6 lg:grid-cols-4">
         <div>
           <Link href="/" className="inline-block">
             <BrandMark variant="light" size="footer" />
@@ -151,16 +162,28 @@ export function Footer() {
           <p className="mt-3 max-w-xs text-sm text-foam/75">
             Handpicked homes. Hotel comfort. Heartfelt hospitality.
           </p>
-          <p className="mt-4 text-sm">
-            <a
-              href={CONTACT.facebook}
-              className="hover:text-white"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Facebook
-            </a>
-          </p>
+          <ul className="mt-4 space-y-2 text-sm">
+            <li>
+              <a
+                href={CONTACT.facebook}
+                className="hover:text-white"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Facebook
+              </a>
+            </li>
+            <li>
+              <a
+                href={CONTACT.mapsUrl}
+                className="hover:text-white"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Find us on Google Maps
+              </a>
+            </li>
+          </ul>
         </div>
         <div>
           <p className="text-sm font-semibold uppercase tracking-wide text-foam/60">
@@ -189,6 +212,20 @@ export function Footer() {
                 Book Now
               </Link>
             </li>
+          </ul>
+        </div>
+        <div>
+          <p className="text-sm font-semibold uppercase tracking-wide text-foam/60">
+            Holiday homes by area
+          </p>
+          <ul className="mt-3 space-y-2 text-sm">
+            {areaLinks.map((area) => (
+              <li key={area.href}>
+                <Link href={area.href} className="hover:text-white">
+                  {area.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
         <div>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ContactExtras } from "@/components/ContactExtras";
 import { SiteHeader } from "@/components/Header";
 import { getPageContent } from "@/lib/content";
 import { CONTACT, assetPath } from "@/lib/env";
@@ -77,6 +78,7 @@ function StaticPage({
         ) : null}
         {page.intro && <p className="mt-6 text-lg text-ink/90">{page.intro}</p>}
         {page.hours && <p className="mt-4 text-muted">{page.hours}</p>}
+        {slug === "contact-and-support" && <ContactExtras />}
         {page.sections?.map((s) => (
           <section key={s.heading} className="mt-10">
             <h2 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-sea-deep">
@@ -141,22 +143,6 @@ function StaticPage({
           </section>
         ))}
         {children}
-        {slug === "contact-and-support" && (
-          <div className="mt-10 border border-drift bg-foam/50 p-6">
-            <p className="font-semibold text-sea-deep">Get in touch</p>
-            <p className="mt-2 text-sm">
-              <a href={`tel:${CONTACT.phoneMobile.replace(/\s/g, "")}`}>
-                {CONTACT.phoneMobile}
-              </a>
-              <br />
-              <a href={`tel:${CONTACT.phoneFree.replace(/\s/g, "")}`}>
-                {CONTACT.phoneFree}
-              </a>
-              <br />
-              <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
-            </p>
-          </div>
-        )}
         {slug === "list-your-home" && (
           <form
             className="mt-10 grid gap-3 border border-drift bg-foam/40 p-6"

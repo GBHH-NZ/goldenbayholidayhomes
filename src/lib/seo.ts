@@ -1,10 +1,18 @@
 import type { Metadata } from "next";
 import type { Home } from "@/lib/homes/types";
-import { homeAmenities, homeDescription, homePhotos } from "@/lib/homes/types";
-import { SITE_URL } from "@/lib/env";
-import { CONTACT } from "@/lib/env";
+import {
+  bookingUrl,
+  homeAmenities,
+  homeDescription,
+  homePhotos,
+} from "@/lib/homes/types";
+import { CONTACT, SITE_URL, contactSameAs } from "@/lib/env";
 import { getSiteMedia } from "@/lib/content";
-import { foldLocationKey } from "@/lib/locations";
+import {
+  foldLocationKey,
+  locationPath,
+  normalizeLocation,
+} from "@/lib/locations";
 
 export const SITE_NAME = "Golden Bay Holiday Homes";
 export const SITE_TITLE =
@@ -179,6 +187,8 @@ export function listingMetaDescription(home: Home): string {
 }
 
 export function organizationJsonLd() {
+  const sameAs = contactSameAs();
+
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -199,23 +209,29 @@ export function organizationJsonLd() {
         email: CONTACT.email,
         telephone: [CONTACT.phoneMobile, CONTACT.phoneFree],
         logo: absoluteAssetUrl(getSiteMedia().logo),
-        sameAs: [CONTACT.facebook],
+        sameAs,
         address: {
           "@type": "PostalAddress",
           addressRegion: "Tasman",
-          addressLocality: "Golden Bay",
+          addressLocality: "Takaka",
           addressCountry: "NZ",
         },
       },
       {
-        "@type": "LocalBusiness",
+        "@type": ["LocalBusiness", "LodgingBusiness"],
         "@id": `${SITE_URL}/#localbusiness`,
         name: SITE_NAME,
         url: `${SITE_URL}/`,
         email: CONTACT.email,
-        telephone: CONTACT.phoneMobile,
+        telephone: [CONTACT.phoneMobile, CONTACT.phoneFree],
         image: absoluteAssetUrl(ogImageUrl()),
         priceRange: "$$",
+        geo: {
+          "@type": "GeoCoordinates",
+          latitude: -40.85,
+          longitude: 172.8,
+        },
+        hasMap: CONTACT.mapsUrl,
         areaServed: [
           {
             "@type": "AdministrativeArea",
@@ -226,14 +242,19 @@ export function organizationJsonLd() {
           { "@type": "Place", name: "Collingwood" },
           { "@type": "Place", name: "Takaka" },
           { "@type": "Place", name: "Patons Rock" },
+          { "@type": "Place", name: "Ligar Bay" },
+          { "@type": "Place", name: "Parapara" },
+          { "@type": "Place", name: "Onekaka" },
+          { "@type": "Place", name: "East Takaka" },
+          { "@type": "Place", name: "Wainui Bay" },
         ],
         address: {
           "@type": "PostalAddress",
           addressRegion: "Tasman",
-          addressLocality: "Golden Bay",
+          addressLocality: "Takaka",
           addressCountry: "NZ",
         },
-        sameAs: [CONTACT.facebook],
+        sameAs,
       },
     ],
   };
@@ -260,6 +281,10 @@ export function vacationRentalJsonLd(home: Home) {
     home.reviewScore != null &&
     home.reviewCount != null &&
     home.reviewCount > 0;
+  const place = normalizeLocation(home.location) as string;
+  const placePath = locationPath(home.location);
+  const nightly =
+    home.nightlyFrom != null && home.nightlyFrom > 0 ? home.nightlyFrom : null;
 
   return {
     "@context": "https://schema.org",
@@ -270,16 +295,53 @@ export function vacationRentalJsonLd(home: Home) {
     image: photos,
     address: {
       "@type": "PostalAddress",
-      addressLocality: home.location,
+      addressLocality: place,
       addressRegion: "Tasman",
       addressCountry: "NZ",
       streetAddress: home.address ?? undefined,
     },
+    containedInPlace: {
+      "@type": "Place",
+      name: `${place}, Golden Bay`,
+      ...(placePath ? { url: absoluteUrl(placePath) } : {}),
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: place,
+        addressRegion: "Tasman",
+        addressCountry: "NZ",
+      },
+    },
     occupancy: {
       "@type": "QuantitativeValue",
       maxValue: home.guests,
+      unitCode: "C62",
     },
+    ...(home.bedrooms != null && home.bedrooms > 0
+      ? { numberOfBedrooms: home.bedrooms }
+      : {}),
+    ...(home.bathrooms != null && home.bathrooms > 0
+      ? { numberOfBathroomsTotal: home.bathrooms }
+      : {}),
     petsAllowed: home.petsAllowed,
+    provider: { "@id": `${SITE_URL}/#organization` },
+    ...(nightly
+      ? {
+          offers: {
+            "@type": "Offer",
+            price: nightly,
+            priceCurrency: "NZD",
+            availability: "https://schema.org/InStock",
+            url: bookingUrl(home),
+            priceSpecification: {
+              "@type": "UnitPriceSpecification",
+              price: nightly,
+              priceCurrency: "NZD",
+              unitCode: "DAY",
+              unitText: "night",
+            },
+          },
+        }
+      : {}),
     amenityFeature: homeAmenities(home).map((name) => ({
       "@type": "LocationFeatureSpecification",
       name,
