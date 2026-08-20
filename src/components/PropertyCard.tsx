@@ -9,12 +9,7 @@ import {
   useConfirmOutsideDismiss,
 } from "@/components/BookingEmbedPanel";
 import type { Home } from "@/lib/homes/types";
-import {
-  bookingUrl,
-  homeAmenities,
-  homePhotos,
-  SETTING_LABEL,
-} from "@/lib/homes/types";
+import { bookingUrl, homePhotos, SETTING_LABEL } from "@/lib/homes/types";
 import { clsx } from "clsx";
 
 function formatNightly(amount: number | null | undefined): string | null {
@@ -69,7 +64,9 @@ export function PropertyCard({
   const nightly = formatNightly(home.nightlyFrom);
   const blurb = home.description?.trim() || null;
   const meta = metaBits(home);
-  const amenities = homeAmenities(home).slice(0, 4);
+  // Guesty's own list only — the derived standards would repeat the badges
+  // and meta line below, and are shown in full on the listing page.
+  const amenities = home.amenities.slice(0, 4);
   const canHoverGallery = photos.length > 1;
   const canEmbed = Boolean(home.guestyId || home.guestyUrl);
   const open = onToggleBooking ? Boolean(bookingOpen) : localOpen;

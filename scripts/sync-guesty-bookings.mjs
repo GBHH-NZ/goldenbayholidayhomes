@@ -195,6 +195,16 @@ function photosFromListing(raw) {
   return out;
 }
 
+/**
+ * Keep whichever list has more in it, so a thin capture never wipes photos or
+ * amenities an earlier sync already wrote to content/homes.json.
+ */
+function richerList(next, previous) {
+  const a = Array.isArray(next) ? next.filter(Boolean).map(String) : [];
+  const b = Array.isArray(previous) ? previous.filter(Boolean).map(String) : [];
+  return b.length > a.length ? b : a;
+}
+
 function nightlyFromListing(raw) {
   const rates = raw.nightlyRates;
   if (Array.isArray(rates) && rates.length) {
@@ -328,9 +338,9 @@ function mapApiListing(raw, seedBySlug, seedByTitle) {
     reviewCount: reviewCount(raw),
     guestyId: id || null,
     guestyUrl: id ? `${GUESTY_BOOKINGS}/properties/${id}` : null,
-    photos: photosFromListing(raw),
-    description: descriptionFromListing(raw),
-    amenities: Array.isArray(raw.amenities) ? raw.amenities.map(String) : [],
+    photos: richerList(photosFromListing(raw), seed?.photos),
+    description: descriptionFromListing(raw) || seed?.description || null,
+    amenities: richerList(raw.amenities, seed?.amenities),
     bedrooms:
       raw.bedrooms != null
         ? Number(raw.bedrooms)
@@ -381,9 +391,9 @@ function mapDomCard(card, seedBySlug, seedByTitle) {
     guestyUrl: id
       ? `${GUESTY_BOOKINGS}/properties/${id}`
       : card.href || `${GUESTY_BOOKINGS}`,
-    photos: card.photo ? [card.photo] : seed?.photos || [],
-    description: card.description || null,
-    amenities: [],
+    photos: richerList(card.photo ? [card.photo] : [], seed?.photos),
+    description: card.description || seed?.description || null,
+    amenities: richerList([], seed?.amenities),
     bedrooms: card.bedrooms != null ? Number(card.bedrooms) : null,
     bathrooms: card.bathrooms != null ? Number(card.bathrooms) : null,
     address: seed?.address ?? null,

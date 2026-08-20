@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { SiteHeader } from "@/components/Header";
 import { HomesCatalogue } from "@/components/HomesCatalogue";
+import { LocationDirectory } from "@/components/LocationDirectory";
 import { getAllHomes, getHomeLocations } from "@/lib/homes";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -28,6 +29,7 @@ export default function HomesPage() {
           {homes.length} homes across Golden Bay. Book direct for local support
           and our price-match promise.
         </p>
+        <LocationDirectory className="mt-8" />
         <div className="mt-10">
           <Suspense
             fallback={<div className="h-40 animate-pulse bg-foam/50" />}

@@ -81,11 +81,36 @@ export function assetPath(path: string): string {
   return `${BASE_PATH}${normalized}`;
 }
 
-export const CONTACT = {
+type ContactDetails = {
+  phoneMobile: string;
+  phoneFree: string;
+  email: string;
+  facebook: string;
+  mapsUrl: string;
+  guestyOwners: string;
+  guestyBookings: string;
+  googleBusiness?: string;
+  instagram?: string;
+  youtube?: string;
+};
+
+export const CONTACT: Readonly<ContactDetails> = {
   phoneMobile: "+64 20 4141 7230",
   phoneFree: "0800 150 810",
   email: "admin@gbholidayhomes.co.nz",
   facebook: "https://www.facebook.com/goldenbayholidayhomeslimited/",
+  mapsUrl:
+    "https://www.google.com/maps/search/?api=1&query=Golden+Bay+Holiday+Homes+Takaka",
   guestyOwners: "https://goldenbayholidayhomes.guestyowners.com/login",
   guestyBookings: "https://goldenbayholidayhomes.guestybookings.com/en",
-} as const;
+};
+
+/** Verified profiles that can identify the business across the web. */
+export function contactSameAs(): string[] {
+  return [
+    CONTACT.facebook,
+    CONTACT.googleBusiness,
+    CONTACT.instagram,
+    CONTACT.youtube,
+  ].filter((url): url is string => Boolean(url));
+}
