@@ -8,6 +8,7 @@ import {
 } from "@/lib/homes/types";
 import { CONTACT, SITE_URL, contactSameAs } from "@/lib/env";
 import { getSiteMedia } from "@/lib/content";
+import { getLocationPages } from "@/lib/location-pages";
 import {
   foldLocationKey,
   locationPath,
@@ -237,16 +238,18 @@ export function organizationJsonLd() {
             "@type": "AdministrativeArea",
             name: "Golden Bay, Tasman, New Zealand",
           },
-          { "@type": "Place", name: "Pohara" },
-          { "@type": "Place", name: "Tata Beach" },
-          { "@type": "Place", name: "Collingwood" },
           { "@type": "Place", name: "Takaka" },
-          { "@type": "Place", name: "Patons Rock" },
-          { "@type": "Place", name: "Ligar Bay" },
-          { "@type": "Place", name: "Parapara" },
-          { "@type": "Place", name: "Onekaka" },
-          { "@type": "Place", name: "East Takaka" },
           { "@type": "Place", name: "Wainui Bay" },
+          ...getLocationPages().map((page) => ({
+            "@type": "Place" as const,
+            name: page.name,
+            url: absoluteUrl(`/holiday-homes/${page.slug}`),
+            geo: {
+              "@type": "GeoCoordinates" as const,
+              latitude: page.geo.latitude,
+              longitude: page.geo.longitude,
+            },
+          })),
         ],
         address: {
           "@type": "PostalAddress",
@@ -260,11 +263,14 @@ export function organizationJsonLd() {
   };
 }
 
-export function homesItemListJsonLd(homes: Home[]) {
+export function homesItemListJsonLd(
+  homes: Home[],
+  name = "Golden Bay holiday homes",
+) {
   return {
     "@context": "https://schema.org",
     "@type": "ItemList",
-    name: "Golden Bay holiday homes",
+    name,
     numberOfItems: homes.length,
     itemListElement: homes.map((home, index) => ({
       "@type": "ListItem",

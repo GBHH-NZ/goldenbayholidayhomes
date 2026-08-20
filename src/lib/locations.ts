@@ -75,14 +75,10 @@ export function getActiveHomeLocations(
   return LOCATIONS.filter((name) => active.has(name));
 }
 
-export function isKnownLocation(raw: string): boolean {
-  return LOCATION_ALIASES[foldLocationKey(raw)] != null;
-}
-
 /** Path of the town page for a location tag, or null when there is no page. */
 export function locationPath(raw: string): string | null {
-  if (!isKnownLocation(raw)) return null;
-  return `/holiday-homes/${slugify(normalizeLocation(raw))}`;
+  const slug = locationSlug(raw);
+  return getLocationBySlug(slug) ? `/holiday-homes/${slug}` : null;
 }
 
 /** Old Phase 2 cluster ids that are not town names. */

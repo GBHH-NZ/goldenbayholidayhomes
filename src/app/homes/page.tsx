@@ -29,7 +29,7 @@ export default function HomesPage() {
           {homes.length} homes across Golden Bay. Book direct for local support
           and our price-match promise.
         </p>
-        <LocationDirectory />
+        <LocationDirectory className="mt-8" />
         <div className="mt-10">
           <Suspense
             fallback={<div className="h-40 animate-pulse bg-foam/50" />}

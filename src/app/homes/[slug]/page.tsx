@@ -9,9 +9,11 @@ import { getAllHomes, getHomeBySlug } from "@/lib/homes";
 import {
   homeAmenities,
   homeDescription,
+  homeMentionsSelfCheckIn,
   homePhotos,
   SETTING_LABEL,
 } from "@/lib/homes/types";
+import { CONTACT } from "@/lib/env";
 import { locationPath, normalizeLocation } from "@/lib/locations";
 import {
   breadcrumbJsonLd,
@@ -41,6 +43,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         ? [{ url: photo, alt: `${home.title} in ${home.location}, Golden Bay` }]
         : undefined,
   });
+}
+
+function formatNightly(amount: number): string {
+  return new Intl.NumberFormat("en-NZ", {
+    style: "currency",
+    currency: "NZD",
+    maximumFractionDigits: 0,
+  }).format(amount);
 }
 
 function goodToKnow(home: ReturnType<typeof getHomeBySlug>) {
@@ -79,6 +89,17 @@ function goodToKnow(home: ReturnType<typeof getHomeBySlug>) {
       `About ${home.walkMins} minute${home.walkMins === 1 ? "" : "s"}’ walk to the beach when you want sand without starting the car.`,
     );
   }
+  if (homeMentionsSelfCheckIn(home)) {
+    notes.push("Self check-in, as described by the property listing.");
+  }
+  if (home.nightlyFrom != null && home.nightlyFrom > 0) {
+    notes.push(
+      `Booked direct from ${formatNightly(home.nightlyFrom)} a night, with our price-match promise.`,
+    );
+  }
+  notes.push(
+    `Hotel-quality linen and thoughtful touches come standard, and our Golden Bay team is on ${CONTACT.phoneFree} while you are here.`,
+  );
   return notes;
 }
 
@@ -195,6 +216,13 @@ export default async function HomeDetailPage({ params }: Props) {
                     </li>
                   ))}
                 </ul>
+                {home.amenities.length === 0 ? (
+                  <p className="mt-3 text-sm text-muted">
+                    Drawn from this listing and the standards that apply to
+                    every Golden Bay Holiday Homes stay. The full amenity list
+                    sits on the booking engine.
+                  </p>
+                ) : null}
               </div>
             ) : null}
 
