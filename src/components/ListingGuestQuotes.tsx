@@ -23,6 +23,24 @@ export function ListingGuestQuotes({ quotes }: { quotes: GuestReview[] }) {
                     · {quote.location}
                   </span>
                 ) : null}
+                {quote.source ? (
+                  <span className="font-normal text-muted">
+                    {" "}
+                    · via{" "}
+                    {quote.sourceUrl ? (
+                      <a
+                        href={quote.sourceUrl}
+                        className="underline-offset-2 hover:underline"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                      >
+                        {quote.source}
+                      </a>
+                    ) : (
+                      quote.source
+                    )}
+                  </span>
+                ) : null}
               </figcaption>
             </figure>
           </li>

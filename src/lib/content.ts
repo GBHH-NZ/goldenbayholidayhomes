@@ -111,6 +111,8 @@ export type GuestReview = {
   location: string;
   homeSlug?: string | null;
   rating?: number;
+  source?: string;
+  sourceUrl?: string;
 };
 
 type GuestReviewsFile = {
