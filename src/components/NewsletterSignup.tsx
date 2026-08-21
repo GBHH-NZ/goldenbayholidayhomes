@@ -1,21 +1,62 @@
 "use client";
 
-import type { FormEvent } from "react";
-import { CONTACT } from "@/lib/env";
+import { useState, type FormEvent } from "react";
+import { CONTACT, NEWSLETTER_FORM_ACTION } from "@/lib/env";
+
+type Status = "idle" | "submitting" | "success" | "error";
 
 export function NewsletterSignup() {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const [status, setStatus] = useState<Status>("idle");
+  const [message, setMessage] = useState("");
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const value = new FormData(event.currentTarget).get("email");
+    const form = event.currentTarget;
+    const value = new FormData(form).get("email");
     if (typeof value !== "string" || !value.trim()) return;
 
-    const subject = encodeURIComponent("Newsletter signup");
-    const body = encodeURIComponent(
-      `Please add ${value.trim()} to the Golden Bay Holiday Homes newsletter.`,
-    );
-    window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
+    const email = value.trim();
+
+    if (!NEWSLETTER_FORM_ACTION) {
+      const subject = encodeURIComponent("Newsletter signup");
+      const body = encodeURIComponent(
+        `Please add ${email} to the Golden Bay Holiday Homes newsletter.`,
+      );
+      window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
+      return;
+    }
+
+    setStatus("submitting");
+    setMessage("");
+
+    try {
+      const body = new FormData();
+      body.set("email", email);
+      body.set("_subject", "Golden Bay Holiday Homes newsletter signup");
+
+      const response = await fetch(NEWSLETTER_FORM_ACTION, {
+        method: "POST",
+        body,
+        headers: { Accept: "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Signup failed (${response.status})`);
+      }
+
+      form.reset();
+      setStatus("success");
+      setMessage("Thanks — you are on the list for local stay tips.");
+    } catch {
+      setStatus("error");
+      setMessage(
+        `Something went wrong. Email ${CONTACT.email} and we will add you.`,
+      );
+    }
   }
+
+  const configured = Boolean(NEWSLETTER_FORM_ACTION);
 
   return (
     <section
@@ -50,20 +91,34 @@ export function NewsletterSignup() {
               type="email"
               autoComplete="email"
               required
+              disabled={status === "submitting"}
               aria-describedby="newsletter-description newsletter-note"
               placeholder="you@example.com"
-              className="min-h-11 min-w-0 flex-1 rounded-sm border border-drift bg-white px-3 py-2 text-ink outline-none focus:border-sea focus:ring-2 focus:ring-sea/20"
+              className="min-h-11 min-w-0 flex-1 rounded-sm border border-drift bg-white px-3 py-2 text-ink outline-none focus:border-sea focus:ring-2 focus:ring-sea/20 disabled:opacity-60"
             />
             <button
               type="submit"
-              className="min-h-11 rounded-sm bg-sea px-5 py-2.5 font-semibold text-white transition hover:bg-sea-deep"
+              disabled={status === "submitting"}
+              className="min-h-11 rounded-sm bg-sea px-5 py-2.5 font-semibold text-white transition hover:bg-sea-deep disabled:opacity-60"
             >
-              Sign up
+              {status === "submitting" ? "Signing up…" : "Sign up"}
             </button>
           </div>
           <p id="newsletter-note" className="text-xs text-muted">
-            Signing up opens your email app so you can send the request.
+            {configured
+              ? "We only use your email for occasional Golden Bay stay tips. Unsubscribe any time."
+              : `Signing up opens your email app so you can send the request to ${CONTACT.email}.`}
           </p>
+          {message ? (
+            <p
+              role="status"
+              className={`text-sm ${
+                status === "error" ? "text-red-700" : "text-sea-deep"
+              }`}
+            >
+              {message}
+            </p>
+          ) : null}
         </form>
       </div>
     </section>

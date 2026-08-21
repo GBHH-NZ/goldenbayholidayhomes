@@ -19,6 +19,11 @@ Do **not** put Guesty credentials in the repo, `.env` commits, or `NEXT_PUBLIC_*
 |------|----------|-------------------|-------------|
 | `NEXT_PUBLIC_SITE_URL` | Recommended | `https://www.goldenbayholidayhomes.com` | Canonical site URL for metadata, sitemap, OG |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Recommended | `G-P4LBS4D2WW` | GA4 Measurement ID, inlined into the static export. The app also falls back to this ID if the variable is unset. |
+| `NEXT_PUBLIC_NEWSLETTER_FORM_ACTION` | Recommended | `https://formspree.io/f/xxxxxxxx` | Public form endpoint for homepage newsletter signup (Formspree / Buttondown / Mailchimp). Without it, signup falls back to mailto. |
+| `NEXT_PUBLIC_GOOGLE_BUSINESS_URL` | Recommended | Google Maps / GBP share link | Official Business Profile URL for `sameAs` + Maps CTA. Also used as `mapsUrl` when `NEXT_PUBLIC_MAPS_URL` is unset. |
+| `NEXT_PUBLIC_MAPS_URL` | Optional | same as GBP | Override Maps link if different from the GBP URL |
+| `NEXT_PUBLIC_INSTAGRAM_URL` | Optional | `https://www.instagram.com/goldenbayholidayhomeslimited/` | Override Instagram profile |
+| `NEXT_PUBLIC_YOUTUBE_URL` | Optional | channel URL | Adds YouTube to footer + `sameAs` when set |
 | `GUESTY_API_BASE` | Optional | `https://booking-api.guesty.com` | Guesty Booking Engine API base |
 | `BASE_PATH` | Recommended for custom domain | `none` | Empty asset prefix for www/apex DNS → Pages. Set `/goldenbayholidayhomes` only for project-URL preview on `*.github.io` |
 
@@ -52,6 +57,11 @@ env:
   GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}
   NEXT_PUBLIC_SITE_URL: ${{ vars.NEXT_PUBLIC_SITE_URL || 'https://www.goldenbayholidayhomes.com' }}
   NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-P4LBS4D2WW' }}
+  NEXT_PUBLIC_NEWSLETTER_FORM_ACTION: ${{ vars.NEXT_PUBLIC_NEWSLETTER_FORM_ACTION }}
+  NEXT_PUBLIC_GOOGLE_BUSINESS_URL: ${{ vars.NEXT_PUBLIC_GOOGLE_BUSINESS_URL }}
+  NEXT_PUBLIC_MAPS_URL: ${{ vars.NEXT_PUBLIC_MAPS_URL }}
+  NEXT_PUBLIC_INSTAGRAM_URL: ${{ vars.NEXT_PUBLIC_INSTAGRAM_URL }}
+  NEXT_PUBLIC_YOUTUBE_URL: ${{ vars.NEXT_PUBLIC_YOUTUBE_URL }}
 ```
 
 Local development still uses `.env.local` (gitignored). Copy from [`.env.example`](../.env.example).

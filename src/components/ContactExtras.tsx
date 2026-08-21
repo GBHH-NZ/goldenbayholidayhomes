@@ -54,7 +54,33 @@ export function ContactExtras() {
         >
           message us on Facebook
         </a>
+        {CONTACT.instagram ? (
+          <>
+            {" "}
+            or{" "}
+            <a
+              href={CONTACT.instagram}
+              className="font-semibold text-sea underline-offset-2 hover:underline"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              follow us on Instagram
+            </a>
+          </>
+        ) : null}
         .
+      </p>
+      <p className="mt-2 text-sm">
+        <a
+          href={CONTACT.mapsUrl}
+          className="font-semibold text-sea underline-offset-2 hover:underline"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          {CONTACT.googleBusiness
+            ? "Open our Google Business Profile"
+            : "Find us on Google Maps"}
+        </a>
       </p>
 
       <div className="mt-6 border-t border-drift pt-5">
