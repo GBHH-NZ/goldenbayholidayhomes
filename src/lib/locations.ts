@@ -1,3 +1,5 @@
+import { slugify } from "@/lib/slugify";
+
 /** Canonical Golden Bay location tags (Pohara / Pōhara merged). */
 export const LOCATIONS = [
   "Collingwood",
@@ -38,6 +40,45 @@ export function foldLocationKey(raw: string): string {
 export function normalizeLocation(raw: string): Location | string {
   const key = foldLocationKey(raw);
   return LOCATION_ALIASES[key] ?? raw.trim();
+}
+
+export function isLocation(value: string): value is Location {
+  return (LOCATIONS as readonly string[]).includes(value);
+}
+
+/** URL slug for a town: locationSlug("East Tākaka") === "east-takaka". */
+export function locationSlug(name: string): string {
+  return slugify(normalizeLocation(name));
+}
+
+/** Canonical town for a `/holiday-homes/[location]` slug, or null. */
+export function getLocationBySlug(slug: string): Location | null {
+  const target = slugify(slug);
+  return LOCATIONS.find((name) => locationSlug(name) === target) ?? null;
+}
+
+/**
+ * Canonical towns that currently have at least one home, in LOCATIONS order.
+ *
+ * Takes the raw `home.location` values rather than reading the catalogue so
+ * this module stays importable from client components. Server callers can use
+ * `getActiveLocationNames()` from `@/lib/location-pages` for the no-argument
+ * version.
+ */
+export function getActiveHomeLocations(
+  rawLocations: Iterable<string>,
+): Location[] {
+  const active = new Set<string>();
+  for (const raw of rawLocations) {
+    active.add(normalizeLocation(raw));
+  }
+  return LOCATIONS.filter((name) => active.has(name));
+}
+
+/** Path of the town page for a location tag, or null when there is no page. */
+export function locationPath(raw: string): string | null {
+  const slug = locationSlug(raw);
+  return getLocationBySlug(slug) ? `/holiday-homes/${slug}` : null;
 }
 
 /** Old Phase 2 cluster ids that are not town names. */

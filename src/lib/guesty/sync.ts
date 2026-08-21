@@ -71,6 +71,14 @@ export async function fetchGuestyListings(): Promise<Home[]> {
 }
 
 /**
+ * Keep whichever list has more in it — a thin API response should not wipe
+ * photos or amenities an earlier sync already captured.
+ */
+function richerList(preferred: string[] = [], fallback: string[] = []): string[] {
+  return fallback.length > preferred.length ? fallback : preferred;
+}
+
+/**
  * Merge API listings onto existing seed rows.
  * Prefer guestyId match, then slug match; keep seed-only rows as pending_api.
  */
@@ -94,6 +102,9 @@ export function mergeHomes(seed: Home[], fromApi: Home[]): Home[] {
       location: match.location || row.location,
       guests: match.guests || row.guests,
       petsAllowed: match.petsAllowed ?? row.petsAllowed,
+      photos: richerList(match.photos, row.photos),
+      amenities: richerList(match.amenities, row.amenities),
+      description: match.description ?? row.description,
       setting: row.setting ?? match.setting,
       walkMins: row.walkMins ?? match.walkMins,
       oceanView: row.oceanView ?? match.oceanView,

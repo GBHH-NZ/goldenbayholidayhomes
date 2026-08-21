@@ -23,7 +23,8 @@ export default function ExplorePage() {
         </h1>
         <p className="mt-3 max-w-2xl text-muted">
           Local favourites near our holiday homes — filter by mood and make the
-          most of your stay.
+          most of your stay. Open any place for practical tips and nearby stay
+          ideas.
         </p>
         <ExploreClient places={places} />
       </main>

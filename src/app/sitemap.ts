@@ -1,8 +1,9 @@
 import fs from "fs";
 import path from "path";
 import type { MetadataRoute } from "next";
-import { getAllBlogPosts } from "@/lib/content";
+import { getAllBlogPosts, getExplorePlaces } from "@/lib/content";
 import { getAllHomes, homePhotos } from "@/lib/homes";
+import { getActiveLocationPages } from "@/lib/location-pages";
 import { absoluteAssetUrl, absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-static";
@@ -99,13 +100,24 @@ function fileModified(relPath: string): Date {
 export default function sitemap(): MetadataRoute.Sitemap {
   const homes = getAllHomes();
   const posts = getAllBlogPosts();
+  const places = getExplorePlaces();
+  const locations = getActiveLocationPages();
   const homesModified = fileModified("content/homes.json");
+  const locationsModified = fileModified("content/locations.json");
+  const exploreModified = fileModified("content/explore/places.json");
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_PAGES.map((page) => ({
     url: absoluteUrl(page.path),
     lastModified: fileModified(page.file),
     changeFrequency: page.changeFrequency,
     priority: page.priority,
+  }));
+
+  const locationEntries: MetadataRoute.Sitemap = locations.map((page) => ({
+    url: absoluteUrl(`/holiday-homes/${page.slug}`),
+    lastModified: locationsModified,
+    changeFrequency: "weekly",
+    priority: 0.85,
   }));
 
   const homeEntries: MetadataRoute.Sitemap = homes.map((home) => {
@@ -123,6 +135,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
+  const exploreEntries: MetadataRoute.Sitemap = places.map((place) => ({
+    url: absoluteUrl(`/explore-golden-bay/${place.slug}`),
+    lastModified: exploreModified,
+    changeFrequency: "monthly",
+    priority: 0.55,
+  }));
+
   const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
     url: absoluteUrl(`/blog/${post.slug}`),
     lastModified: new Date(post.date),
@@ -130,5 +149,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  return [...staticEntries, ...homeEntries, ...blogEntries];
+  return [
+    ...staticEntries,
+    ...locationEntries,
+    ...homeEntries,
+    ...exploreEntries,
+    ...blogEntries,
+  ];
 }
