@@ -115,10 +115,6 @@ export function GuestyBookingSection({
             </button>
           )}
         </div>
-        <p className="mt-1 text-sm text-muted">
-          Search live dates in the booking panel. The home cards below follow
-          guests and destination — availability stays in Guesty.
-        </p>
 
         <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_minmax(5.5rem,7rem)_minmax(9rem,1fr)_auto]">
           <label className="block text-xs font-semibold uppercase tracking-wide text-sea-deep/80">
