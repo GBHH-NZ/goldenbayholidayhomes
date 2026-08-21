@@ -94,16 +94,53 @@ type ContactDetails = {
   youtube?: string;
 };
 
+function optionalPublicUrl(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  if (!trimmed) return undefined;
+  try {
+    const url = new URL(trimmed);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return undefined;
+    return trimmed;
+  } catch {
+    return undefined;
+  }
+}
+
+const DEFAULT_MAPS_SEARCH =
+  "https://www.google.com/maps/search/?api=1&query=Golden+Bay+Holiday+Homes+Takaka";
+
+const googleBusiness = optionalPublicUrl(
+  process.env.NEXT_PUBLIC_GOOGLE_BUSINESS_URL,
+);
+const instagram =
+  optionalPublicUrl(process.env.NEXT_PUBLIC_INSTAGRAM_URL) ??
+  "https://www.instagram.com/goldenbayholidayhomeslimited/";
+const youtube = optionalPublicUrl(process.env.NEXT_PUBLIC_YOUTUBE_URL);
+const mapsUrl =
+  optionalPublicUrl(process.env.NEXT_PUBLIC_MAPS_URL) ??
+  googleBusiness ??
+  DEFAULT_MAPS_SEARCH;
+
 export const CONTACT: Readonly<ContactDetails> = {
   phoneMobile: "+64 20 4141 7230",
   phoneFree: "0800 150 810",
   email: "admin@gbholidayhomes.co.nz",
   facebook: "https://www.facebook.com/goldenbayholidayhomeslimited/",
-  mapsUrl:
-    "https://www.google.com/maps/search/?api=1&query=Golden+Bay+Holiday+Homes+Takaka",
+  mapsUrl,
   guestyOwners: "https://goldenbayholidayhomes.guestyowners.com/login",
   guestyBookings: "https://goldenbayholidayhomes.guestybookings.com/en",
+  googleBusiness,
+  instagram,
+  youtube,
 };
+
+/**
+ * Public Formspree / Buttondown / Mailchimp form action for the newsletter.
+ * When unset, the signup UI asks visitors to email us instead of a fake success.
+ */
+export const NEWSLETTER_FORM_ACTION = optionalPublicUrl(
+  process.env.NEXT_PUBLIC_NEWSLETTER_FORM_ACTION,
+);
 
 /** Verified profiles that can identify the business across the web. */
 export function contactSameAs(): string[] {

@@ -1,0 +1,41 @@
+{
+  "intro": "Recent guest feedback from stays across our Golden Bay holiday homes.",
+  "reviews": [
+    {
+      "quote": "Absolutely stunning place to stay. This is my 2nd time. Super clean & tidy, comfortable bedding. Love the views out over the ocean.",
+      "name": "Guest",
+      "location": "Ocean-view stay",
+      "homeSlug": null,
+      "rating": 5,
+      "source": "Airbnb",
+      "sourceUrl": "https://www.airbnb.com/users/show/486149083"
+    },
+    {
+      "quote": "This is hands down the most amazing house we have ever rented. The location was so peaceful and serene. The house was truly unique, in both its layout and comfort — the beds were so comfortable and the whole house beautifully decorated.",
+      "name": "Guest family",
+      "location": "Family stay",
+      "homeSlug": "golden-bay-heights-luxury-accommodation",
+      "rating": 5,
+      "source": "Airbnb",
+      "sourceUrl": "https://www.airbnb.com/users/show/486149083"
+    },
+    {
+      "quote": "This house was perfect for our family trip. Heaps of stuff for kids to do.",
+      "name": "Guest",
+      "location": "Family stay",
+      "homeSlug": null,
+      "rating": 5,
+      "source": "Airbnb",
+      "sourceUrl": "https://www.airbnb.com/users/show/486149083"
+    },
+    {
+      "quote": "Pure magic, class and delight. Stunning views, great deck, gorgeous bathroom, sweetest garden.",
+      "name": "Guest",
+      "location": "Golden Bay",
+      "homeSlug": null,
+      "rating": 5,
+      "source": "Airbnb",
+      "sourceUrl": "https://www.airbnb.com/users/show/486149083"
+    }
+  ]
+}

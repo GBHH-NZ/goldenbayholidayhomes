@@ -173,6 +173,30 @@ export function Footer() {
                 Facebook
               </a>
             </li>
+            {CONTACT.instagram ? (
+              <li>
+                <a
+                  href={CONTACT.instagram}
+                  className="hover:text-white"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  Instagram
+                </a>
+              </li>
+            ) : null}
+            {CONTACT.youtube ? (
+              <li>
+                <a
+                  href={CONTACT.youtube}
+                  className="hover:text-white"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  YouTube
+                </a>
+              </li>
+            ) : null}
             <li>
               <a
                 href={CONTACT.mapsUrl}
@@ -180,7 +204,9 @@ export function Footer() {
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                Find us on Google Maps
+                {CONTACT.googleBusiness
+                  ? "Google Business Profile"
+                  : "Find us on Google Maps"}
               </a>
             </li>
           </ul>

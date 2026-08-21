@@ -104,3 +104,36 @@ export function getExplorePlaces(): ExplorePlace[] {
 export function getExplorePlace(slug: string): ExplorePlace | null {
   return getExplorePlaces().find((place) => place.slug === slug) ?? null;
 }
+
+export type GuestReview = {
+  quote: string;
+  name: string;
+  location: string;
+  homeSlug?: string | null;
+  rating?: number;
+  source?: string;
+  sourceUrl?: string;
+};
+
+type GuestReviewsFile = {
+  intro?: string;
+  reviews: GuestReview[];
+};
+
+const GUEST_REVIEWS_FILE = path.join(
+  process.cwd(),
+  "content",
+  "guest-reviews.json",
+);
+
+export function getGuestReviews(): GuestReview[] {
+  if (!fs.existsSync(GUEST_REVIEWS_FILE)) return [];
+  const data = JSON.parse(
+    fs.readFileSync(GUEST_REVIEWS_FILE, "utf8"),
+  ) as GuestReviewsFile;
+  return Array.isArray(data.reviews) ? data.reviews : [];
+}
+
+export function getGuestReviewsForHome(slug: string): GuestReview[] {
+  return getGuestReviews().filter((review) => review.homeSlug === slug);
+}

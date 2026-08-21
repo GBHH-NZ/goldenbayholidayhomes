@@ -5,6 +5,8 @@ import { notFound } from "next/navigation";
 import { SiteHeader } from "@/components/Header";
 import { PropertyBooking } from "@/components/BookCta";
 import { JsonLd } from "@/components/JsonLd";
+import { ListingGuestQuotes } from "@/components/ListingGuestQuotes";
+import { getGuestReviewsForHome } from "@/lib/content";
 import { getAllHomes, getHomeBySlug } from "@/lib/homes";
 import {
   homeAmenities,
@@ -113,6 +115,7 @@ export default async function HomeDetailPage({ params }: Props) {
   const placePath = locationPath(home.location);
   const placeName = normalizeLocation(home.location);
   const notes = goodToKnow(home);
+  const guestQuotes = getGuestReviewsForHome(home.slug);
   const crumbs = [
     { name: "Home", path: "/" },
     { name: "Holiday Homes", path: "/homes" },
@@ -200,6 +203,8 @@ export default async function HomeDetailPage({ params }: Props) {
                 </ul>
               </div>
             ) : null}
+
+            <ListingGuestQuotes quotes={guestQuotes} />
 
             {amenities.length > 0 ? (
               <div className="mt-10">

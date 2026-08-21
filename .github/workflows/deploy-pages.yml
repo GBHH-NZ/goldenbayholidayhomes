@@ -60,6 +60,11 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.paths.outputs.base_path }}
           NEXT_PUBLIC_SITE_URL: ${{ steps.paths.outputs.site_url }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ vars.NEXT_PUBLIC_GA_MEASUREMENT_ID || 'G-P4LBS4D2WW' }}
+          NEXT_PUBLIC_NEWSLETTER_FORM_ACTION: ${{ vars.NEXT_PUBLIC_NEWSLETTER_FORM_ACTION }}
+          NEXT_PUBLIC_GOOGLE_BUSINESS_URL: ${{ vars.NEXT_PUBLIC_GOOGLE_BUSINESS_URL }}
+          NEXT_PUBLIC_MAPS_URL: ${{ vars.NEXT_PUBLIC_MAPS_URL }}
+          NEXT_PUBLIC_INSTAGRAM_URL: ${{ vars.NEXT_PUBLIC_INSTAGRAM_URL }}
+          NEXT_PUBLIC_YOUTUBE_URL: ${{ vars.NEXT_PUBLIC_YOUTUBE_URL }}
           GUESTY_CLIENT_ID: ${{ secrets.GUESTY_CLIENT_ID }}
           GUESTY_CLIENT_SECRET: ${{ secrets.GUESTY_CLIENT_SECRET }}
           GUESTY_API_BASE: ${{ vars.GUESTY_API_BASE || 'https://booking-api.guesty.com' }}

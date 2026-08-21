@@ -7,7 +7,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { NewsletterSignup } from "@/components/NewsletterSignup";
 import { ReviewsBand } from "@/components/ReviewsBand";
 import { StayRituals } from "@/components/StayRituals";
-import { getExplorePlaces, getPageContent } from "@/lib/content";
+import { getExplorePlaces, getGuestReviews, getPageContent } from "@/lib/content";
 import { getAllHomes, getHomeLocations, getHomesReviewAggregate } from "@/lib/homes";
 import {
   SITE_DESCRIPTION,
@@ -36,6 +36,7 @@ export default function HomePage() {
   const homes = getAllHomes();
   const locations = getHomeLocations();
   const reviewStats = getHomesReviewAggregate(homes);
+  const guestQuotes = getGuestReviews();
   const explorePlaces = getExplorePlaces();
   const hosts = getPageContent<HostsPageContent>("about-us");
   const teaserPlaces = EXPLORE_TEASER_SLUGS.flatMap((slug) => {
@@ -53,7 +54,7 @@ export default function HomePage() {
         locations={locations}
         rituals={<StayRituals />}
         explore={<ExploreTeaser places={teaserPlaces} />}
-        proof={<ReviewsBand stats={reviewStats} />}
+        proof={<ReviewsBand stats={reviewStats} quotes={guestQuotes} />}
       />
       <HostsVignette
         intro={hosts.intro}
