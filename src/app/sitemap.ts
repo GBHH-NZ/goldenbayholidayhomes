@@ -97,6 +97,11 @@ function fileModified(relPath: string): Date {
   }
 }
 
+function firstListingImage(photos: string[]): string | undefined {
+  const photo = photos.find((src) => src && !src.includes("placeholder"));
+  return photo ? absoluteAssetUrl(photo) : undefined;
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const homes = getAllHomes();
   const posts = getAllBlogPosts();
@@ -113,41 +118,64 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: page.priority,
   }));
 
-  const locationEntries: MetadataRoute.Sitemap = locations.map((page) => ({
-    url: absoluteUrl(`/holiday-homes/${page.slug}`),
-    lastModified: locationsModified,
-    changeFrequency: "weekly",
-    priority: 0.85,
-  }));
-
-  const homeEntries: MetadataRoute.Sitemap = homes.map((home) => {
-    const photo = homePhotos(home)[0];
-    const image =
-      photo && !photo.includes("placeholder")
-        ? [absoluteAssetUrl(photo)]
-        : undefined;
+  const locationEntries: MetadataRoute.Sitemap = locations.map((page) => {
+    const image = firstListingImage(
+      page.homes.flatMap((home) => homePhotos(home)),
+    );
     return {
-      url: absoluteUrl(`/homes/${home.slug}`),
-      lastModified: homesModified,
-      changeFrequency: "weekly",
-      priority: 0.8,
-      ...(image ? { images: image } : {}),
+      url: absoluteUrl(`/holiday-homes/${page.slug}`),
+      lastModified: locationsModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.85,
+      ...(image ? { images: [image] } : {}),
     };
   });
 
-  const exploreEntries: MetadataRoute.Sitemap = places.map((place) => ({
-    url: absoluteUrl(`/explore-golden-bay/${place.slug}`),
-    lastModified: exploreModified,
-    changeFrequency: "monthly",
-    priority: 0.55,
-  }));
+  const homeEntries: MetadataRoute.Sitemap = homes.map((home) => {
+    const image = firstListingImage(homePhotos(home));
+    return {
+      url: absoluteUrl(`/homes/${home.slug}`),
+      lastModified: homesModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+      ...(image ? { images: [image] } : {}),
+    };
+  });
 
-  const blogEntries: MetadataRoute.Sitemap = posts.map((post) => ({
-    url: absoluteUrl(`/blog/${post.slug}`),
-    lastModified: new Date(post.date),
-    changeFrequency: "monthly",
-    priority: 0.5,
-  }));
+  const exploreEntries: MetadataRoute.Sitemap = places.map((place) => {
+    const image =
+      place.image && !place.image.includes("placeholder")
+        ? absoluteAssetUrl(place.image)
+        : undefined;
+    return {
+      url: absoluteUrl(`/explore-golden-bay/${place.slug}`),
+      lastModified: exploreModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.55,
+      ...(image ? { images: [image] } : {}),
+    };
+  });
+
+  const blogEntries: MetadataRoute.Sitemap = posts.map((post) => {
+    const mdxPath = `content/blog/${post.slug}.mdx`;
+    const mdPath = `content/blog/${post.slug}.md`;
+    const contentModified = fs.existsSync(path.join(process.cwd(), mdxPath))
+      ? fileModified(mdxPath)
+      : fs.existsSync(path.join(process.cwd(), mdPath))
+        ? fileModified(mdPath)
+        : new Date(post.date);
+    const published = new Date(post.date);
+    const lastModified =
+      contentModified > published ? contentModified : published;
+    const image = post.image ? absoluteAssetUrl(post.image) : undefined;
+    return {
+      url: absoluteUrl(`/blog/${post.slug}`),
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+      ...(image ? { images: [image] } : {}),
+    };
+  });
 
   return [
     ...staticEntries,

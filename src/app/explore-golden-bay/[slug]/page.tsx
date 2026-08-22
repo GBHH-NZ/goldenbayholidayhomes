@@ -17,6 +17,7 @@ import {
   absoluteUrl,
   breadcrumbJsonLd,
   buildPageMetadata,
+  notFoundMetadata,
 } from "@/lib/seo";
 import { slugify } from "@/lib/slugify";
 
@@ -75,10 +76,15 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const place = getExplorePlace(slug);
-  if (!place) return { title: "Place not found" };
+  if (!place) return { ...notFoundMetadata, title: "Place not found" };
+
+  const placeLabel =
+    place.location && !place.name.toLowerCase().includes(place.location.toLowerCase())
+      ? `${place.name} in ${place.location}`
+      : place.name;
 
   return buildPageMetadata({
-    title: `${place.name} — Explore Golden Bay`,
+    title: placeLabel,
     description: [place.summary, place.detail].filter(Boolean).join(" "),
     path: `/explore-golden-bay/${place.slug}`,
     images: [

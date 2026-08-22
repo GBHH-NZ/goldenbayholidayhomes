@@ -32,6 +32,14 @@ function pageMeta(slug: string): Metadata {
     title: page.seoTitle ?? page.title,
     description: page.seoDescription,
     path: `/${slug}`,
+    images: page.heroImage
+      ? [
+          {
+            url: page.heroImage,
+            alt: page.heroAlt ?? page.heroCaption ?? page.title,
+          },
+        ]
+      : undefined,
   });
 }
 

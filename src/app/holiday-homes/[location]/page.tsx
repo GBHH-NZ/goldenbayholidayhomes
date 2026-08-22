@@ -12,12 +12,14 @@ import {
   locationBodyParagraphs,
   type LocationPageWithHomes,
 } from "@/lib/location-pages";
+import { homePhotos } from "@/lib/homes/types";
 import {
   absoluteUrl,
   breadcrumbJsonLd,
   buildPageMetadata,
   faqPageJsonLd,
   homesItemListJsonLd,
+  notFoundMetadata,
 } from "@/lib/seo";
 
 type Props = { params: Promise<{ location: string }> };
@@ -41,12 +43,24 @@ function fallbackDescription(page: LocationPageWithHomes): string {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { location } = await params;
   const page = getLocationPage(location);
-  if (!page) return { title: "Location not found" };
+  if (!page) return { ...notFoundMetadata, title: "Location not found" };
+
+  const photo = page.homes.flatMap((home) => homePhotos(home)).find(
+    (src) => src && !src.includes("placeholder"),
+  );
 
   return buildPageMetadata({
     title: page.seoTitle ?? page.headline,
     description: page.metaDescription ?? fallbackDescription(page),
     path: pagePath(page),
+    images: photo
+      ? [
+          {
+            url: photo,
+            alt: `Holiday homes in ${page.name}, Golden Bay`,
+          },
+        ]
+      : undefined,
   });
 }
 

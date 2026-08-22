@@ -6,7 +6,11 @@ import { getAllBlogPosts, getBlogPost } from "@/lib/content";
 import { assetPath } from "@/lib/env";
 import { markdownToHtml } from "@/lib/markdown";
 import { JsonLd } from "@/components/JsonLd";
-import { blogPostingJsonLd, buildPageMetadata } from "@/lib/seo";
+import {
+  blogPostingJsonLd,
+  buildPageMetadata,
+  notFoundMetadata,
+} from "@/lib/seo";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -17,9 +21,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = getBlogPost(slug);
-  if (!post) return { title: "Post not found" };
+  if (!post) return { ...notFoundMetadata, title: "Post not found" };
   return buildPageMetadata({
-    title: post.title,
+    title: post.seoTitle ?? post.title,
     description: post.description,
     path: `/blog/${post.slug}`,
     images: post.image ? [{ url: post.image, alt: post.title }] : undefined,
