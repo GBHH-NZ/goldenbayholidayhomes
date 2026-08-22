@@ -20,6 +20,7 @@ import {
   buildPageMetadata,
   listingMetaDescription,
   listingPageTitle,
+  notFoundMetadata,
   vacationRentalJsonLd,
 } from "@/lib/seo";
 
@@ -32,7 +33,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const home = getHomeBySlug(slug);
-  if (!home) return { title: "Home not found" };
+  if (!home) return { ...notFoundMetadata, title: "Home not found" };
   const photo = homePhotos(home)[0];
   return buildPageMetadata({
     title: listingPageTitle(home),

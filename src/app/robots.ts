@@ -9,7 +9,8 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/preview", "/api/"],
+        // Internal preview and any future API routes must stay out of the index.
+        disallow: ["/preview", "/preview/", "/api/"],
       },
       {
         userAgent: "PetalBot",

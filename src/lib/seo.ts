@@ -25,9 +25,20 @@ function ogImageUrl() {
   try {
     return getSiteMedia().ogImage;
   } catch {
-    return "/images/og-default.jpg";
+    return "/images/brand/og.jpg";
   }
 }
+
+/** Shared noindex payload for missing dynamic routes. */
+export const notFoundMetadata: Metadata = {
+  title: "Page not found",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: { index: false, follow: false, noimageindex: true },
+  },
+};
 
 function defaultOgImages(): NonNullable<
   NonNullable<Metadata["openGraph"]>["images"]
@@ -169,9 +180,11 @@ export function listingPageTitle(home: Home): string {
 export function listingMetaDescription(home: Home): string {
   const raw = homeDescription(home).replace(/\s+/g, " ").trim();
   const folded = foldLocationKey(raw);
-  const mentionsPlace =
-    folded.includes(foldLocationKey(home.location)) ||
-    folded.includes("golden bay");
+  const titleFolded = foldLocationKey(home.title);
+  const locationKey = foldLocationKey(home.location);
+  const descriptionMentionsPlace =
+    folded.includes(locationKey) || folded.includes("golden bay");
+  const titleMentionsPlace = titleFolded.includes(locationKey);
   const extras = [
     home.petsAllowed ? "Pets welcome." : "",
     `Sleeps ${home.guests}.`,
@@ -179,12 +192,14 @@ export function listingMetaDescription(home: Home): string {
     .filter(Boolean)
     .join(" ");
 
-  if (mentionsPlace) {
+  if (descriptionMentionsPlace) {
     return truncateMetaDescription(raw);
   }
-  return truncateMetaDescription(
-    `${home.title} — holiday home in ${home.location}, Golden Bay. ${extras} ${raw}`,
-  );
+
+  const lead = titleMentionsPlace
+    ? `${home.title}, Golden Bay.`
+    : `${home.title} — holiday home in ${home.location}, Golden Bay.`;
+  return truncateMetaDescription(`${lead} ${extras} ${raw}`);
 }
 
 export function organizationJsonLd() {
@@ -426,9 +441,11 @@ export const defaultMetadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
+  alternates: { canonical: absoluteUrl("/") },
   openGraph: {
     type: "website",
     locale: "en_NZ",
+    url: absoluteUrl("/"),
     siteName: SITE_NAME,
     title: SITE_TITLE,
     description: SITE_DESCRIPTION,

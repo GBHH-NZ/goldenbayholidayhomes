@@ -34,6 +34,8 @@ export function getPageContent<T = Record<string, unknown>>(
 
 export type BlogPostMeta = {
   title: string;
+  /** Optional shorter title for `<title>` / Open Graph when the H1 is long. */
+  seoTitle?: string;
   slug: string;
   date: string;
   description: string;
@@ -41,6 +43,20 @@ export type BlogPostMeta = {
 };
 
 export type BlogPost = BlogPostMeta & { content: string };
+
+function blogMetaFromData(
+  data: Record<string, unknown>,
+  fallbackSlug: string,
+): BlogPostMeta {
+  return {
+    title: String(data.title),
+    seoTitle: data.seoTitle ? String(data.seoTitle) : undefined,
+    slug: String(data.slug ?? fallbackSlug),
+    date: String(data.date),
+    description: String(data.description ?? ""),
+    image: data.image ? String(data.image) : undefined,
+  };
+}
 
 export function getAllBlogPosts(): BlogPostMeta[] {
   if (!fs.existsSync(BLOG_DIR)) return [];
@@ -50,13 +66,10 @@ export function getAllBlogPosts(): BlogPostMeta[] {
     .map((file) => {
       const raw = fs.readFileSync(path.join(BLOG_DIR, file), "utf8");
       const { data } = matter(raw);
-      return {
-        title: String(data.title),
-        slug: String(data.slug ?? file.replace(/\.mdx?$/, "")),
-        date: String(data.date),
-        description: String(data.description ?? ""),
-        image: data.image ? String(data.image) : undefined,
-      };
+      return blogMetaFromData(
+        data as Record<string, unknown>,
+        file.replace(/\.mdx?$/, ""),
+      );
     })
     .sort((a, b) => b.date.localeCompare(a.date));
 }
@@ -73,11 +86,7 @@ export function getBlogPost(slug: string): BlogPost | null {
   const raw = fs.readFileSync(file, "utf8");
   const { data, content } = matter(raw);
   return {
-    title: String(data.title),
-    slug: String(data.slug ?? slug),
-    date: String(data.date),
-    description: String(data.description ?? ""),
-    image: data.image ? String(data.image) : undefined,
+    ...blogMetaFromData(data as Record<string, unknown>, slug),
     content,
   };
 }
